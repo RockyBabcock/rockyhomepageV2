@@ -1,0 +1,80 @@
+export const batmanEras = [
+  {
+    id: "golden-age",
+    name: "Golden Age",
+    timeRange: "1939 - 1956",
+    status: "TOP_SECRET",
+    condition: "heavy-wear",
+    location: { x: 30, y: 30, name: "Theater District", description: "Where the tragedy began." },
+    puzzle: { question: "Coordinates: 33.7458° N, 118.2987° W. City name?", answer: "gotham city" },
+    colors: ["#2d3748", "#f6e05e", "#e53e3e"],
+    psychology: "Vigilante detective with a strict moral code. A pulp hero.",
+    battlesuitDesc: "Purple gloves, stylized ears, bulletproof vest prototype.",
+    batmobileDesc: "Red customized convertible with a bat hood ornament."
+  },
+  {
+    id: "silver-bronze",
+    name: "Silver & Bronze Age",
+    timeRange: "1956 - 1985",
+    status: "PUBLIC",
+    condition: "worn",
+    location: { x: 60, y: 40, name: "Wayne Manor", description: "The ancestral home." },
+    puzzle: { question: "What flies by night and has no feathers?", answer: "bat" },
+    colors: ["#3182ce", "#fbd38d", "#718096"],
+    psychology: "Sci-fi adventures and campy capers. More lighthearted.",
+    battlesuitDesc: "Blue and grey. Yellow oval logo added.",
+    batmobileDesc: "Atomic-powered bubble cockpit design."
+  },
+  {
+    id: "dark-knight",
+    name: "Modern Reinvention",
+    timeRange: "1986 - 1999",
+    status: "CONFIDENTIAL",
+    condition: "scratched",
+    location: { x: 45, y: 70, name: "Crime Alley", description: "A grim reminder." },
+    puzzle: { question: "Who laughs last?", answer: "joker" },
+    colors: ["#1a202c", "#718096", "#cbd5e0"],
+    psychology: "Hardened, uncompromising, deeply traumatized tactician.",
+    battlesuitDesc: "Kevlar lining, heavy utility belt, grim expression.",
+    batmobileDesc: "Armored tank disguised as a sports car."
+  },
+  {
+    id: "animated",
+    name: "The Animated Era",
+    timeRange: "1992 - 2004",
+    status: "PUBLIC",
+    condition: "clean",
+    location: { x: 70, y: 60, name: "Police Headquarters", description: "The Bat-Signal shines." },
+    puzzle: { question: "A clown's sidekick, maddened by love.", answer: "harley quinn" },
+    colors: ["#000000", "#e2e8f0", "#c53030"],
+    psychology: "Noir detective, compassionate but stern.",
+    battlesuitDesc: "Dark grey and black with blue highlights. Streamlined.",
+    batmobileDesc: "Long, sleek art-deco land cruiser."
+  },
+  {
+    id: "nolan",
+    name: "The Nolan Era",
+    timeRange: "2005 - 2012",
+    status: "TOP_SECRET",
+    condition: "pristine",
+    location: { x: 40, y: 50, name: "Wayne Enterprises", description: "The nexus of power." },
+    puzzle: { question: "I am the shadows.", answer: "batman" },
+    colors: ["#171923", "#4a5568", "#edf2f7"],
+    psychology: "Realistic, tactical force. A symbol against corruption.",
+    battlesuitDesc: "Segmented armor plating for mobility.",
+    batmobileDesc: "The Tumbler: military bridging vehicle."
+  },
+  {
+    id: "contemporary",
+    name: "Contemporary Era",
+    timeRange: "2013 - Present",
+    status: "CLASSIFIED",
+    condition: "new",
+    location: { x: 50, y: 80, name: "Batcave", description: "The command center." },
+    puzzle: { question: "The beginning is the end.", answer: "omega" },
+    colors: ["#000000", "#c53030", "#4a5568"],
+    psychology: "Veteran crimefighter, building a family. High-tech.",
+    battlesuitDesc: "Tech-woven armor, often mechanized variations.",
+    batmobileDesc: "A blend of tank and supercar."
+  }
+];
