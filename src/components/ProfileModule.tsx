@@ -48,12 +48,16 @@ export function ProfileModule() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Removed continuous fake synced update
   useEffect(() => {
-    setLiveStatus(prev => ({
-      ...prev,
-      synced: `LAST UPDATED: ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}`
-    }));
+    const updateTime = () => {
+      setLiveStatus(prev => ({
+        ...prev,
+        synced: `LOCAL TIME: ${new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}`
+      }));
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
   }, []);
 
   // Lock body scroll when modal is open
@@ -116,28 +120,32 @@ export function ProfileModule() {
             transition={{ duration: 0.8, type: "spring" }}
             className="relative mb-8 group cursor-pointer"
           >
-            {/* Floral Elements */}
+            {/* Custom Logo/Avatar (Geometric/Neo-brutalist) */}
             <div className="absolute -inset-6 opacity-60 pointer-events-none transition-transform duration-700 group-hover:rotate-12 group-hover:scale-110">
               <svg viewBox="0 0 200 200" className="w-full h-full text-green-700/30 fill-current animate-[spin_60s_linear_infinite]">
-                <path d="M100,10 C120,40 160,40 190,100 C160,160 120,160 100,190 C80,160 40,160 10,100 C40,40 80,40 100,10 Z" />
-                <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="10 10" />
-                <path d="M50,50 Q70,30 100,50 T150,50" fill="none" stroke="currentColor" strokeWidth="4" />
-                <path d="M50,150 Q70,170 100,150 T150,150" fill="none" stroke="currentColor" strokeWidth="4" />
+                <polygon points="100,10 190,100 100,190 10,100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="10 10" />
+                <rect x="50" y="50" width="100" height="100" fill="none" stroke="currentColor" strokeWidth="4" />
+                <circle cx="100" cy="100" r="40" fill="currentColor" fillOpacity="0.2" />
               </svg>
             </div>
             
-            <div className="w-40 h-40 md:w-56 md:h-56 rounded-2xl overflow-hidden border-4 border-ink shadow-[8px_8px_0px_0px_currentColor] text-primary dark:border-base relative z-10 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[16px_16px_0px_0px_currentColor]">
+            <div className="w-40 h-40 md:w-56 md:h-56 rounded-none overflow-hidden border-[6px] border-ink bg-base shadow-[12px_12px_0px_0px_currentColor] text-primary dark:border-base relative z-10 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[20px_20px_0px_0px_currentColor]">
               <img 
-                src="https://images.unsplash.com/photo-1654573817889-296cad084c97?q=80&w=800&auto=format&fm=webp&fit=crop" 
-                alt="Profile" 
+                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fm=webp&fit=crop" 
+                alt="Profile Logo" 
                 loading="eager"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale contrast-150 mix-blend-multiply"
                 referrerPolicy="no-referrer"
               />
+              <div className="absolute inset-0 flex items-center justify-center font-headline font-black text-6xl text-ink bg-primary mix-blend-screen opacity-80">
+                RB
+              </div>
             </div>
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-md border border-ink/10 px-4 py-2 rounded-full flex items-center gap-2 shadow-lg z-20 whitespace-nowrap transition-transform duration-300 group-hover:-translate-y-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-ink">Available for Projects</span>
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md border-[3px] border-ink px-4 py-2 flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-20 whitespace-nowrap transition-transform duration-300 group-hover:-translate-y-1">
+              <span className="w-3 h-3 bg-green-500 border border-ink animate-pulse"></span>
+              <div className="font-mono text-xs font-black uppercase tracking-widest text-ink overflow-hidden whitespace-nowrap border-r-2 border-ink animate-[typing_3s_steps(22)_infinite,blink_0.5s_step-end_infinite] w-[18ch]">
+                Available for Projects
+              </div>
             </div>
           </motion.div>
 
@@ -145,20 +153,20 @@ export function ProfileModule() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-artnouveau text-[#2E4F3B] mb-4 leading-[1.1] tracking-normal"
+            className="text-5xl md:text-7xl lg:text-8xl font-headline font-black text-ink mb-4 leading-[1.1] tracking-tight uppercase"
           >
-            rocky babcock
+            ROCKY BABCOCK
           </motion.h1>
 
           <motion.p 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-xl md:text-2xl font-body text-ink/70 max-w-2xl mb-12"
+            className="text-xl md:text-2xl font-mono text-ink max-w-2xl mb-12 font-bold tracking-tight bg-primary/20 inline-block px-4 py-2 border border-ink shadow-[4px_4px_0px_0px_currentColor]"
           >
             <Typewriter 
               words={[
-                "Creative Technologist & Product Innovator.",
+                "Creative Technologist & Builder.",
                 "Design Systems Architect.",
                 "Neo-Brutalist Engineer.",
                 "AI Builder & Web3 Expert."
@@ -175,59 +183,94 @@ export function ProfileModule() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <button className="px-8 py-4 bg-primary text-white font-label text-xs uppercase tracking-widest font-bold rounded-lg hover:scale-105 active:scale-95 transition-all shadow-[0_10px_20px_rgba(159,64,45,0.2)] flex items-center gap-2">
-              <Download className="w-4 h-4" /> Download Latest CV
+            <button className="px-8 py-4 bg-primary text-ink border-[3px] border-ink font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-2">
+              <Download className="w-5 h-5" /> Download CV
             </button>
-            <button className="px-8 py-4 bg-ink text-base font-label text-xs uppercase tracking-widest font-bold rounded-lg hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-2">
-              <Layout className="w-4 h-4" /> View Full Portfolio
+            <button className="px-8 py-4 bg-ink text-base border-[3px] border-ink font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_currentColor] active:translate-y-0 active:shadow-[2px_2px_0px_0px_currentColor] transition-all flex items-center gap-2">
+              <Layout className="w-5 h-5" /> Portfolio
             </button>
-            <button className="px-8 py-4 bg-black/5 dark:bg-white/5 text-ink border border-ink/10 font-label text-xs uppercase tracking-widest font-bold rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition-all flex items-center gap-2">
-              <Calendar className="w-4 h-4" /> Book a Call
-            </button>
+          </motion.div>
+
+          {/* Social Links */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            className="flex items-center gap-6 mt-12 mb-8 bg-white/50 border-[3px] border-ink p-4 shadow-[6px_6px_0px_0px_currentColor]"
+          >
+             <a href="#" className="text-ink hover:text-primary transition-colors flex items-center gap-2 font-mono text-xs uppercase font-black tracking-widest group">
+                <svg className="w-6 h-6 group-hover:-translate-y-1 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                </svg>
+                GitHub
+             </a>
+             <a href="#" className="text-ink hover:text-primary transition-colors flex items-center gap-2 font-mono text-xs uppercase font-black tracking-widest group border-l-[3px] border-ink pl-6">
+                <svg className="w-6 h-6 group-hover:-translate-y-1 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clipRule="evenodd" />
+                </svg>
+                LinkedIn
+             </a>
+             <a href="#" className="text-ink hover:text-primary transition-colors flex items-center gap-2 font-mono text-xs uppercase font-black tracking-widest group border-l-[3px] border-ink pl-6">
+                <svg className="w-6 h-6 group-hover:-translate-y-1 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                X (Twitter)
+             </a>
           </motion.div>
 
           <motion.div 
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, y: [0, 8, 0] }}
-            transition={{ delay: 1.5, duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
+            animate={{ opacity: 1, y: [0, 12, 0] }}
+            transition={{ delay: 1.5, duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 font-black cursor-pointer"
+            onClick={() => window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })}
           >
-            <span className="font-label text-[10px] uppercase tracking-widest opacity-40 font-bold">Scroll to Explore</span>
-            <ArrowDown className="w-4 h-4 opacity-40" />
+            <span className="font-mono text-[10px] uppercase tracking-widest bg-ink text-base px-2 py-1 transform -skew-x-12">Scroll Explore</span>
+            <div className="p-2 border-[3px] border-ink bg-primary text-ink shadow-[4px_4px_0px_0px_currentColor]">
+               <ArrowDown className="w-6 h-6 stroke-[3]" />
+            </div>
           </motion.div>
         </div>
       </motion.section>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Personal Bio & Lifestyle */}
-        <section className="col-span-12 md:col-span-7 premium-card p-8 md:p-12 flex flex-col gap-8">
-          <div className="flex items-center gap-3 mb-4">
-            <Sparkles className="w-6 h-6 text-primary" />
-            <h2 className="text-3xl font-headline font-black">The Origin Story.</h2>
+        <section className="col-span-12 md:col-span-7 premium-card !p-0 border-4 border-ink shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] flex flex-col overflow-hidden">
+          <div className="flex items-center gap-3 p-8 border-b-4 border-ink bg-primary">
+            <Sparkles className="w-8 h-8 text-ink fill-ink" />
+            <h2 className="text-4xl font-headline font-black uppercase text-ink tracking-tighter">The Origin Story.</h2>
           </div>
           
-          <div className="prose prose-lg dark:prose-invert font-body text-ink/80 leading-relaxed">
+          <div className="prose prose-lg dark:prose-invert font-mono font-medium text-ink leading-relaxed p-8 bg-white/50">
             <p>
               My journey began at the intersection of graphic design and computer science. I realized early on that beautiful pixels mean nothing if they aren't backed by robust, scalable architecture.
             </p>
             <p>
               Over the past decade, I've transitioned from crafting editorial layouts to engineering complex web applications. This unique blend allows me to speak both the language of the designer and the developer, bridging the gap that often stalls product innovation.
             </p>
-            <p>
-              Today, I focus on Neo-Brutalist architecture in web interfaces—rejecting the sterile, generic look of modern SaaS in favor of high-contrast, tactile experiences that feel human and intentional.
+            <p className="bg-ink text-white p-4 font-bold">
+              Today, I focus on <a href="#" className="text-primary hover:text-white underline decoration-2 underline-offset-4 decoration-primary transition-all">Neo-Brutalist architecture</a> in web interfaces—rejecting the sterile, generic look of modern SaaS in favor of high-contrast, tactile experiences that feel human and intentional. Check out my thoughts on <a href="#" className="underline decoration-2 underline-offset-4 decoration-yellow-400 hover:text-yellow-400 transition-colors">Tonal Layering</a>.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mt-4">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fm=webp&fit=crop" loading="lazy" alt="Team collaboration" className="rounded-3xl aspect-video object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
-            <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fm=webp&fit=crop" loading="lazy" alt="Coding workspace" className="rounded-3xl aspect-video object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
+          <div className="grid grid-cols-2 gap-0 border-t-4 border-ink bg-ink">
+            <div className="relative overflow-hidden group border-r-4 border-ink aspect-square bg-black">
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fm=webp&fit=crop" loading="lazy" alt="Team collaboration" className="w-full h-full object-cover grayscale contrast-150 mix-blend-screen opacity-80 group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
+              <div className="absolute inset-0 bg-primary mix-blend-multiply opacity-50 group-hover:opacity-0 transition-opacity duration-500"></div>
+            </div>
+            <div className="relative overflow-hidden group aspect-square bg-black">
+              <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fm=webp&fit=crop" loading="lazy" alt="Coding workspace" className="w-full h-full object-cover grayscale contrast-150 mix-blend-screen opacity-80 group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
+              <div className="absolute inset-0 bg-blue-500 mix-blend-multiply opacity-50 group-hover:opacity-0 transition-opacity duration-500"></div>
+            </div>
           </div>
 
-          <div className="mt-8">
-            <h3 className="font-label text-xs uppercase tracking-[0.2em] font-bold mb-6 text-ink/60">Core Capabilities</h3>
-            <div className="flex flex-wrap gap-3">
+          <div className="p-8 bg-white">
+            <h3 className="font-mono text-sm uppercase font-black mb-6 flex items-center gap-2">
+              <span className="w-3 h-3 bg-ink"></span> Core Keywords
+            </h3>
+            <div className="flex flex-wrap gap-2">
               {['React / Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'UI/UX Design', 'Design Systems', 'Node.js', 'GraphQL', 'WebGL'].map(skill => (
-                <span key={skill} className="px-4 py-2 bg-black/5 dark:bg-white/5 text-ink font-mono text-xs rounded-full border border-ink/5 hover:border-primary/50 hover:text-primary transition-colors cursor-default">
+                <span key={skill} className="px-3 py-1 bg-white text-ink font-mono text-xs font-bold border-2 border-ink shadow-[2px_2px_0px_0px_currentColor] cursor-default hover:bg-primary hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_currentColor] transition-all">
                   {skill}
                 </span>
               ))}
@@ -293,24 +336,27 @@ export function ProfileModule() {
           <h2 className="text-3xl md:text-4xl font-headline font-black mb-10 text-center">Milestones of Impact.</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { title: "My First AI Project", stat: "100K+", sub: "Users Impacted", desc: "Built a generative UI tool that streamlined workflows for designers.", icon: Sparkles },
-              { title: "Social Impact Platform", stat: "$2M+", sub: "Funds Raised", desc: "Designed the core platform for a global non-profit initiative.", icon: Trophy },
-              { title: "Awwwards Site of the Day", stat: "3x", sub: "Winner", desc: "Recognized for pushing the boundaries of web typography and motion.", icon: Layout }
+              { title: "My First AI Project", stat: "100K+", sub: "Users Impacted", desc: "Built a generative UI tool that streamlined workflows for designers.", icon: Sparkles, linkText: "Live Demo", link: "#", linkIcon: MonitorPlay },
+              { title: "Social Impact Platform", stat: "$2M+", sub: "Funds Raised", desc: "Designed the core platform for a global non-profit initiative.", icon: Trophy, linkText: "Case Study", link: "#", linkIcon: BookOpen },
+              { title: "Awwwards Site of the Day", stat: "3x", sub: "Winner", desc: "Recognized for pushing the boundaries of web typography and motion.", icon: Layout, linkText: "View Source", link: "#", linkIcon: Code }
             ].map((item, i) => (
               <motion.div 
                 key={i}
                 whileHover={{ y: -8 }}
-                className="bg-black/5 dark:bg-white/5 p-8 rounded-3xl border border-base/10 flex flex-col items-center text-center group cursor-pointer"
+                className="bg-black/5 dark:bg-white/5 p-8 rounded-3xl border border-base/10 flex flex-col items-center text-center group"
               >
                 <div className="p-4 bg-base/10 rounded-full mb-6 group-hover:bg-primary/20 group-hover:text-primary transition-colors">
                   <item.icon className="w-8 h-8" />
                 </div>
                 <h3 className="font-headline text-2xl font-bold mb-2">{item.title}</h3>
                 <p className="font-body text-base/60 text-sm mb-6">{item.desc}</p>
-                <div className="mt-auto pt-6 border-t border-base/10 w-full">
+                <div className="mt-auto pt-6 border-t border-base/10 w-full mb-6">
                   <span className="block text-4xl font-black font-headline text-primary mb-1">{item.stat}</span>
                   <span className="font-mono text-[10px] uppercase tracking-widest opacity-50">{item.sub}</span>
                 </div>
+                <a href={item.link} className="flex items-center justify-center gap-2 w-full py-3 bg-base/10 hover:bg-primary hover:text-ink text-base rounded-xl font-mono text-xs uppercase font-bold tracking-widest transition-all">
+                  <item.linkIcon className="w-4 h-4" /> {item.linkText}
+                </a>
               </motion.div>
             ))}
           </div>

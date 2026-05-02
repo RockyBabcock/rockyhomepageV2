@@ -21,6 +21,13 @@ interface TechProp {
 const TechCard: React.FC<TechProp> = ({ item }) => {
   const [isHovered, setIsHovered] = useState(false);
   const color = categoryColors[item.category] || '#CCC';
+  
+  const getProficiencyLabel = (score: number) => {
+    if (score >= 9) return 'Expert';
+    if (score >= 7) return 'Advanced';
+    if (score >= 5) return 'Proficient';
+    return 'Exploring';
+  };
 
   return (
     <div 
@@ -47,8 +54,10 @@ const TechCard: React.FC<TechProp> = ({ item }) => {
       </div>
 
       <div className="relative z-10">
-        <div className="flex justify-between text-[10px] font-mono mb-1 uppercase font-bold text-ink/40 dark:text-base/40">
-          <span>Proficiency</span>
+        <div className="flex justify-between items-center text-[10px] font-mono mb-1 uppercase font-bold text-ink/40 dark:text-base/40">
+          <span className="px-1.5 py-0.5 rounded-sm" style={{ backgroundColor: isHovered ? color + '20' : 'transparent', color: isHovered ? color : 'inherit' }}>
+            {getProficiencyLabel(item.proficiency)}
+          </span>
           <span>{item.proficiency}/10</span>
         </div>
         <div className="flex gap-0.5 h-1.5 w-full">
@@ -75,15 +84,21 @@ const TechCard: React.FC<TechProp> = ({ item }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute bottom-full left-0 w-[110%] -ml-[5%] mb-2 bg-[#111] dark:bg-white text-base dark:text-ink shadow-2xl p-4 border border-ink/20 dark:border-base/20 z-50 pointer-events-none"
+            className="absolute bottom-full left-1/2 -translate-x-1/2 w-[120%] mb-2 bg-[#111] dark:bg-white text-base dark:text-ink shadow-2xl p-4 border-[3px] border-ink z-50 pointer-events-none"
           >
-            <p className="text-xs font-body leading-relaxed mb-3 opacity-90">{item.description}</p>
+            <p className="text-xs font-mono font-medium leading-relaxed mb-4 opacity-90">{item.description}</p>
             {item.projects.length > 0 && (
-              <div className="space-y-1">
-                <span className="text-[10px] uppercase font-mono tracking-widest opacity-50 block mb-1">Related Modules</span>
+              <div className="space-y-3">
+                <span className="text-[10px] uppercase font-mono font-black tracking-widest bg-ink text-base px-2 py-1 inline-block mb-1 border border-base/30">Applied In</span>
                 {item.projects.slice(0, 2).map((p, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-xs font-bold">
-                    <span className="w-1 h-1 rounded-full bg-primary" /> {p.name}
+                  <div key={idx} className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-base/10 dark:bg-ink/10 border border-base/20 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                      {/* Fake Thumbnail */}
+                      <span className="text-[8px] font-black opacity-30 text-center uppercase leading-none break-all">{p.name.slice(0,4)}</span>
+                    </div>
+                    <div className="font-headline font-bold text-sm tracking-tight text-primary">
+                      {p.name}
+                    </div>
                   </div>
                 ))}
               </div>
