@@ -18,7 +18,7 @@ import { Web3VaultModule } from "../components/Web3VaultModule";
 import { VisitorAnalyticsModule } from "../components/VisitorAnalyticsModule";
 import { TableOfContents } from "../components/TableOfContents";
 
-import { QuoteCarouselModule } from "../components/QuoteCarouselModule";
+import { TemporalQuotesModule } from "../components/chess/TemporalQuotesModule";
 
 const ComingSoonPlaceholder = ({ colSpan = "col-span-12 md:col-span-4" }: { colSpan?: string }) => (
   <motion.div 
@@ -77,7 +77,7 @@ export default function HomePage() {
 
         {/* Zone 4 — Personal Worlds */}
         <SectionHeader id="personal" title="Personal Worlds" subtitle="Deep dives into my interests and hobbies" />
-        <QuoteCarouselModule />
+        <TemporalQuotesModule />
         <ChessModule />
         <BasketballModule />
         <GameMediaModule />
