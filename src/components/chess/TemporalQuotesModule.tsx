@@ -1,184 +1,219 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
-const TIMELINE = [
-  { name: 'Philidor', year: '1749' },
-  { name: 'Morphy', year: '1857' },
-  { name: 'Lasker', year: '1894' },
-  { name: 'Capablanca', year: '1921' },
-  { name: 'Alekhine', year: '1927' },
-  { name: 'Botvinnik', year: '1948' },
-  { name: 'Tal', year: '1960' },
-  { name: 'Petrosian', year: '1963' },
-  { name: 'Spassky', year: '1969' },
-  { name: 'Fischer', year: '1972' },
-  { name: 'Karpov', year: '1975' },
-  { name: 'Kasparov', year: '1985' },
-  { name: 'Kramnik', year: '2000' },
-  { name: 'Anand', year: '2007' },
-  { name: 'Carlsen', year: '2013' },
-  { name: 'Ding', year: '2023' },
-];
+const Star = ({ className }: { className?: string }) => {
+  return (
+    <motion.div
+      className={`absolute w-4 h-4 text-[#D4AF37] z-10 ${className}`}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1, ease: 'easeOut', delay: 1.3 }}
+    >
+      <motion.svg 
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="w-full h-full"
+        animate={{ opacity: [0.15, 0.3, 0.15] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <path d="M12 0L12.5 10.5L24 12L12.5 13.5L12 24L11.5 13.5L0 12L11.5 10.5L12 0Z" />
+      </motion.svg>
+    </motion.div>
+  );
+};
 
 export function TemporalQuotesModule() {
-  const [pascalHovered, setPascalHovered] = useState(false);
-  const [rockyHovered, setRockyHovered] = useState(false);
-  const [lineExpanded, setLineExpanded] = useState(false);
+  const containerRef = useRef<HTMLElement>(null);
+  const [mouseX, setMouseX] = useState(0.5);
+  const [mouseY, setMouseY] = useState(0.5);
+  const [isPawnHovered, setIsPawnHovered] = useState(false);
+  const [isQuoteHovered, setIsQuoteHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMouseX(x);
+    setMouseY(y);
+  };
+
+  const haloX = 50 + (mouseX - 0.5) * 4;
+  const haloY = 30 + (mouseY - 0.5) * 4;
 
   return (
     <section 
-      className="col-span-12 relative w-full overflow-hidden border-2 border-white/5"
-      style={{ backgroundColor: '#3E2723' }}
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      className="col-span-12 relative w-full overflow-hidden flex flex-col items-center justify-center border-t border-b border-black/5"
+      style={{ 
+        backgroundColor: '#FFF8E7',
+        minHeight: 'clamp(600px, 80vh, 1000px)' 
+      }}
     >
-      {/* Background Grid (Chessboard Watermark) */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none opacity-5 mix-blend-overlay"
+      {/* Background Layer 1: Checkerboard Base */}
+      <motion.div 
+        className="absolute inset-[0] z-0 pointer-events-none"
+        initial={{ scale: 1, opacity: 0, rotate: 2.5 }}
+        whileInView={{ scale: 1.2, opacity: 1, rotate: 2.5 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, ease: 'easeOut' }}
         style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
-          backgroundSize: '64px 64px'
+          '--size': 'clamp(60px, 8vw, 120px)',
+          '--doubleSize': 'calc(var(--size) * 2)',
+          backgroundImage: `
+            linear-gradient(45deg, #D4AF37 25%, transparent 25%, transparent 75%, #D4AF37 75%, #D4AF37),
+            linear-gradient(45deg, #D4AF37 25%, transparent 25%, transparent 75%, #D4AF37 75%, #D4AF37)
+          `,
+          backgroundSize: 'var(--doubleSize) var(--doubleSize)',
+          backgroundPosition: '0 0, var(--size) var(--size)',
+          WebkitMaskImage: 'radial-gradient(circle at center, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.18) 100%)',
+          maskImage: 'radial-gradient(circle at center, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.18) 100%)'
+        } as any}
+      />
+
+      {/* Background Layer 2: Radial Halo */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none mix-blend-overlay transition-all duration-300 ease-out"
+        style={{
+          background: `radial-gradient(ellipse at ${haloX}% ${haloY}%, rgba(255, 254, 245, 0.4) 0%, transparent 50%)`
         }}
       />
-      {/* Ambient warm brown haze */}
-      <div className="absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,_rgba(228,220,207,0.03)_0%,_transparent_70%)]" />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto p-8 md:p-16 lg:p-24 flex flex-col">
+      {/* Background Layer 3: Edge Vignette */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle at center, transparent 40%, rgba(196, 162, 101, 0.15) 100%)'
+        }}
+      />
+
+      {/* Noise Texture Overlay */}
+      <div 
+        className="absolute inset-0 z-50 pointer-events-none opacity-[0.04] mix-blend-multiply"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* Corner Starbursts */}
+      <Star className="top-[10%] left-[10%]" />
+      <Star className="top-[10%] right-[10%]" />
+      <Star className="bottom-[10%] left-[10%]" />
+      <Star className="bottom-[10%] right-[10%]" />
+
+      {/* Content Container */}
+      <div 
+        className="relative z-20 flex flex-col items-center w-full max-w-5xl px-8"
+        onMouseEnter={() => setIsQuoteHovered(true)}
+        onMouseLeave={() => setIsQuoteHovered(false)}
+      >
         
-        {/* Pascal Quote (Mind) */}
-        <div 
-          className="relative flex flex-col md:flex-row items-center w-full min-h-[300px] mb-12 group"
-          onMouseEnter={() => setPascalHovered(true)}
-          onMouseLeave={() => setPascalHovered(false)}
+        {/* Year Annotation (Visual Anchor) */}
+        <span 
+          className="absolute -top-[5em] left-1/2 -translate-x-1/2 font-serif uppercase tracking-[0.2em] pointer-events-none transition-opacity duration-300"
+          style={{
+            fontSize: 'clamp(10px, 1vw, 14px)',
+            color: '#D4AF37',
+            opacity: isQuoteHovered ? 0.4 : 0.2
+          }}
         >
-          <div className="flex-1 w-full flex flex-col items-start justify-center pr-8 z-20">
-            <motion.div animate={{ x: pascalHovered ? 2 : 0 }} transition={{ duration: 0.3, ease: 'easeInOut' }}>
-              <h3 className="font-headline font-black text-3xl md:text-5xl lg:text-6xl text-[#E4DCCF] group-hover:text-white transition-colors duration-300 drop-shadow-[0_4px_12px_rgba(45,27,24,0.8)]">
-                "Chess is the gymnasium of the mind."
-              </h3>
-              <p className="font-mono text-sm md:text-base text-white/50 mt-6 tracking-widest uppercase">
-                — Blaise Pascal, 1688
-              </p>
-              <AnimatePresence>
-                {pascalHovered && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 5 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    exit={{ opacity: 0, y: 5 }}
-                    transition={{ duration: 0.3 }}
-                    className="mt-6"
-                  >
-                    <p className="font-mono text-xs text-[#E4DCCF]/60 uppercase tracking-widest border-l-2 border-[#E4DCCF]/20 pl-4 py-1">
-                      Pattern recognition. Long-term thinking. Discipline.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          </div>
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 flex items-center justify-center pointer-events-none z-10">
-            <span className="text-[12rem] md:text-[20rem] text-[#A89F91] opacity-10 drop-shadow-[0_10px_30px_rgba(45,27,24,0.5)] select-none">
-              ♟
-            </span>
-          </div>
-        </div>
+          1688
+        </span>
 
-        {/* Temporal Quote Line & Interactive Separator */}
-        <div className="w-full relative flex flex-col items-center py-12 z-20">
-          
+        {/* Main Quote */}
+        <motion.div 
+          className="relative text-center"
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {/* Floating Chess Piece */}
           <div 
-            className="w-full max-w-5xl cursor-pointer py-4 group"
-            onClick={() => setLineExpanded(!lineExpanded)}
+            className="absolute z-0"
+            style={{
+              top: '-0.3em',
+              left: '-0.8em',
+            }}
+            onMouseEnter={() => setIsPawnHovered(true)}
+            onMouseLeave={() => setIsPawnHovered(false)}
           >
-            <motion.div 
-              className="w-full h-px bg-white/10 group-hover:bg-[#E4DCCF]/40 transition-all duration-[800ms] shadow-[0_0_0_rgba(228,220,207,0)]"
-              animate={{
-                boxShadow: lineExpanded ? '0 0 20px rgba(228,220,207,0.3)' : '0 0 0 rgba(228,220,207,0)',
-                backgroundColor: lineExpanded ? 'rgba(228,220,207,0.5)' : 'rgba(255,255,255,0.1)'
-              }}
-            />
-          </div>
-
-          <AnimatePresence>
-            {lineExpanded && (
-              <motion.div 
-                initial={{ opacity: 0, height: 0 }} 
-                animate={{ opacity: 1, height: 'auto' }} 
-                exit={{ opacity: 0, height: 0 }} 
-                transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} 
-                className="overflow-hidden w-full max-w-3xl"
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 0.75 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 1.1 }}
+            >
+              <motion.div
+                className="select-none transition-all duration-300 cursor-default"
+                style={{
+                  color: '#D4AF37',
+                  fontSize: 'clamp(20px, 3.5vw, 42px)',
+                  opacity: isPawnHovered ? 0.9 : 0.75,
+                  transform: `scale(${isPawnHovered ? 1.1 : 1})`,
+                  textShadow: '0 3px 12px rgba(44, 24, 16, 0.04)'
+                }}
+                animate={isPawnHovered ? { y: 0 } : { y: [-4, 4, -4] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <div className="pt-8 pb-12 font-serif italic text-xl md:text-2xl text-[#E4DCCF]/90 text-center leading-relaxed drop-shadow-[0_2px_10px_rgba(45,27,24,0.8)]">
-                  The opening is the architecture.<br/>
-                  The middlegame is the trade-offs.<br/>
-                  The endgame is when simplicity wins.<br/>
-                  <span className="block mt-8 not-italic font-mono text-xs uppercase tracking-[0.2em] text-[#E4DCCF]/60">
-                    Every move is a commit. Every capture is a deprecation.
-                  </span>
-                </div>
+                ♟
               </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Timeline Wrapper */}
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-6 text-white/30 font-mono text-[9px] uppercase tracking-widest mt-8 px-4 w-full cursor-default select-none">
-            {TIMELINE.map((t, i) => (
-              <React.Fragment key={t.name}>
-                <div className="relative flex items-center justify-center group/time">
-                  <span className="group-hover/time:text-[#E4DCCF] transition-colors duration-300 pointer-events-auto">
-                    {t.name}
-                  </span>
-                  <span className="opacity-0 group-hover/time:opacity-100 absolute -top-5 left-1/2 -translate-x-1/2 text-[#E4DCCF]/80 transition-opacity duration-300 text-[8px] whitespace-nowrap bg-[#3E2723] px-2 rounded-sm shadow-md">
-                    {t.year}
-                  </span>
-                </div>
-                {i < TIMELINE.length - 1 && (
-                  <span className="mx-1 md:mx-2 opacity-30 text-[8px]">•</span>
-                )}
-              </React.Fragment>
-            ))}
-            <span className="ml-2 mt-1 md:mt-0 font-bold opacity-30 hover:opacity-100 transition-opacity whitespace-nowrap">
-              World Chess Champion Timeline
-            </span>
-          </div>
-
-        </div>
-
-        {/* Rocky Quote (System) */}
-        <div 
-          className="relative flex flex-col md:flex-row-reverse items-center w-full min-h-[300px] mt-12 group"
-          onMouseEnter={() => setRockyHovered(true)}
-          onMouseLeave={() => setRockyHovered(false)}
-        >
-          <div className="flex-1 w-full flex flex-col items-start md:items-end justify-center pl-0 md:pl-8 z-20 md:text-right">
-            <motion.div animate={{ x: rockyHovered ? -2 : 0 }} transition={{ duration: 0.3, ease: 'easeInOut' }}>
-              <h3 className="font-headline font-black text-3xl md:text-5xl lg:text-6xl text-[#E4DCCF] group-hover:text-white transition-colors duration-300 drop-shadow-[0_4px_12px_rgba(45,27,24,0.8)]">
-                "The system is the gymnasium of the product."
-              </h3>
-              <p className="font-mono text-sm md:text-base text-white/50 mt-6 tracking-widest uppercase text-left md:text-right">
-                — Rocky Babcock, 2024
-              </p>
-              <AnimatePresence>
-                {rockyHovered && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 5 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    exit={{ opacity: 0, y: 5 }}
-                    transition={{ duration: 0.3 }}
-                    className="mt-6 flex justify-start md:justify-end"
-                  >
-                    <p className="font-mono text-xs text-[#E4DCCF]/60 uppercase tracking-widest border-l-2 md:border-l-0 md:border-r-2 border-[#E4DCCF]/20 pl-4 md:pl-0 md:pr-4 py-1 text-left md:text-right">
-                      Design systems. Component architecture. Scalable decisions.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           </div>
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1/2 flex items-center justify-center pointer-events-none z-10">
-            <span className="font-mono text-4xl md:text-6xl lg:text-7xl xl:text-8xl text-white/10 opacity-10 font-black tracking-tighter drop-shadow-[0_10px_30px_rgba(45,27,24,0.5)] select-none leading-none">
-              &lt;div class="system"&gt;
-            </span>
-          </div>
-        </div>
+
+          <h2 
+            className="font-serif relative z-10 transition-colors duration-300"
+            style={{
+              fontSize: 'clamp(36px, 5vw, 72px)',
+              lineHeight: 1.3,
+              letterSpacing: '-0.02em',
+              color: isQuoteHovered ? '#3E2723' : '#2C1810',
+              textShadow: '0 3px 12px rgba(44, 24, 16, 0.06)',
+              fontWeight: 400
+            }}
+          >
+            "Chess is the gymnasium<br className="block md:hidden"/> of the mind."
+          </h2>
+        </motion.div>
+
+        {/* Attribution */}
+        <motion.div 
+          className="relative flex items-center justify-center mt-8 md:mt-12 md:translate-x-[5%]"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.6 }}
+        >
+          <span className="w-[1.5em] h-[1px] bg-[#A68B5B] opacity-60 mr-4"></span>
+          <span 
+            className="font-serif italic text-center"
+            style={{
+              fontSize: 'clamp(14px, 1.8vw, 28px)',
+              fontWeight: 400,
+              lineHeight: 1.5,
+              letterSpacing: '0.04em',
+              color: '#A68B5B'
+            }}
+          >
+            Blaise Pascal
+          </span>
+        </motion.div>
+
+        {/* The Horizon Line */}
+        <motion.div 
+          className="mt-14 md:mt-20 h-[1px] w-[60%]"
+          style={{
+            maxWidth: '600px',
+            minWidth: '200px',
+            background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35) 50%, transparent)'
+          }}
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.9 }}
+        />
 
       </div>
     </section>
