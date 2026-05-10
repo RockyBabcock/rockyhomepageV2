@@ -38,8 +38,16 @@ export const TechStackModule: React.FC = () => {
               category: 'frontend',
               level: 'advanced',
               description: 'Fun Fact: HTMX allows you to access AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext.',
-              projects: [{ name: 'Secret Project', url: '#', desc: '', repo: '', image: '' }],
-              proficiency: 5
+              projects: [{ name: 'Secret Project', url: '#', desc: '', repo: '', image: '', status: 'EXPERIMENT', date: 'CLASSIFIED' }],
+              proficiency: 5,
+              version: 'v1.0.0',
+              operationalStatus: 'ACTIVE',
+              ecosystemMaturity: 'EMERGING',
+              adoption: 'NICHE',
+              deploymentConfidence: '95%',
+              features: [],
+              philosophy: [],
+              yearsActive: 1
             };
             setTechData(current => [...current, secretTech]);
           }

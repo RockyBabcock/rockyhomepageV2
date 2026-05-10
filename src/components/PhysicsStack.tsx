@@ -70,7 +70,7 @@ export const PhysicsStack: React.FC<PhysicsStackProps> = ({ temperature, onIconC
         restitution: 0.6,
         friction: 0.1,
         render: {
-          fillStyle: categoryColors[item.category],
+          fillStyle: categoryColors[item.category]?.pri || '#ffaa00',
           strokeStyle: '#ffffff',
           lineWidth: 2,
         },
@@ -148,7 +148,7 @@ export const PhysicsStack: React.FC<PhysicsStackProps> = ({ temperature, onIconC
               for (let i = 1; i < trail.length; i++) {
                 context.lineTo(trail[i].x, trail[i].y);
               }
-              context.strokeStyle = `${categoryColors[item.category]}40`; // 25% opacity
+              context.strokeStyle = `${categoryColors[item.category]?.pri || '#ffaa00'}40`; // 25% opacity
               context.lineWidth = 4;
               context.lineCap = 'round';
               context.lineJoin = 'round';
@@ -167,7 +167,7 @@ export const PhysicsStack: React.FC<PhysicsStackProps> = ({ temperature, onIconC
           
           // Draw glow if temperature is high or colliding
           if (temperatureRef.current > 80 || glowingBodies.has(body.id)) {
-            context.shadowColor = categoryColors[item.category];
+            context.shadowColor = categoryColors[item.category]?.pri || '#ffaa00';
             context.shadowBlur = glowingBodies.has(body.id) ? 20 : 15;
             context.stroke();
             context.shadowBlur = 0;

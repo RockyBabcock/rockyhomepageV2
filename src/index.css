@@ -4,6 +4,7 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-space: "Space Grotesk", sans-serif;
   --font-bebas: "Bebas Neue", sans-serif;
   --font-artnouveau: "Berkshire Swash", cursive;
   --font-headline: "Newsreader", serif;
@@ -48,7 +49,8 @@
   
   .dark body {
     @apply bg-ink text-base;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"), linear-gradient(135deg, #111827, #030712, #1f2937, #0f172a);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"), radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0), linear-gradient(180deg, #080A0F, #0D1117);
+    background-size: auto, 16px 16px, 100% 100%;
   }
 
   h1, h2, h3, h4, h5, h6 {
