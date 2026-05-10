@@ -126,20 +126,19 @@ const TechSigil = ({ name, isHovered, colorPair }: { name: string, isHovered?: b
   
   let content = <span style={{ color: activeColor, textShadow: dropShadow }} className={cn("transition-all duration-300 font-bold", isHovered && "animate-pulse")}>{name.substring(0, 2).toUpperCase()}</span>;
   if (path) {
-     content = <svg viewBox="0 0 24 24" fill={activeColor} className={cn("w-6 h-6 transition-all duration-300", isHovered && "animate-pulse")} style={{ filter: isHovered ? `drop-shadow(${dropShadow})` : 'none' }}><path d={path} /></svg>;
+     content = <svg viewBox="0 0 24 24" fill="none" stroke={activeColor} strokeWidth={isHovered ? "1.5" : "1"} className={cn("w-6 h-6 transition-all duration-300", isHovered ? "drop-shadow-[0_0_8px_currentColor]" : "opacity-50")}><path d={path} /></svg>;
   }
 
   return (
     <div 
-       className="w-10 h-10 flex items-center justify-center text-[20px] mr-4 font-mono leading-none tracking-tighter bg-[#1a1714] shrink-0 transition-all duration-500 relative overflow-hidden"
+       className="w-10 h-10 flex items-center justify-center text-[20px] font-mono leading-none tracking-tighter bg-transparent shrink-0 transition-all duration-500 relative overflow-hidden"
        style={{ 
-         border: `0.5px solid ${isHovered ? `${colorPair?.pri}80` || 'rgba(255,87,34,0.4)' : '#292524'}`,
-         boxShadow: isHovered ? `0 0 15px ${colorPair?.pri}20 inset, 0 0 10px ${colorPair?.pri}20` : 'none',
-         clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)'
+         border: `1px solid ${isHovered ? `${colorPair?.pri}80` : '#292524'}`,
        }}
     >
-      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent transition-opacity duration-300 opacity-0" style={{ opacity: isHovered ? 1 : 0, backgroundColor: colorPair?.pri }} />
-      {content}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent transition-opacity duration-300 opacity-0" style={{ opacity: isHovered ? 1 : 0, backgroundColor: colorPair?.pri }} />
+      <div className="relative z-10">{content}</div>
     </div>
   );
 };
@@ -304,8 +303,17 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
   };
 
   return (
-    <div className="flex flex-col relative w-full h-full overflow-y-auto custom-scrollbar bg-[#0a0a0a] text-[#e5e7eb] border-r border-b border-[#1f2937]/50" style={{ boxShadow: `inset 0 0 40px rgba(0,0,0,0.8)` }}>
+    <div className="flex flex-col relative w-full h-full overflow-y-auto custom-scrollbar bg-[#05070a] text-[#e5e7eb] border-r-[0.5px] border-b-[0.5px] border-[#ffffff1a]" style={{ boxShadow: `inset 0 0 80px rgba(0,0,0,0.8)` }}>
       
+      {/* Background Grid Pattern (Atmospheric) */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 19px, #fff 19px, #fff 20px), repeating-linear-gradient(90deg, transparent, transparent 19px, #fff 19px, #fff 20px)`, backgroundSize: '20px 20px' }} />
+      {/* Radial Bloom Behind Content */}
+      <div className="absolute top-[20%] left-[50%] w-[500px] h-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none opacity-[0.08] mix-blend-screen" style={{ background: `radial-gradient(circle, ${colorPair.pri} 0%, transparent 70%)` }} />
+      {/* Giant Background Mastery Metric Watermark */}
+      <div className="absolute top-[30px] right-2 font-digital text-[200px] font-black pointer-events-none leading-none opacity-[0.02]" style={{ color: colorPair.pri }}>
+         {tool.proficiency}
+      </div>
+
       {/* HEADER STRIP */}
       <div className="flex flex-col border-b-[0.5px] border-[#ffffff1a] bg-[#0a0f19]/80 relative pb-4 backdrop-blur-md">
          {/* Accents */}
@@ -359,17 +367,39 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
       
       <div className="flex flex-col flex-1 p-6 md:p-8 gap-8 relative z-10 w-full">
          {/* SECTION 1: ABOUT */}
-         <div className="flex flex-col relative w-full">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="px-2 py-0.5 border-[0.5px] border-[#ffffff1a] bg-[#ffffff05] font-mono text-[9px] text-[#00ff88] uppercase tracking-widest opacity-80 mix-blend-screen">PROTO_TYPE_A</span>
-              <span className="px-2 py-0.5 border-[0.5px] border-[#ffffff1a] bg-[#ffffff05] font-mono text-[9px] text-[#00ff88] uppercase tracking-widest opacity-80 mix-blend-screen">STABLE_BUILD_V2</span>
+         <div className="flex flex-col lg:flex-row gap-8 relative w-full">
+            <div className="flex flex-col relative w-full lg:w-[65%]">
+               <div className="flex items-center gap-2 mb-4">
+                 <span className="px-2 py-0.5 border-[0.5px] border-[#ffffff1a] bg-[#ffffff05] font-mono text-[9px] text-[#00ff88] uppercase tracking-widest opacity-80 mix-blend-screen shadow-[0_0_5px_rgba(0,255,136,0.2)]">PROTO_TYPE_A</span>
+                 <span className="px-2 py-0.5 border-[0.5px] border-[#ffffff1a] bg-[#ffffff05] font-mono text-[9px] text-[#00ff88] uppercase tracking-widest opacity-80 mix-blend-screen shadow-[0_0_5px_rgba(0,255,136,0.2)]">STABLE_BUILD_V2</span>
+               </div>
+               <div className="flex flex-col gap-2 relative border-l-[1px] border-dashed border-[#4b5563] pl-4">
+                  <div className="absolute -left-[3px] top-0 w-[5px] h-[5px] bg-[#4b5563]" />
+                  <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em]">01 // System Overview</h5>
+                  <p className="font-mono text-[12px] tracking-[1px] text-[#d1d5db] leading-[2] max-w-none">
+                     {tool.description}
+                  </p>
+               </div>
             </div>
-            <div className="flex flex-col gap-2 relative border-l-[0.5px] border-dashed border-[#4b5563] pl-4">
-               <div className="absolute -left-[3px] top-0 w-[5px] h-[5px] bg-[#4b5563]" />
-               <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em]">01 // System Overview</h5>
-               <p className="font-mono text-[12px] tracking-[1px] text-[#d1d5db] leading-[1.8] max-w-3xl">
-                  {tool.description}
-               </p>
+            
+            {/* Contextual Sidebar Instrument */}
+            <div className="hidden lg:flex flex-col w-[35%] shrink-0 gap-3 pt-8">
+               <div className="border-[0.5px] border-[#ffffff1a] bg-[#ffffff03] p-3 flex flex-col gap-2 relative">
+                  <div className="absolute -top-1 -right-1 w-2 h-2 border-t border-r border-[#ffffff33]" />
+                  <span className="font-mono text-[9px] text-[#6b7280] uppercase tracking-widest">Op_Parameters</span>
+                  <div className="flex justify-between items-center border-b-[0.5px] border-[#ffffff1a] pb-1">
+                     <span className="font-mono text-[10px] text-[#9ca3af]">Latency Threshold</span>
+                     <span className="font-mono text-[10px] text-[#00ff88]">{'<'}50ms</span>
+                  </div>
+                  <div className="flex justify-between items-center border-b-[0.5px] border-[#ffffff1a] pb-1">
+                     <span className="font-mono text-[10px] text-[#9ca3af]">Encryption</span>
+                     <span className="font-mono text-[10px] text-white">TLS 1.3 / AES-256</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-1">
+                     <span className="font-mono text-[10px] text-[#9ca3af]">Availability</span>
+                     <span className="font-mono text-[10px] text-white">Zone_Redundant</span>
+                  </div>
+               </div>
             </div>
          </div>
 
@@ -410,30 +440,46 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
                </ul>
             </div>
          )}         {/* SECTION 4: MISSION LOG */}
-         <div className="flex flex-col gap-4 mt-auto w-full pt-4">
-            <h5 className="font-mono text-[11px] text-[#6b7280] uppercase tracking-[0.2em] border-b border-[#ffffff1a] w-full pb-2 flex justify-between">
-               <span>04 // MISSION LOG</span>
-               <span className="opacity-50">[{tool.projects.length} DEPLOYMENTS]</span>
+         <div className="flex flex-col gap-4 mt-auto w-full pt-4 relative z-10">
+            <h5 className="font-mono text-[11px] text-[#6b7280] uppercase tracking-[0.2em] border-b-[0.5px] border-[#ffffff1a] w-full pb-2 flex justify-between">
+               <span>04 // MISSION LOG [Artifact Deployments]</span>
+               <span className="opacity-50">[{tool.projects.length} RECORDS]</span>
             </h5>
-            <div className="flex overflow-x-auto gap-4 custom-scrollbar pb-4 hide-scrollbar snap-x w-full">
+            <div className="flex flex-col gap-4 w-full">
                {tool.projects.map((proj, i) => (
-                  <div key={i} className="flex shrink-0 w-[280px] flex-col bg-[#05080f]/50 border-[0.5px] border-[#ffffff1a] p-3 gap-3 relative hover:bg-[#ffffff0a] transition-colors cursor-crosshair group/proj snap-start">
-                     <div className="absolute right-3 top-3 flex gap-2">
-                        <span className="font-mono text-[9px] font-bold px-1.5 py-0.5" style={{ backgroundColor: proj.status === 'SHIPPED' ? '#10b9811a' : '#f59e0b1a', color: proj.status === 'SHIPPED' ? '#10b981' : '#f59e0b', border: `0.5px solid ${proj.status === 'SHIPPED' ? '#10b98133' : '#f59e0b33'}`}}>{proj.status || 'ACTIVE'}</span>
-                     </div>
-                     <div className="flex gap-4">
-                        <div className="w-[48px] h-[48px] bg-[#1f2937]/30 shrink-0 border-[0.5px] border-[#ffffff1a] relative overflow-hidden flex items-center justify-center">
-                           {proj.image ? <img src={proj.image} className="w-full h-full object-cover opacity-60 grayscale group-hover/proj:grayscale-0 group-hover/proj:opacity-100 transition-all duration-500" alt={proj.name} /> : <TechSigil name={tool.name} isHovered={true} colorPair={colorPair} />}
+                  <div key={i} className="flex flex-col md:flex-row w-full bg-[#030508]/60 border-[0.5px] border-[#ffffff1a] p-4 gap-4 relative hover:bg-[#ffffff05] transition-colors group/proj">
+                     <div className="absolute top-0 left-0 w-full h-[1px]" style={{ backgroundColor: proj.status === 'SHIPPED' ? '#10b981' : '#f59e0b', opacity: 0.3 }} />
+                     
+                     <div className="flex flex-col md:w-[60%] gap-3 border-r-[0.5px] border-transparent md:border-[#ffffff1a] md:pr-4">
+                        <div className="flex items-center justify-between">
+                           <h6 className="font-space font-bold uppercase text-[14px] text-[#e5e7eb] tracking-tight">{proj.name}</h6>
+                           <span className="font-mono text-[9px] font-bold px-1.5 py-0.5" style={{ backgroundColor: proj.status === 'SHIPPED' ? '#10b9811a' : '#f59e0b1a', color: proj.status === 'SHIPPED' ? '#10b981' : '#f59e0b', border: `0.5px solid ${proj.status === 'SHIPPED' ? '#10b9814d' : '#f59e0b4d'}`}}>{proj.status || 'ACTIVE'}</span>
                         </div>
-                        <div className="flex flex-col justify-center max-w-[calc(100%-64px)]">
-                           <h6 className="font-space font-bold uppercase text-[12px] text-[#e5e7eb] truncate tracking-tight pr-12">{proj.name}</h6>
-                           <p className="font-mono text-[10px] text-[#9ca3af] mt-1 truncate">{proj.desc}</p>
+                        <p className="font-mono text-[11px] text-[#9ca3af] leading-relaxed">{proj.desc}</p>
+                     </div>
+                     
+                     <div className="flex flex-col md:w-[40%] gap-2 justify-center pl-2">
+                        <div className="flex items-center gap-2 mb-2 font-mono text-[9px] text-[#6b7280] uppercase">
+                           <span>ENV: PRODUCTION_US_WEST</span>
+                           <span>//</span>
+                           <span>ID: {Math.random().toString(16).slice(2, 10).toUpperCase()}</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                           <button className="h-[28px] px-3 font-mono text-[9px] uppercase tracking-widest text-[#e5e7eb] border-[0.5px] border-[#ffffff33] bg-[#0a0f19] hover:bg-[#ffffff1a] hover:border-white transition-all flex items-center gap-2 shadow-[4px_4px_0_0_rgba(255,255,255,0.05)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0_0_transparent]">
+                              <span className="w-1.5 h-1.5 bg-[#4b5563] group-hover/proj:bg-white transition-colors" /> VIEW SOURCE
+                           </button>
+                           <button className="h-[28px] px-3 font-mono text-[9px] uppercase tracking-widest text-[#00ff88] border-[0.5px] border-[#00ff884d] bg-[#00ff880a] hover:bg-[#00ff881a] hover:border-[#00ff88] transition-all flex items-center gap-2 shadow-[4px_4px_0_0_rgba(0,255,136,0.1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0_0_transparent]">
+                              <span className="w-1.5 h-1.5 bg-[#00ff88] animate-pulse" /> LIVE DEMO
+                           </button>
+                           <button className="h-[28px] px-3 font-mono text-[9px] uppercase tracking-widest text-[#e5e7eb] border-[0.5px] border-[#ffffff33] bg-[#0a0f19] hover:bg-[#ffffff1a] hover:border-white transition-all flex items-center gap-2 shadow-[4px_4px_0_0_rgba(255,255,255,0.05)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0_0_transparent]">
+                              CASE FILE
+                           </button>
                         </div>
                      </div>
                   </div>
                ))}
                {tool.projects.length === 0 && (
-                  <div className="shrink-0 w-full font-mono text-[11px] text-[#6b7280] p-4 border border-dashed border-[#ffffff1a] text-center">NO MISSIONS LOGGED FOR THIS SYSTEM.</div>
+                  <div className="w-full font-mono text-[11px] text-[#6b7280] p-4 border border-dashed border-[#ffffff1a] text-center">NO MISSIONS LOGGED FOR THIS SYSTEM.</div>
                )}
             </div>
          </div>
@@ -794,6 +840,12 @@ export function CoreCapabilitiesModule() {
         
         {/* THE FORGE HEADER (CONTROL PANEL) */}
         <div className="flex flex-col gap-6 md:gap-8 relative w-full mb-12">
+            {/* Descending Telemetry Support Lines */}
+            <div className="absolute top-[100%] left-[5%] w-[1px] h-[48px] bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
+            <div className="absolute top-[100%] left-[25%] w-[1px] h-[48px] bg-gradient-to-b from-[#00ff88]/40 to-transparent pointer-events-none" />
+            <div className="absolute top-[100%] right-[10%] w-[1px] h-[48px] bg-gradient-to-b from-[#00ff88]/40 to-transparent pointer-events-none delay-100" />
+            <div className="absolute top-[100%] right-[30%] w-[1px] h-[48px] bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
+            
            <div className="flex flex-col md:flex-row justify-between items-center pb-8 pt-2 relative border-b border-[rgba(255,255,255,0.1)] mb-4">
               {/* Left */}
               <div className="flex flex-col relative z-10 shrink-0">
@@ -965,12 +1017,18 @@ export function CoreCapabilitiesModule() {
                     {techStackData.filter(t => t.id === expandedToolId).map(tool => (
                       <motion.div
                         key={tool.id}
-                        initial={{ opacity: 0, scale: 0.97 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.97 }}
-                        transition={{ duration: 0.4 }}
-                        className="w-full h-full relative"
+                        initial={{ opacity: 0, filter: 'blur(10px)', y: 10 }}
+                        animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                        exit={{ opacity: 0, scale: 0.99, filter: 'blur(4px)' }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="w-full h-full relative overflow-hidden group/dossier"
                       >
+                         <motion.div 
+                           initial={{ top: '-10%' }}
+                           animate={{ top: '110%' }}
+                           transition={{ duration: 0.6, ease: "linear" }}
+                           className="absolute left-0 right-0 h-[2px] bg-white opacity-50 shadow-[0_0_10px_white] z-[100] pointer-events-none mix-blend-screen" 
+                         />
                          <SpecimenCard 
                            tool={tool} 
                            isExpandedOverride={true}
