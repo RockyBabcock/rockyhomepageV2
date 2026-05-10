@@ -19,66 +19,77 @@ export interface Project {
 export interface TechItem {
   id: string;
   name: string;
-  category: 'frontend' | 'backend' | 'web3' | 'ai' | 'tools' | 'devops';
+  category: 'interface' | 'systems' | 'intelligence' | 'web3' | 'creative' | 'design' | 'tooling' | 'research' | 'spatial' | 'audio' | 'hardware' | 'language';
   level: TechLevel;
   icon: React.ReactNode;
   description: string;
   projects: Project[];
-  proficiency: number; // 1-10
+  proficiency: number;
+  version?: string;
+  shipped?: number;
 }
 
 export const categoryColors: Record<string, string> = {
-  frontend: '#00B2A9', // Blue
-  backend: '#C17A53', // Terracotta
-  web3: '#10B981', // Green
-  ai: '#8B5CF6', // Purple
-  tools: '#6B7280', // Gray
-  devops: '#F59E0B', // Amber
+  interface: '#ff0055', // Hot Pink
+  systems: '#00ccff', // Electric Blue
+  intelligence: '#aa00ff', // Plasma Violet
+  web3: '#00ff66', // Acid Green
+  creative: '#ffcc00', // Solar Yellow
+  design: '#ff6600', // Blaze Orange
+  tooling: '#ffffff', // Pure White
+  research: '#ff00cc', // Magenta Burst
+  spatial: '#ff00aa',
+  audio: '#00ffaa',
+  hardware: '#ffaa00',
+  language: '#aa00aa',
 };
 
 export const techStackData: TechItem[] = [
-  // Frontend
-  { id: 'react', name: 'React', category: 'frontend', level: 'core', icon: <Layout />, description: 'A JavaScript library for building user interfaces.', projects: [{ name: 'DeFi Dashboard', url: '#' }, { name: 'NFT Marketplace', url: '#' }], proficiency: 9 },
-  { id: 'typescript', name: 'TypeScript', category: 'frontend', level: 'core', icon: <Braces />, description: 'Strongly typed programming language that builds on JavaScript.', projects: [{ name: 'Web3 Wallet', url: '#' }, { name: 'Analytics Platform', url: '#' }], proficiency: 9 },
-  { id: 'nextjs', name: 'Next.js', category: 'frontend', level: 'proficient', icon: <Layers />, description: 'The React Framework for the Web.', projects: [{ name: 'Portfolio Site', url: '#' }, { name: 'Blog', url: '#' }], proficiency: 8 },
-  { id: 'tailwind', name: 'Tailwind CSS', category: 'frontend', level: 'proficient', icon: <Zap />, description: 'A utility-first CSS framework for rapid UI development.', projects: [{ name: 'Component Library', url: '#' }], proficiency: 9 },
-  { id: 'framer-motion', name: 'Framer Motion', category: 'frontend', level: 'proficient', icon: <Wand2 />, description: 'Production-ready motion library for React.', projects: [{ name: 'Interactive Portfolio', url: '#' }], proficiency: 8 },
-  { id: 'zustand', name: 'Zustand', category: 'frontend', level: 'proficient', icon: <Box />, description: 'A small, fast and scalable bearbones state-management solution.', projects: [{ name: 'E-commerce App', url: '#' }], proficiency: 8 },
-  { id: 'shadcn-ui', name: 'shadcn/ui', category: 'frontend', level: 'proficient', icon: <Component />, description: 'Beautifully designed components that you can copy and paste into your apps.', projects: [{ name: 'Admin Dashboard', url: '#' }], proficiency: 9 },
+  // 01 Interface Engineering
+  { id: 'react', name: 'React', category: 'interface', level: 'core', icon: <Layout />, description: 'Frontend UI library', projects: [{ name: 'DeFi Dashboard', url: '#' }], proficiency: 10, version: '19.0.0-rc', shipped: 24 },
+  { id: 'nextjs', name: 'Next.js', category: 'interface', level: 'core', icon: <Layers />, description: 'React framework', projects: [{ name: 'Portfolio Site', url: '#' }], proficiency: 9, version: '15.0', shipped: 12 },
+  { id: 'typescript', name: 'TypeScript', category: 'interface', level: 'core', icon: <Braces />, description: 'Typed JS', projects: [{ name: 'Web3 Wallet', url: '#' }], proficiency: 10, version: '5.7', shipped: 45 },
+  { id: 'tailwind', name: 'Tailwind CSS', category: 'interface', level: 'proficient', icon: <Zap />, description: 'Utility CSS', projects: [{ name: 'Admin Dashboard', url: '#' }], proficiency: 9, version: '3.4', shipped: 30 },
+  { id: 'framer-motion', name: 'Framer Motion', category: 'interface', level: 'proficient', icon: <Wand2 />, description: 'Animation library', projects: [{ name: 'Interactive DB', url: '#' }], proficiency: 8, version: '11.0', shipped: 15 },
+  { id: 'shadcn', name: 'Shadcn/ui', category: 'interface', level: 'proficient', icon: <Component />, description: 'UI components', projects: [{ name: 'Dashboard', url: '#' }], proficiency: 9, version: '0.8', shipped: 10 },
+  { id: 'zustand', name: 'Zustand', category: 'interface', level: 'proficient', icon: <Box />, description: 'State management', projects: [{ name: 'E-commerce', url: '#' }], proficiency: 8, version: '4.5', shipped: 8 },
 
-  // AI / ML
-  { id: 'python', name: 'Python', category: 'ai', level: 'core', icon: <Terminal />, description: 'Versatile language for backend and AI development.', projects: [{ name: 'AI Trading Bot', url: '#' }, { name: 'Data Pipeline', url: '#' }], proficiency: 9 },
-  { id: 'pytorch', name: 'PyTorch', category: 'ai', level: 'exploration', icon: <Cpu />, description: 'An open source machine learning framework that accelerates the path from research prototyping to production deployment.', projects: [{ name: 'Model Training', url: '#' }], proficiency: 4 },
-  { id: 'tensorflow', name: 'TensorFlow', category: 'ai', level: 'exploration', icon: <Brain />, description: 'End-to-end open source machine learning platform.', projects: [{ name: 'Image Classifier', url: '#' }], proficiency: 3 },
-  { id: 'openai', name: 'OpenAI', category: 'ai', level: 'core', icon: <Sparkles />, description: 'API for accessing state-of-the-art AI models like GPT-4.', projects: [{ name: 'AI Assistant', url: '#' }], proficiency: 8 },
-  { id: 'langchain', name: 'LangChain', category: 'ai', level: 'exploration', icon: <Workflow />, description: 'Framework for developing applications powered by language models.', projects: [{ name: 'AI Agent', url: '#' }], proficiency: 5 },
-  { id: 'huggingface', name: 'Hugging Face', category: 'ai', level: 'proficient', icon: <Smile />, description: 'The AI community building the future.', projects: [{ name: 'NLP Pipeline', url: '#' }], proficiency: 6 },
-  { id: 'scikit-learn', name: 'scikit-learn', category: 'ai', level: 'exploration', icon: <LineChart />, description: 'Machine Learning in Python.', projects: [{ name: 'Predictive Model', url: '#' }], proficiency: 5 },
+  // 02 Systems Architecture
+  { id: 'nodejs', name: 'Node.js', category: 'systems', level: 'core', icon: <Server />, description: 'JS runtime', projects: [{ name: 'API Gateway', url: '#' }], proficiency: 9, version: '20.x', shipped: 18 },
+  { id: 'python', name: 'Python', category: 'systems', level: 'proficient', icon: <Terminal />, description: 'Backend & ML', projects: [{ name: 'Trading Bot', url: '#' }], proficiency: 8, version: '3.12', shipped: 11 },
+  { id: 'postgresql', name: 'PostgreSQL', category: 'systems', level: 'core', icon: <Database />, description: 'Relational DB', projects: [{ name: 'User Auth', url: '#' }], proficiency: 9, version: '16', shipped: 20 },
+  { id: 'redis', name: 'Redis', category: 'systems', level: 'proficient', icon: <Layers />, description: 'In-memory cache', projects: [{ name: 'Session Cache', url: '#' }], proficiency: 7, version: '7.2', shipped: 14 },
+  { id: 'docker', name: 'Docker', category: 'systems', level: 'proficient', icon: <Container />, description: 'Containerization', projects: [{ name: 'Microservices', url: '#' }], proficiency: 8, version: '24.0', shipped: 22 },
 
-  // Web3
-  { id: 'solidity', name: 'Solidity', category: 'web3', level: 'core', icon: <Hexagon />, description: 'Object-oriented language for writing smart contracts.', projects: [{ name: 'Staking Protocol', url: '#' }, { name: 'DAO Governance', url: '#' }], proficiency: 8 },
-  { id: 'rust', name: 'Rust', category: 'web3', level: 'proficient', icon: <Triangle />, description: 'A language empowering everyone to build reliable and efficient software.', projects: [{ name: 'High-perf Indexer', url: '#' }], proficiency: 6 },
-  { id: 'ethers', name: 'Ethers.js', category: 'web3', level: 'proficient', icon: <Globe />, description: 'A complete and compact library for interacting with the Ethereum Blockchain.', projects: [{ name: 'DApp Frontend', url: '#' }], proficiency: 8 },
-  { id: 'foundry', name: 'Foundry', category: 'web3', level: 'exploration', icon: <Shield />, description: 'A blazing fast, portable and modular toolkit for Ethereum application development.', projects: [{ name: 'Smart Contract Tests', url: '#' }], proficiency: 5 },
-  { id: 'hardhat', name: 'Hardhat', category: 'web3', level: 'proficient', icon: <HardHat />, description: 'Ethereum development environment for professionals.', projects: [{ name: 'Token Launch', url: '#' }], proficiency: 7 },
-  { id: 'ipfs', name: 'IPFS', category: 'web3', level: 'exploration', icon: <Share2 />, description: 'A peer-to-peer hypermedia protocol.', projects: [{ name: 'Decentralized Storage', url: '#' }], proficiency: 4 },
-  { id: 'walletconnect', name: 'WalletConnect', category: 'web3', level: 'proficient', icon: <Wallet />, description: 'Open protocol for connecting wallets to Dapps.', projects: [{ name: 'Web3 Login', url: '#' }], proficiency: 7 },
+  // 03 Machine Intelligence
+  { id: 'openai', name: 'OpenAI API', category: 'intelligence', level: 'core', icon: <Sparkles />, description: 'LLM API', projects: [{ name: 'AI Assistant', url: '#' }], proficiency: 9, version: 'v1', shipped: 12 },
+  { id: 'gemini', name: 'Gemini API', category: 'intelligence', level: 'proficient', icon: <Brain />, description: 'Google LLM API', projects: [{ name: 'Multimodal Bot', url: '#' }], proficiency: 8, version: 'v1', shipped: 5 },
+  { id: 'langchain', name: 'LangChain', category: 'intelligence', level: 'exploration', icon: <Workflow />, description: 'LLM framework', projects: [{ name: 'AI Agent', url: '#' }], proficiency: 7, version: '0.2', shipped: 8 },
+  { id: 'pytorch', name: 'PyTorch', category: 'intelligence', level: 'exploration', icon: <Cpu />, description: 'ML framework', projects: [{ name: 'Model Training', url: '#' }], proficiency: 5, version: '2.2', shipped: 2 },
+  
+  // 04 Decentralized Systems
+  { id: 'solidity', name: 'Solidity', category: 'web3', level: 'core', icon: <Hexagon />, description: 'Smart Contracts', projects: [{ name: 'Staking Protocol', url: '#' }], proficiency: 9, version: '^0.8.20', shipped: 14 },
+  { id: 'ethers', name: 'Ethers.js', category: 'web3', level: 'proficient', icon: <Globe />, description: 'Web3 provider', projects: [{ name: 'DApp Frontend', url: '#' }], proficiency: 8, version: '6.0', shipped: 10 },
+  { id: 'hardhat', name: 'Hardhat', category: 'web3', level: 'proficient', icon: <HardHat />, description: 'Ethereum dev env', projects: [{ name: 'Token Launch', url: '#' }], proficiency: 8, version: '2.19', shipped: 8 },
+  { id: 'ipfs', name: 'IPFS', category: 'web3', level: 'exploration', icon: <Share2 />, description: 'Decentralized storage', projects: [{ name: 'NFT Metadata', url: '#' }], proficiency: 6, version: 'v0.20', shipped: 5 },
 
-  // Data / Backend
-  { id: 'postgresql', name: 'PostgreSQL', category: 'backend', level: 'proficient', icon: <Database />, description: 'Powerful, open source object-relational database system.', projects: [{ name: 'User Service', url: '#' }], proficiency: 7 },
-  { id: 'mongodb', name: 'MongoDB', category: 'backend', level: 'exploration', icon: <Database />, description: 'A document-based, distributed database built for modern application developers.', projects: [{ name: 'Log Storage', url: '#' }], proficiency: 5 },
-  { id: 'redis', name: 'Redis', category: 'backend', level: 'proficient', icon: <Layers />, description: 'In-memory data structure store, used as a database, cache, and message broker.', projects: [{ name: 'Session Cache', url: '#' }], proficiency: 6 },
-  { id: 'pandas', name: 'Pandas', category: 'backend', level: 'exploration', icon: <Table />, description: 'Fast, powerful, flexible and easy to use open source data analysis and manipulation tool.', projects: [{ name: 'Data Analysis', url: '#' }], proficiency: 5 },
-  { id: 'prisma', name: 'Prisma', category: 'backend', level: 'proficient', icon: <Triangle />, description: 'Next-generation Node.js and TypeScript ORM.', projects: [{ name: 'API Backend', url: '#' }], proficiency: 7 },
-  { id: 'nodejs', name: 'Node.js', category: 'backend', level: 'core', icon: <Server />, description: 'JavaScript runtime built on Chrome\'s V8 JavaScript engine.', projects: [{ name: 'API Gateway', url: '#' }, { name: 'Realtime Chat', url: '#' }], proficiency: 8 },
-  { id: 'express', name: 'Express', category: 'backend', level: 'proficient', icon: <FastForward />, description: 'Fast, unopinionated, minimalist web framework for Node.js.', projects: [{ name: 'REST API', url: '#' }], proficiency: 8 },
+  // 05 Creative Computing
+  { id: 'threejs', name: 'Three.js', category: 'creative', level: 'proficient', icon: <Triangle />, description: '3D library', projects: [{ name: '3D Portfolio', url: '#' }], proficiency: 7, version: 'r160', shipped: 4 },
+  { id: 'webgl', name: 'WebGL', category: 'creative', level: 'exploration', icon: <CircleDot />, description: 'Graphics API', projects: [], proficiency: 5, version: '2.0', shipped: 1 },
+  { id: 'glsl', name: 'GLSL', category: 'creative', level: 'exploration', icon: <Code2 />, description: 'Shader language', projects: [], proficiency: 4, version: '300 es', shipped: 1 },
+  
+  // 06 Design Operations
+  { id: 'figma', name: 'Figma', category: 'design', level: 'core', icon: <Layout />, description: 'Design tool', projects: [{ name: 'Design System', url: '#' }], proficiency: 10, version: 'Stable', shipped: 50 },
+  { id: 'storybook', name: 'Storybook', category: 'design', level: 'proficient', icon: <Blocks />, description: 'UI explorer', projects: [{ name: 'Component Lib', url: '#' }], proficiency: 8, version: '8.0', shipped: 6 },
+  
+  // 07 Tooling & Automation
+  { id: 'cursor', name: 'Cursor', category: 'tooling', level: 'core', icon: <Terminal />, description: 'AI Code Editor', projects: [{ name: 'Every project', url: '#' }], proficiency: 9, version: '0.30', shipped: 100 },
+  { id: 'git', name: 'Git', category: 'tooling', level: 'core', icon: <Github />, description: 'Version control', projects: [], proficiency: 10, version: '2.40', shipped: 200 },
+  { id: 'github-actions', name: 'GitHub Actions', category: 'tooling', level: 'proficient', icon: <Workflow />, description: 'CI/CD', projects: [], proficiency: 8, version: 'v3', shipped: 40 },
+  { id: 'vercel', name: 'Vercel', category: 'tooling', level: 'core', icon: <Triangle />, description: 'Edge network', projects: [], proficiency: 9, version: 'CLI', shipped: 50 },
 
-  // DevOps / Deployment
-  { id: 'docker', name: 'Docker', category: 'devops', level: 'core', icon: <Container />, description: 'Platform for developing, shipping, and running applications in containers.', projects: [{ name: 'Microservices', url: '#' }], proficiency: 8 },
-  { id: 'kubernetes', name: 'Kubernetes', category: 'devops', level: 'exploration', icon: <Ship />, description: 'Production-Grade Container Orchestration.', projects: [{ name: 'Cluster Setup', url: '#' }], proficiency: 4 },
-  { id: 'aws', name: 'AWS', category: 'devops', level: 'proficient', icon: <Cloud />, description: 'Comprehensive and broadly adopted cloud platform.', projects: [{ name: 'Cloud Infrastructure', url: '#' }], proficiency: 6 },
-  { id: 'vercel', name: 'Vercel', category: 'devops', level: 'core', icon: <Triangle />, description: 'Platform for frontend frameworks and static sites.', projects: [{ name: 'Frontend Deployment', url: '#' }], proficiency: 9 },
-  { id: 'github-actions', name: 'GitHub Actions', category: 'devops', level: 'proficient', icon: <Github />, description: 'Automate your workflow from idea to production.', projects: [{ name: 'CI/CD Pipeline', url: '#' }], proficiency: 7 },
-  { id: 'cloudflare', name: 'Cloudflare', category: 'devops', level: 'proficient', icon: <CloudLightning />, description: 'Web performance and security company.', projects: [{ name: 'DNS & CDN', url: '#' }], proficiency: 6 },
-  { id: 'supabase', name: 'Supabase', category: 'devops', level: 'proficient', icon: <Database />, description: 'The open source Firebase alternative.', projects: [{ name: 'Backend as a Service', url: '#' }], proficiency: 7 },
+  // 08 Research & Experiment
+  { id: 'rust', name: 'Rust', category: 'research', level: 'exploration', icon: <Triangle />, description: 'Systems programming', projects: [{ name: 'High-perf Indexer', url: '#' }], proficiency: 6, version: '1.75', shipped: 2 },
+  { id: 'zig', name: 'Zig', category: 'research', level: 'exploration', icon: <Zap />, description: 'Systems language', projects: [], proficiency: 3, version: '0.11', shipped: 0 },
+  { id: 'bun', name: 'Bun', category: 'research', level: 'exploration', icon: <Box />, description: 'JS Runtime', projects: [], proficiency: 7, version: '1.0', shipped: 3 },
 ];
