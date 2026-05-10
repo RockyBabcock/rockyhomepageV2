@@ -21,9 +21,23 @@
   --color-surface-container: rgba(243, 244, 246, 0.6);
   --color-surface-container-high: rgba(229, 231, 235, 0.6);
   --color-surface-container-highest: rgba(209, 213, 219, 0.6);
+
+  /* Neo-Brutalist Layout Tokens */
+  --module-gap: 120px;
+  --module-gap-mobile: 60px;
+  --void-corridor: 100px;
+  --void-color: #2A2724;
+  --tech-vault-bg: #3E3B38;
+  --tech-vault-border: #4C392D;
+  --divider-color: rgba(176, 138, 82, 0.3); /* Gold 30% */
+  --divider-strong: rgba(176, 138, 82, 0.5); /* Gold 50% */
 }
 
 @layer base {
+  html {
+    scroll-snap-type: y proximity;
+  }
+  
   body {
     @apply bg-base text-ink font-body antialiased;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"), linear-gradient(135deg, #ffffff, #f3f4f6, #f9fafb, #e5e7eb);
@@ -128,6 +142,63 @@
   }
   .rotate-y-180 {
     transform: rotateY(180deg);
+  }
+
+  /* Neo-Brutalist Module Architecture Utilities */
+  .module-isolation-wrapper {
+    position: relative;
+    width: 100%;
+    /* Padding is handled by the inner vault container and the explicit void corridors */
+    z-index: 5;
+    scroll-snap-align: start;
+    padding: 24px 0;
+  }
+  @media (min-width: 768px) {
+    .module-isolation-wrapper {
+      padding: 48px 0;
+    }
+  }
+
+  .module-divider {
+    width: 100%;
+    height: 2px;
+    background-color: var(--divider-color);
+  }
+
+  .void-corridor {
+    width: 100%;
+    height: var(--void-corridor);
+    background-color: var(--void-color);
+    position: relative;
+  }
+
+  .tech-vault-container {
+    background-color: var(--tech-vault-bg);
+    border: 1px solid var(--tech-vault-border);
+    padding: 48px 24px;
+    position: relative;
+    z-index: 10;
+    scroll-snap-align: start;
+    box-shadow: 4px 4px 0px 0px #1A1816;
+  }
+  @media (min-width: 768px) {
+    .tech-vault-container {
+      padding: 80px 64px;
+    }
+  }
+
+  .module-marker-header {
+    font-family: var(--font-label);
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #B08A52;
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--divider-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
   }
 }
 

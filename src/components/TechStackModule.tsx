@@ -20,12 +20,12 @@ export const TechStackModule: React.FC = () => {
   const handleIconClick = (item: TechItem) => {
     setSelectedItem(item);
     
-    if (item.category === 'interface') {
+    if (item.category === 'frontend') {
       setClickedFrontend(prev => {
         const newSet = new Set(prev);
         newSet.add(item.id);
         
-        const totalFrontend = techData.filter(t => t.category === 'interface').length;
+        const totalFrontend = techData.filter(t => t.category === 'frontend').length;
         if (newSet.size === totalFrontend && !showEasterEgg) {
           setShowEasterEgg(true);
           setTimeout(() => setShowEasterEgg(false), 5000); // Hide after 5s
@@ -35,11 +35,10 @@ export const TechStackModule: React.FC = () => {
             const secretTech: TechItem = {
               id: 'htmx',
               name: 'HTMX',
-              category: 'interface',
-              level: 'exploration',
-              icon: <Code2 />,
+              category: 'frontend',
+              level: 'advanced',
               description: 'Fun Fact: HTMX allows you to access AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext.',
-              projects: [{ name: 'Secret Project', url: '#' }],
+              projects: [{ name: 'Secret Project', url: '#', desc: '', repo: '', image: '' }],
               proficiency: 5
             };
             setTechData(current => [...current, secretTech]);

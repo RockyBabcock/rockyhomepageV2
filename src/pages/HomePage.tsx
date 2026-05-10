@@ -59,7 +59,34 @@ export default function HomePage() {
 
         <SectionHeader id="foundations" title="Professional Foundations" subtitle="Who I am and what I can do" />
         <JobApplicationModule />
-        <CoreCapabilitiesModule />
+        
+        <div className="col-span-12 w-full my-12" id="tech-stack-vault">
+           <div className="w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] -ml-4 md:-ml-8 h-[2px] bg-[rgba(176,138,82,0.5)]"></div>
+           
+           <div className="w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] -ml-4 md:-ml-8 h-[100px] bg-[#2A2724]"></div>
+           
+           <div className="module-isolation-wrapper w-full max-w-[1400px] mx-auto z-10">
+              <div className="module-marker-header">
+                 <span>02 / THE FORGE</span>
+                 <motion.span 
+                   animate={{ opacity: [0.3, 1, 0.3] }} 
+                   transition={{ repeat: Infinity, duration: 2 }} 
+                   className="text-[#C75B3A] font-mono"
+                 >
+                   ● SYSTEM ACTIVE
+                 </motion.span>
+              </div>
+              
+              <div className="tech-vault-container overflow-hidden">
+                 <CoreCapabilitiesModule />
+              </div>
+           </div>
+
+           <div className="w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] -ml-4 md:-ml-8 h-[100px] bg-[#2A2724]"></div>
+           
+           <div className="w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] -ml-4 md:-ml-8 h-[2px] bg-[rgba(176,138,82,0.5)]"></div>
+        </div>
+
         <VisitorAnalyticsModule />
 
         {/* Zone 2 — Proof of Work & Learning System */}
