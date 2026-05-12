@@ -73,6 +73,48 @@ const rawData = [
   { cat: 'tooling', tools: ['Cursor', 'Warp', 'Neovim', 'Git Automation'] }
 ];
 
+export const TECH_DATABASE: Record<string, Partial<TechItem>> = {
+  'React': {
+    description: 'Emphasizes virtual DOM, concurrent rendering, and high-performance component architecture.',
+    features: [
+      { name: 'Atomic Design', status: 'DEPLOYED', importance: 95 },
+      { name: 'Custom Hooks', status: 'ACTIVE', importance: 90 },
+      { name: 'Performance Profiling', status: 'HIGH', importance: 85 }
+    ],
+    philosophy: [
+      'Unidirectional data flow for predictable state management.',
+      'Component-driven architecture for robust composability.',
+      'Spec: Latency: <16ms (60FPS), Render: Virtualized.'
+    ]
+  },
+  'TypeScript': {
+    description: 'Focuses on type safety, static analysis, and its engineering advantages in large-scale architectures.',
+    features: [
+      { name: 'Static Typing', status: 'DEPLOYED', importance: 100 },
+      { name: 'Interface Design', status: 'ACTIVE', importance: 95 },
+      { name: 'Decorators', status: 'HIGH', importance: 80 }
+    ],
+    philosophy: [
+      'Compile-time safety eliminates a completely entire class of runtime errors.',
+      'Self-documenting codebase through expressive types.',
+      'Spec: Reliability: 99.9%, Type Coverage: 100%.'
+    ]
+  },
+  'Tailwind CSS': {
+    description: 'Modern CSS architecture, atomic class names, and rapid UI prototyping.',
+    features: [
+      { name: 'JIT Engine', status: 'DEPLOYED', importance: 95 },
+      { name: 'Responsive Design', status: 'ACTIVE', importance: 90 },
+      { name: 'Theming', status: 'HIGH', importance: 85 }
+    ],
+    philosophy: [
+      'Utility-first approach constraints values to a standardized design system.',
+      'Enables rapid iteration without context-switching between files.',
+      'Spec: Build Time: <50ms, Output: Minimized CSS.'
+    ]
+  }
+}
+
 export const techStackData: TechItem[] = [];
 
 rawData.forEach(row => {
@@ -96,30 +138,32 @@ rawData.forEach(row => {
     if (tool === 'React') cert = { label: 'META FRONTEND', bg: '#0668E1' };
     if (tool === 'AWS / GCP') cert = { label: 'AWS CERTIFIED', bg: '#ff9900' };
 
+    const dbEntry = TECH_DATABASE[tool] || {};
+
     techStackData.push({
       id: tool.toLowerCase().replace(/[^a-z0-9]/g, '-'),
       name: tool,
       category: row.cat as any,
       level,
-      description: 'A pivotal element of the operational architecture, selected for its ecosystem maturity and robust deployment profile. This framework allows for high-velocity iterations while maintaining rigorous type safety and operational boundaries.',
+      description: dbEntry.description || `A pivotal element of the operational ${row.cat} architecture, selected for its ecosystem maturity and robust deployment profile. This tool allows for high-velocity iterations while maintaining rigorous boundaries.`,
       version: 'v' + Math.floor(Math.random() * 20) + '.' + Math.floor(Math.random() * 10) + '.0 RC',
       operationalStatus: level === 'expert' ? 'PRIMARY INTERFACE' : level === 'advanced' ? 'SUPPORTING SYSTEM' : 'EXPERIMENTAL',
       ecosystemMaturity: 'HIGH',
       adoption: 'WIDESPREAD',
       deploymentConfidence: level === 'expert' ? '99.9%' : '85.0%',
-      features: [
-         { name: 'COMPONENT ARCHITECTURE', status: 'DEPLOYED', importance: 95 },
+      features: dbEntry.features || [
+         { name: 'CORE ARCHITECTURE', status: 'DEPLOYED', importance: 95 },
          { name: 'ASYNC PATTERNS', status: 'ACTIVE', importance: 80 },
          { name: 'STATE ISOLATION', status: 'HIGH', importance: 90 },
       ],
-      philosophy: [
-         'Maximizes structural flexibility without compromising type safety.',
+      philosophy: dbEntry.philosophy || [
+         `Maximizes structural flexibility without compromising ${row.cat} safety.`,
          'Ensures low-friction scalability during high-traffic events.',
-         'Integrates seamlessly with existing CI/CD orchestration layer.'
+         'Integrates seamlessly with existing orchestration layer.'
       ],
       projects: [
-        { name: 'sys-layer-beta', url: '#', repo: '#', desc: 'Secure data aggregation layer.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-01-12' },
-        { name: 'project-neo', url: '#', repo: '#', desc: 'Next-generation user interfaces for AI platforms.', image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400&q=80', status: 'PROTOTYPE', date: '2025-11-20' }
+        { name: `${tool.toLowerCase()}-sys-beta`, url: '#', repo: '#', desc: 'Secure data aggregation layer instance.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-01-12' },
+        { name: `project-neo-${tool.toLowerCase()}`, url: '#', repo: '#', desc: 'Next-generation user interfaces for AI platforms.', image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400&q=80', status: 'PROTOTYPE', date: '2025-11-20' }
       ],
       proficiency,
       cert,

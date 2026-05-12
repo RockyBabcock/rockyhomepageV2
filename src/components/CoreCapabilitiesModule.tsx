@@ -144,79 +144,164 @@ const TechSigil = ({ name, isHovered, colorPair }: { name: string, isHovered?: b
 };
 
 export const TechMetricsPanel = ({ tool, colorPair }: { tool: TechItem, colorPair: any }) => {
+  const [logs, setLogs] = useState<string[]>([
+    "[14:02:11] DEPLOYMENT VERIFIED",
+    "[14:03:52] CACHE REBUILT",
+    "[14:05:04] NODE SYNC COMPLETE",
+    "[14:06:18] TELEMETRY RECALIBRATED"
+  ]);
+
+  useEffect(() => {
+    const events = [
+      "SYSTEM_OK", "SYNCING_ASSETS...", "0xAF42_CONNECTED",
+      "VRAM_ALLOC_OPT...", "PACKET_RECEIVED", "INTEGRITY_CHECK: PASS",
+      "HANDSHAKE_ESTABLISHED", "EVALUATING_HEURISTICS", "PORT_SCAN_COMPLETE",
+      "AUTH_TOKEN_RENEWED", "PULSE_NOMINAL", "AWAITING_INPUT",
+      "CORE_TEMP_NOMINAL", "BYTES_TRANSFERRED", "REDUNDANCY_CHECK: OK"
+    ];
+
+    let intervalId: ReturnType<typeof setTimeout>;
+    
+    const generateLog = () => {
+      const time = new Date();
+      const timeStr = `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}:${time.getSeconds().toString().padStart(2, '0')}`;
+      const event = events[Math.floor(Math.random() * events.length)];
+      
+      setLogs(prev => {
+        const next = [...prev, `[${timeStr}] ${event}`];
+        return next.length > 8 ? next.slice(next.length - 8) : next; // Keep last 8 logs
+      });
+      
+      intervalId = setTimeout(generateLog, 800 + Math.random() * 2000);
+    };
+    
+    generateLog();
+    return () => clearTimeout(intervalId);
+  }, []);
+
+  // Frequency based on tool complexity (level) and Mastery (proficiency)
+  const masteryRatio = tool.proficiency / 100;
+  // High Mastery = Dense, stable waves. Low Mastery = Faster, erratic pulses.
+  const waveDurationBase = 0.3 + (masteryRatio * 1.5); // high mastery -> longer duration -> slower/stable
+  const heightVariance = masteryRatio > 0.8 ? 20 : 60; // high mastery -> stable max height
+  
+  const pulseLabel = tool.level === 'expert' ? 'HIGH FREQUENCY' : tool.level === 'advanced' ? 'MED FREQUENCY' : 'LOW FREQUENCY';
+  // number of waves: more dense logic
+  const waveCount = Math.floor(20 + (masteryRatio * 30)); // 20 to 50 nodes
+
+  // Ecosystem Mapping
+  const ecosystemAssociations: Record<string, string[]> = {
+    'React': ['Vite', 'Redux', 'Next.js', 'React Router'],
+    'TypeScript': ['tRPC', 'Zod', 'Prisma', 'ESLint'],
+    'Tailwind CSS': ['PostCSS', 'Radix UI', 'shadcn/ui', 'Framer Motion'],
+  };
+  const ecosystemNodes = ecosystemAssociations[tool.name] || ['Core', 'Plugins', 'Extensions', 'Community'];
+
   return (
-    <div className="flex flex-col h-full gap-4">
+    <div className="flex flex-col h-full gap-4 w-full">
        {/* Top: Tech Activity Pulse Wave */}
-       <div className="h-[100px] shrink-0 bg-[#ffffff03] border-[0.5px] border-[#ffffff1a] rounded-[2px] relative p-3 flex flex-col justify-center items-center overflow-hidden">
-          <div className="absolute top-2 left-2 text-[#57534e] text-[10px] font-mono tracking-widest uppercase">Tech Activity</div>
-          <div className="w-full h-full flex items-end justify-between gap-[2px] opacity-80 pt-4 px-2">
-             {Array.from({ length: 48 }).map((_, i) => (
+       <div className="h-[90px] shrink-0 border-[0.5px] border-[#06b6d433] rounded-[2px] relative p-3 flex flex-col justify-center items-center overflow-hidden bg-gradient-to-b from-[#031014] to-transparent">
+          <div className="absolute top-0 right-0 w-8 h-8 pointer-events-none opacity-20" style={{ backgroundImage: `radial-gradient(circle at top right, ${colorPair.pri}, transparent)` }} />
+          <div className="absolute top-2 left-2 text-[#0891b2] text-[10px] font-mono tracking-widest uppercase flex items-center gap-2">
+             <span className="w-1 h-1 bg-[#06b6d4] animate-pulse" /> DATA_PULSE: {pulseLabel}
+          </div>
+          
+          {/* Drifting signal points */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-50">
+             <div className="absolute top-[40%] h-[1px] w-4 bg-[#06b6d4] animate-[packet-drift_3s_linear_infinite]" />
+             <div className="absolute top-[60%] h-[1px] w-2 bg-[#06b6d4] animate-[packet-drift_5s_linear_infinite]" />
+          </div>
+
+          <div className="w-full h-full flex items-end justify-between gap-[1px] opacity-40 pt-4 px-1">
+             {Array.from({ length: waveCount }).map((_, i) => (
                 <motion.div 
                    key={i} 
                    className="w-full rounded-t-[1px]" 
                    style={{ backgroundColor: colorPair.pri }}
-                   animate={{ height: [`${10 + Math.random() * 20}%`, `${40 + Math.random() * 60}%`, `${10 + Math.random() * 20}%`] }}
-                   transition={{ duration: 0.5 + Math.random() * 1.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.02 }}
+                   animate={{ height: [`${10 + Math.random() * 10}%`, `${30 + Math.random() * heightVariance}%`, `${10 + Math.random() * 10}%`] }}
+                   transition={{ duration: waveDurationBase * (0.5 + Math.random()), repeat: Infinity, ease: 'easeInOut', delay: i * 0.05 }}
                 />
              ))}
           </div>
        </div>
 
        {/* Middle: Ecosystem Dependency Map */}
-       <div className="flex-1 bg-[#ffffff03] border-[0.5px] border-[#ffffff1a] rounded-[2px] relative p-4 flex flex-col justify-center items-center overflow-hidden min-h-[160px]">
-          <div className="absolute top-2 left-2 text-[#57534e] text-[10px] font-mono tracking-widest uppercase">Ecosystem Map</div>
+       <div className="flex-1 bg-[#031014] border-[0.5px] border-[#06b6d433] rounded-[2px] relative p-4 flex flex-col justify-center items-center overflow-hidden min-h-[160px]">
+          <div className="absolute top-2 left-2 text-[#0891b2] text-[10px] font-mono tracking-widest uppercase">ECOSYSTEM_MAP</div>
+          
+          {/* Subtle machine marks */}
+          <div className="absolute top-2 right-2 text-[#164e63] text-[8px] font-mono">GRID: ON</div>
+          <div className="absolute bottom-2 left-2 text-[#164e63] text-[8px] font-mono">REF: {(Math.random() * 1000).toFixed(2)}</div>
+          
           <div className="relative w-full h-[150px] flex items-center justify-center mt-4">
              <motion.div 
                animate={{ rotate: 360 }}
-               transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+               transition={{ duration: 160, repeat: Infinity, ease: "linear" }}
                className="absolute w-[200px] h-[200px] origin-center flex items-center justify-center"
              >
                 {/* SVG Constellation Lines */}
-                <svg className="absolute w-full h-full pointer-events-none opacity-30" overflow="visible">
-                   <line x1="50%" y1="50%" x2="15%" y2="30%" stroke={colorPair.pri} strokeWidth="1" strokeDasharray="2,2" />
-                   <line x1="50%" y1="50%" x2="85%" y2="25%" stroke={colorPair.pri} strokeWidth="1" strokeDasharray="2,2" />
-                   <line x1="50%" y1="50%" x2="75%" y2="85%" stroke={colorPair.pri} strokeWidth="1" strokeDasharray="2,2" />
-                   <line x1="50%" y1="50%" x2="25%" y2="75%" stroke={colorPair.pri} strokeWidth="1" strokeDasharray="2,2" />
-                   <circle cx="50%" cy="50%" r="40%" fill="none" stroke={colorPair.pri} strokeWidth="0.5" strokeDasharray="4,4" opacity="0.4" />
-                   <circle cx="50%" cy="50%" r="60%" fill="none" stroke={colorPair.pri} strokeWidth="0.5" strokeDasharray="1,6" opacity="0.2" />
+                <svg className="absolute w-full h-full pointer-events-none opacity-20" overflow="visible">
+                   <line x1="50%" y1="50%" x2="15%" y2="30%" stroke={colorPair.pri} strokeWidth="0.5" strokeDasharray="2,2" />
+                   <line x1="50%" y1="50%" x2="85%" y2="25%" stroke={colorPair.pri} strokeWidth="0.5" strokeDasharray="2,2" />
+                   <line x1="50%" y1="50%" x2="75%" y2="85%" stroke={colorPair.pri} strokeWidth="0.5" strokeDasharray="2,2" />
+                   <line x1="50%" y1="50%" x2="25%" y2="75%" stroke={colorPair.pri} strokeWidth="0.5" strokeDasharray="2,2" />
+                   <circle cx="50%" cy="50%" r="40%" fill="none" stroke={colorPair.pri} strokeWidth="0.5" strokeDasharray="2,4" opacity="0.3" />
+                   <circle cx="50%" cy="50%" r="60%" fill="none" stroke={colorPair.pri} strokeWidth="0.5" strokeDasharray="1,6" opacity="0.1" />
                 </svg>
                 {/* Orbital Nodes */}
-                <div className="absolute top-[30%] left-[15%] w-[4px] h-[4px] rounded-full bg-white shadow-[0_0_8px_white]" style={{ boxShadow: `0 0 10px ${colorPair.pri}` }} />
-                <div className="absolute top-[25%] left-[85%] w-[3px] h-[3px] rounded-full bg-white shadow-[0_0_8px_white]" style={{ boxShadow: `0 0 10px ${colorPair.pri}` }} />
-                <div className="absolute top-[85%] left-[75%] w-[5px] h-[5px] rounded-full bg-white shadow-[0_0_8px_white]" style={{ boxShadow: `0 0 10px ${colorPair.pri}` }} />
-                <div className="absolute top-[75%] left-[25%] w-[2px] h-[2px] rounded-full bg-white shadow-[0_0_8px_white]" style={{ boxShadow: `0 0 10px ${colorPair.pri}` }} />
+                <div className="absolute top-[30%] left-[15%] flex flex-col items-center">
+                  <div className="w-[4px] h-[4px] rounded-full bg-white opacity-80 mb-1" style={{ boxShadow: `0 0 10px ${colorPair.pri}` }} />
+                  <span className="text-[7px] text-[#06b6d4] font-mono select-none" style={{ transform: 'rotate(-45deg)'}}>{ecosystemNodes[0]}</span>
+                </div>
+                <div className="absolute top-[25%] left-[85%] flex flex-col items-center">
+                  <div className="w-[3px] h-[3px] rounded-full bg-white opacity-80 mb-1" style={{ boxShadow: `0 0 10px ${colorPair.pri}` }} />
+                  <span className="text-[7px] text-[#06b6d4] font-mono select-none pointer-events-none" style={{ transform: 'rotate(45deg)'}}>{ecosystemNodes[1]}</span>
+                </div>
+                <div className="absolute top-[85%] left-[75%] flex flex-col items-center">
+                  <div className="w-[5px] h-[5px] rounded-full bg-white opacity-80 mb-1" style={{ boxShadow: `0 0 10px ${colorPair.pri}` }} />
+                  <span className="text-[7px] text-[#06b6d4] font-mono select-none pointer-events-none" style={{ transform: 'rotate(-135deg)'}}>{ecosystemNodes[2]}</span>
+                </div>
+                <div className="absolute top-[75%] left-[25%] flex flex-col items-center">
+                  <div className="w-[2px] h-[2px] rounded-full bg-white opacity-80 mb-1" style={{ boxShadow: `0 0 10px ${colorPair.pri}` }} />
+                  <span className="text-[7px] text-[#06b6d4] font-mono select-none pointer-events-none" style={{ transform: 'rotate(135deg)'}}>{ecosystemNodes[3]}</span>
+                </div>
              </motion.div>
              
              {/* Center Node */}
-             <div className="relative z-10 w-14 h-14 rounded-full border border-white/10 bg-[#0a0f19] flex flex-col items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-md">
-                 <div className="absolute inset-0 rounded-full border border-[#ffffff1a] animate-[spin_4s_linear_infinite]" style={{ borderTopColor: colorPair.pri }} />
-                 <TechSigil name={tool.name} isHovered={true} colorPair={colorPair} />
+             <div className="relative z-10 w-12 h-12 rounded-[2px] border-[0.5px] border-[#06b6d480] bg-[#031014] flex flex-col items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.2)] backdrop-blur-md">
+                 <div className="absolute inset-0 border border-dashed border-[#06b6d433] animate-[spin_8s_linear_infinite]" />
+                 <TechSigil name={tool.name} isHovered={true} colorPair={{ pri: '#06b6d4', sec: '#0891b2'}} />
              </div>
           </div>
        </div>
 
-       {/* Bottom: Scrolling Terminal Log */}
-       <div className="h-[120px] shrink-0 bg-[#ffffff03] border-[0.5px] border-[#ffffff1a] rounded-[2px] relative p-3 flex flex-col pt-8 overflow-hidden">
-          <div className="absolute top-2 left-2 text-[#57534e] text-[10px] font-mono tracking-widest uppercase flex items-center gap-2">
-             <span className="w-1.5 h-1.5 bg-[#00ff88] rounded-full animate-pulse shadow-[0_0_5px_#00ff88]" />
-             [SYSTEM_REALTIME_MONITOR]
+       {/* Bottom: SYSTEM EVENTS */}
+       <div className="h-[140px] shrink-0 border-[0.5px] border-[#06b6d433] rounded-[2px] relative p-3 flex flex-col pt-8 overflow-hidden bg-gradient-to-t from-[#031014] to-transparent">
+          <div className="absolute top-2 left-2 text-[#0891b2] text-[10px] font-mono tracking-widest uppercase flex items-center gap-2">
+             <span className="w-1.5 h-1.5 bg-[#06b6d4] rounded-full animate-pulse shadow-[0_0_5px_#06b6d4]" />
+             [SYSTEM EVENTS]
           </div>
-          <div className="flex flex-col font-mono text-[10px] text-[#00ff88] opacity-70 tracking-tighter leading-[1.4] mt-1 relative h-full">
+          
+          <div className="absolute right-2 top-2 text-[#164e63] text-[8px] font-mono animate-pulse">REC_ACTIVE</div>           <div className="flex flex-col font-mono text-[9px] text-[#22d3ee] opacity-70 tracking-tighter leading-[1.6] mt-2 relative h-full">
              {/* Overlay for top/bottom fade */}
-             <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-[#0a0f19] via-transparent to-[#0a0f19]" />
-             <motion.div
-               animate={{ y: ['0%', '-50%'] }}
-               transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-               className="flex flex-col flex-nowrap"
-             >
-                {Array.from({ length: 40 }).map((_, i) => (
-                   <div key={i} className="whitespace-nowrap flex gap-4">
-                      <span>0x{(Math.random() * 0xFFFFFF).toString(16).padEnd(6, '0').toUpperCase()}</span>
-                      <span className="opacity-60">// TRACE_SIG_{Math.floor(1000 + Math.random() * 9000)}</span>
-                      <span>OP_OK</span>
-                   </div>
-                ))}
-             </motion.div>
+             <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-[#031014] via-transparent to-[#031014]" />
+             <div className="flex flex-col justify-end overflow-hidden h-full">
+               <AnimatePresence>
+                 {logs.map((evt, i) => (
+                    <motion.div
+                      key={evt + i}
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                      className="whitespace-nowrap flex gap-3 hover:text-white transition-colors cursor-default"
+                    >
+                      <span className="opacity-50 text-[8px]">0x{(i * Math.random()).toString(16).padEnd(4, '0').substring(0,4)}</span>
+                      <span>{evt}</span>
+                    </motion.div>
+                 ))}
+               </AnimatePresence>
+             </div>
           </div>
        </div>
     </div>
@@ -329,7 +414,7 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
                </div>
                <div className="flex flex-col">
                   <h4 className="font-space font-black text-[32px] md:text-[48px] tracking-tighter leading-none" style={{ color: colorPair.pri, textShadow: `0 0 20px ${colorPair.pri}4d` }}>
-                    {tool.name.toUpperCase()}
+                    <span className="typewriter-text" style={{ borderColor: 'transparent' }}>{tool.name.toUpperCase()}</span>
                   </h4>
                   <div className="flex items-center gap-3 mt-2 font-mono text-[10px] md:text-[11px] text-[#9ca3af] uppercase tracking-widest">
                      <span className="bg-[#1f2937]/50 px-2 py-0.5 border-[0.5px] border-[#ffffff1a]">{tool.version || 'v1.0.0'}</span>
@@ -365,18 +450,30 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
          <div className="absolute bottom-1 right-2 font-mono text-[8px] text-[#4b5563]">SYS_REF: 0x{tool.id.replace(/[^a-z0-9]/g, '').substring(0,6).toUpperCase()} // SECTOR 7</div>
       </div>
       
-      <div className="flex flex-col flex-1 p-6 md:p-8 gap-8 relative z-10 w-full">
+      <div className="flex flex-col flex-1 p-6 md:p-8 gap-8 relative z-10 w-full overflow-y-auto custom-scrollbar">
+         {/* Subtle Wear Overlay inside the card */}
+         <div className="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }} />
+         
+         {/* Internal alignment ticks */}
+         <div className="absolute left-2 top-[30%] bottom-[30%] w-[1px] bg-gradient-to-b from-transparent via-[#4b5563] to-transparent opacity-40" />
+         <div className="absolute right-2 top-[40%] bottom-[40%] w-[1px] bg-gradient-to-b from-transparent via-[#4b5563] to-transparent opacity-40" />
+         
          {/* SECTION 1: ABOUT */}
          <div className="flex flex-col lg:flex-row gap-8 relative w-full">
             <div className="flex flex-col relative w-full lg:w-[65%]">
                <div className="flex items-center gap-2 mb-4">
                  <span className="px-2 py-0.5 border-[0.5px] border-[#ffffff1a] bg-[#ffffff05] font-mono text-[9px] text-[#00ff88] uppercase tracking-widest opacity-80 mix-blend-screen shadow-[0_0_5px_rgba(0,255,136,0.2)]">PROTO_TYPE_A</span>
                  <span className="px-2 py-0.5 border-[0.5px] border-[#ffffff1a] bg-[#ffffff05] font-mono text-[9px] text-[#00ff88] uppercase tracking-widest opacity-80 mix-blend-screen shadow-[0_0_5px_rgba(0,255,136,0.2)]">STABLE_BUILD_V2</span>
+                 <span className="ml-auto font-mono text-[8px] text-[#4b5563]">NODE: US-WEST-04 // HASH: {(Math.random() * 0xFFFFFF).toString(16).padEnd(6, '0').toUpperCase()}</span>
                </div>
                <div className="flex flex-col gap-2 relative border-l-[1px] border-dashed border-[#4b5563] pl-4">
                   <div className="absolute -left-[3px] top-0 w-[5px] h-[5px] bg-[#4b5563]" />
-                  <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em]">01 // System Overview</h5>
-                  <p className="font-mono text-[12px] tracking-[1px] text-[#d1d5db] leading-[2] max-w-none">
+                  <div className="absolute -left-[3px] bottom-0 w-[5px] h-[5px] bg-[#4b5563]" />
+                  <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em] relative">
+                      <span className="typewriter-text-fast" style={{ borderColor: colorPair.pri }}>01 // System Overview</span>
+                      <div className="absolute top-1/2 left-full -translate-y-1/2 ml-4 w-32 h-[1px] bg-[#374151] opacity-50" />
+                  </h5>
+                  <p className="font-mono text-[12px] tracking-[1px] text-[#d1d5db] leading-[2] max-w-none pt-2">
                      {tool.description}
                   </p>
                </div>
@@ -386,7 +483,13 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
             <div className="hidden lg:flex flex-col w-[35%] shrink-0 gap-3 pt-8">
                <div className="border-[0.5px] border-[#ffffff1a] bg-[#ffffff03] p-3 flex flex-col gap-2 relative">
                   <div className="absolute -top-1 -right-1 w-2 h-2 border-t border-r border-[#ffffff33]" />
-                  <span className="font-mono text-[9px] text-[#6b7280] uppercase tracking-widest">Op_Parameters</span>
+                  <div className="absolute -bottom-1 -left-1 w-2 h-2 border-b border-l border-[#ffffff33]" />
+                  
+                  <div className="flex items-center justify-between mb-2">
+                     <span className="font-mono text-[9px] text-[#6b7280] uppercase tracking-widest">Op_Parameters</span>
+                     <span className="font-mono text-[8px] text-[#00ff88] bg-[#00ff881a] px-1 animate-pulse">NOMINAL</span>
+                  </div>
+                  
                   <div className="flex justify-between items-center border-b-[0.5px] border-[#ffffff1a] pb-1">
                      <span className="font-mono text-[10px] text-[#9ca3af]">Latency Threshold</span>
                      <span className="font-mono text-[10px] text-[#00ff88]">{'<'}50ms</span>
@@ -395,9 +498,13 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
                      <span className="font-mono text-[10px] text-[#9ca3af]">Encryption</span>
                      <span className="font-mono text-[10px] text-white">TLS 1.3 / AES-256</span>
                   </div>
-                  <div className="flex justify-between items-center pb-1">
+                  <div className="flex justify-between items-center border-b-[0.5px] border-[#ffffff1a] pb-1">
                      <span className="font-mono text-[10px] text-[#9ca3af]">Availability</span>
                      <span className="font-mono text-[10px] text-white">Zone_Redundant</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-1 pt-1 opacity-50">
+                     <span className="font-mono text-[8px] text-[#9ca3af]">Thermal</span>
+                     <span className="font-mono text-[8px] text-[#9ca3af]">STABLE</span>
                   </div>
                </div>
             </div>
@@ -405,7 +512,9 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
 
          {/* SECTION 2: KEY FEATURES */}
          <div className="flex flex-col gap-4">
-            <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em] border-b border-[#1f2937] w-full pb-2">02 // Feature Matrix</h5>
+            <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em] border-b border-[#1f2937] w-full pb-2">
+               <span className="typewriter-text-fast" style={{ borderColor: colorPair.pri }}>02 // Feature Matrix</span>
+            </h5>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                {(tool.features || []).map((feat, i) => (
                   <div key={i} className="bg-[#111827] border border-[#1f2937] p-3 flex flex-col gap-2 relative overflow-hidden group">
@@ -414,8 +523,10 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
                         <span className="font-space font-bold text-[11px] uppercase tracking-wide text-[#e5e7eb]">{feat.name}</span>
                         <span className="font-mono text-[8px]" style={{ color: feat.status === 'DEPLOYED' ? '#10b981' : '#f59e0b'}}>[{feat.status}]</span>
                      </div>
-                     <div className="w-full h-[2px] bg-[#1f2937] relative">
-                         <div className="absolute left-0 top-0 h-full transition-all" style={{ width: `${feat.importance}%`, backgroundColor: colorPair.pri }} />
+                     <div className="w-full h-[2px] bg-[#1f2937] relative overflow-hidden">
+                         <div className="absolute left-0 top-0 h-full transition-all relative overflow-hidden" style={{ width: `${feat.importance}%`, backgroundColor: colorPair.pri }}>
+                             <div className="absolute -inset-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-60 translate-x-[-150%] group-hover:animate-[thermo-flow_1.5s_ease-out_infinite]" style={{ transform: 'skewX(-20deg)' }} />
+                         </div>
                      </div>
                      <span className="font-mono text-[8px] text-[#4b5563] text-right mt-1">CAPACITY: {feat.importance}%</span>
                   </div>
@@ -426,20 +537,65 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
             </div>
          </div>
 
-         {/* SECTION 3: PHILOSOPHY */}
-         {tool.philosophy && tool.philosophy.length > 0 && (
-            <div className="flex flex-col gap-3">
-               <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em] border-b border-[#1f2937] w-full pb-2">03 // Engineering Philosophy</h5>
-               <ul className="flex flex-col gap-2 font-mono text-[12px] text-[#9ca3af]">
-                  {tool.philosophy.map((phil, i) => (
-                     <li key={i} className="flex gap-3">
-                        <span className="text-[#4b5563] shrink-0">[{String(i+1).padStart(2, '0')}]</span>
-                        <span>{phil}</span>
-                     </li>
-                  ))}
-               </ul>
+         {/* SECTION 3: SYSTEM INTELLIGENCE */}
+         <div className="flex flex-col gap-4">
+            <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em] border-b-[0.5px] border-[#ffffff1a] w-full pb-2">
+               <span className="typewriter-text-fast" style={{ borderColor: colorPair.pri }}>03 // System Intelligence</span>
+            </h5>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+               {/* Architecture Notes */}
+               <div className="flex flex-col gap-2 p-4 bg-[#0a0f19] border-[0.5px] border-[#ffffff1a]">
+                   <span className="font-mono text-[9px] text-[#f59e0b] uppercase tracking-widest flex items-center gap-2">
+                       <span className="w-1 h-1 bg-[#f59e0b]" /> Architecture Notes
+                   </span>
+                   {tool.philosophy && tool.philosophy[0] ? (
+                       <p className="font-mono text-[11px] text-[#d1d5db] leading-relaxed opacity-80">{tool.philosophy[0]}</p>
+                   ) : (
+                       <p className="font-mono text-[11px] text-[#d1d5db] leading-relaxed opacity-80">Optimized for concurrent node communication and stable deployment scaling.</p>
+                   )}
+               </div>
+
+               {/* Known Limitations */}
+               <div className="flex flex-col gap-2 p-4 bg-[#0a0f19] border-[0.5px] border-[#ffffff1a] relative overflow-hidden">
+                   <div className="absolute top-0 right-0 w-8 h-8 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNMCAwIEwxMDAgMTAwIE0xMDAgMCBMMCAxMDAiIHN0cm9rZT0icmdiYSgyNTUsMCwwLDAuMikiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')] opacity-30 pointer-events-none" />
+                   <span className="font-mono text-[9px] text-[#ef4444] uppercase tracking-widest flex items-center gap-2">
+                       <span className="w-1 h-1 bg-[#ef4444]" /> Known Limitations
+                   </span>
+                   {tool.philosophy && tool.philosophy[1] ? (
+                       <p className="font-mono text-[11px] text-[#d1d5db] leading-relaxed opacity-80">{tool.philosophy[1]}</p>
+                   ) : (
+                       <p className="font-mono text-[11px] text-[#d1d5db] leading-relaxed opacity-80">Aggressive caching paradigms may delay propagation under heavy un-hydrated loads.</p>
+                   )}
+               </div>
+
+               {/* Field Applications */}
+               <div className="flex flex-col gap-2 p-4 bg-[#0a0f19] border-[0.5px] border-[#ffffff1a]">
+                   <span className="font-mono text-[9px] text-[#3b82f6] uppercase tracking-widest flex items-center gap-2">
+                       <span className="w-1 h-1 bg-[#3b82f6]" /> Field Applications
+                   </span>
+                   <ul className="flex flex-col font-mono text-[11px] text-[#d1d5db] leading-relaxed opacity-80 gap-1 mt-1">
+                      <li className="flex items-center gap-2"><span className="text-[#3b82f6] opacity-50">-</span> High-frequency data telemetry interfaces</li>
+                      <li className="flex items-center gap-2"><span className="text-[#3b82f6] opacity-50">-</span> Real-time spatial observation dashboards</li>
+                      <li className="flex items-center gap-2"><span className="text-[#3b82f6] opacity-50">-</span> Persistent multi-agent networking layers</li>
+                   </ul>
+               </div>
+
+               {/* Integration Surfaces */}
+               <div className="flex flex-col gap-2 p-4 bg-[#0a0f19] border-[0.5px] border-[#ffffff1a]">
+                   <span className="font-mono text-[9px] text-[#8b5cf6] uppercase tracking-widest flex items-center gap-2">
+                       <span className="w-1 h-1 bg-[#8b5cf6]" /> Integration Surfaces
+                   </span>
+                   <p className="font-mono text-[11px] text-[#d1d5db] leading-relaxed opacity-80">CONNECTED STACK:</p>
+                   <div className="flex flex-wrap gap-2 mt-1">
+                       {['NEXT.JS', 'TYPESCRIPT', 'ZUSTAND', 'TAILWIND', 'TRPC'].map(tech => (
+                           <span key={tech} className="px-1.5 py-0.5 border-[0.5px] border-[#8b5cf640] bg-[#8b5cf61a] text-[9px] font-mono text-[#c4b5fd]">
+                               {tech}
+                           </span>
+                       ))}
+                   </div>
+               </div>
             </div>
-         )}         {/* SECTION 4: MISSION LOG */}
+         </div>         {/* SECTION 4: MISSION LOG */}
          <div className="flex flex-col gap-4 mt-auto w-full pt-4 relative z-10">
             <h5 className="font-mono text-[11px] text-[#6b7280] uppercase tracking-[0.2em] border-b-[0.5px] border-[#ffffff1a] w-full pb-2 flex justify-between">
                <span>04 // MISSION LOG [Artifact Deployments]</span>
@@ -642,8 +798,23 @@ export function CoreCapabilitiesModule() {
   const [activeColor, setActiveColor] = useState('#f59e0b'); // default frontend color
   const [mousePos, setMousePos] = useState({ x: 500, y: 500 });
   const [hoveredTool, setHoveredTool] = useState<string | null>(null);
+  
+  // New State for Toolbar
+  const [activeFilter, setActiveFilter] = useState('ALL');
+  const [activeSort, setActiveSort] = useState('RELEVANCE');
+  const [activeView, setActiveView] = useState('MASONRY');
+  const [isContentSweeping, setIsContentSweeping] = useState(false);
+
   const [expandedToolId, setExpandedToolId] = useState<string | null>(null);
   const sectionRef = React.useRef<HTMLElement>(null);
+  
+  const handleToolSelect = (id: string) => {
+    if (id !== expandedToolId) {
+      setIsContentSweeping(true);
+      setExpandedToolId(id);
+      setTimeout(() => setIsContentSweeping(false), 400); // scanline
+    }
+  };
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -891,30 +1062,54 @@ export function CoreCapabilitiesModule() {
                  </div>
               </div>
            </div>
-           
-           {/* FILTER BAR - Capsule Pills */}
+                 {/* FILTER BAR - Capsule Pills */}
            <div className="flex flex-col lg:flex-row lg:items-center justify-between w-full gap-4 pb-2">
-             <div className="flex items-center gap-x-2 font-mono text-[10px] uppercase tracking-[0.1em] text-[#a8a29e] flex-1 overflow-x-auto hide-scrollbar pb-2">
+             <div className="flex items-center gap-x-2 font-mono text-[10px] uppercase tracking-[0.1em] text-[#a8a29e] flex-1 overflow-x-auto hide-scrollbar pb-2 relative z-20">
                 <span className="mr-2 text-[#57534e] shrink-0">SHOW:</span>
                 {['ALL', 'EXPERT', 'ADVANCED', 'PROFICIENT', 'LEARNING'].map((filter, i) => (
-                  <button key={filter} className={cn(
-                    "px-4 h-[32px] border transition-colors flex items-center justify-center rounded-[2px] shrink-0",
-                    filter === 'ALL' ? `text-white` : "border-[#44403c] hover:bg-[#292524] text-[#a8a29e]"
-                  )} style={filter === 'ALL' ? { backgroundColor: `${activeColor}33`, borderColor: activeColor } : {}}>
-                    {filter} {filter === 'ALL' && '●'}
+                  <button 
+                    key={filter} 
+                    onClick={() => setActiveFilter(filter)}
+                    className={cn(
+                    "relative px-4 h-[32px] border transition-colors flex items-center justify-center rounded-[2px] shrink-0",
+                    filter === activeFilter ? `text-white bg-[#292524]` : "border-[#44403c] hover:bg-[#292524] text-[#a8a29e]"
+                  )} style={filter === activeFilter ? { backgroundColor: `${activeColor}33`, borderColor: activeColor } : {}}>
+                    {filter === activeFilter && (
+                      <motion.div 
+                        layoutId="wave-filter"
+                        initial={{ opacity: 0.8, scaleX: 1, scaleY: 1 }}
+                        animate={{ opacity: 0, scaleX: 1.4, scaleY: 2 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="absolute inset-0 border"
+                        style={{ borderColor: activeColor }}
+                      />
+                    )}
+                    {filter} {filter === activeFilter && '●'}
                   </button>
                 ))}
                 
-                <div className="hidden lg:flex items-center gap-x-2 ml-6 shrink-0">
+                <div className="hidden lg:flex items-center gap-x-2 ml-6 shrink-0 relative z-20">
                    <span className="mr-2 text-[#57534e]">SORT:</span>
-                   {['RELEVANCE', 'RECENCY', 'A-Z', 'ECOSYSTEM'].map((filter, i) => (
-                     <button key={filter} className={cn(
-                       "group px-4 h-[32px] border transition-colors flex items-center justify-center rounded-[2px] gap-2",
-                       filter === 'RELEVANCE' ? `text-white border-white bg-[#292524]` : "border-[#44403c] hover:bg-[#292524] text-[#a8a29e]"
+                   {['RELEVANCE', 'MASTERY'].map((filter, i) => (
+                     <button 
+                       key={filter} 
+                       onClick={() => setActiveSort(filter)}
+                       className={cn(
+                       "relative group px-4 h-[32px] border transition-colors flex items-center justify-center rounded-[2px] gap-2",
+                       filter === activeSort ? `text-white border-white bg-[#292524]` : "border-[#44403c] hover:bg-[#292524] text-[#a8a29e]"
                      )}>
+                       {filter === activeSort && (
+                         <motion.div 
+                           layoutId="wave-sort"
+                           initial={{ opacity: 0.8, scaleX: 1, scaleY: 1 }}
+                           animate={{ opacity: 0, scaleX: 1.4, scaleY: 2 }}
+                           transition={{ duration: 0.4, ease: "easeOut" }}
+                           className="absolute inset-0 border border-white"
+                         />
+                       )}
                        {filter} 
                        <div className="flex flex-col items-center justify-center -space-y-[4px]">
-                          <span className={cn("text-[8px] transition-colors", filter === 'RELEVANCE' ? "text-[#fafaf9]" : "text-[#57534e] opacity-30 group-hover:opacity-60")}>▲</span>
+                          <span className={cn("text-[8px] transition-colors", filter === activeSort ? "text-[#fafaf9]" : "text-[#57534e] opacity-30 group-hover:opacity-60")}>▲</span>
                           <span className="text-[8px] text-[#57534e] opacity-30 group-hover:opacity-60 transition-colors">▼</span>
                        </div>
                      </button>
@@ -922,51 +1117,85 @@ export function CoreCapabilitiesModule() {
                 </div>
              </div>
              
-             <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.1em] text-[#a8a29e] shrink-0 overflow-x-auto hide-scrollbar pb-2 lg:pb-0">
+             <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.1em] text-[#a8a29e] shrink-0 overflow-x-auto hide-scrollbar pb-2 lg:pb-0 relative z-20">
                 <span className="mr-2 text-[#57534e]">VIEW:</span>
-                <button className="px-4 h-[32px] border transition-colors bg-[#292524] text-white flex items-center justify-center gap-2 rounded-[2px]" style={{ borderColor: activeColor }}>MASONRY <span className="w-1 h-1 bg-white block"></span></button>
-                <button className="px-4 h-[32px] border transition-colors border-[#44403c] hover:bg-[#292524] text-[#a8a29e] flex items-center justify-center rounded-[2px]">COMPACT</button>
-                <button className="px-4 h-[32px] border transition-colors border-[#44403c] hover:bg-[#292524] text-[#a8a29e] md:flex items-center justify-center rounded-[2px] hidden">TIMELINE</button>
-                <button className="px-4 h-[32px] border transition-colors border-[#44403c] hover:bg-[#292524] text-[#a8a29e] md:flex items-center justify-center rounded-[2px] hidden">NETWORK</button>
+                {['MASONRY', 'COMPACT'].map(viewMode => (
+                   <button 
+                     key={viewMode}
+                     onClick={() => setActiveView(viewMode)}
+                     className={cn(
+                       "relative px-4 h-[32px] border transition-colors flex items-center justify-center gap-2 rounded-[2px]",
+                       viewMode === activeView ? "bg-[#292524] text-white border-white" : "border-[#44403c] hover:bg-[#292524] text-[#a8a29e]"
+                     )}
+                     style={viewMode === activeView ? { borderColor: activeColor } : {}}
+                   >
+                     {viewMode === activeView && (
+                         <motion.div 
+                           layoutId="wave-view"
+                           initial={{ opacity: 0.8, scaleX: 1, scaleY: 1 }}
+                           animate={{ opacity: 0, scaleX: 1.4, scaleY: 2 }}
+                           transition={{ duration: 0.4, ease: "easeOut" }}
+                           className="absolute inset-0 border border-white"
+                         />
+                     )}
+                     {viewMode} {viewMode === activeView && <span className="w-1 h-1 bg-white block"></span>}
+                   </button>
+                ))}
              </div>
            </div>
         </div>
 
         {/* CONTENT BENCH - Split Layout */}
         <div className="relative w-full">
-            <div className="flex flex-col lg:flex-row gap-6 pb-8 h-[calc(100vh-200px)] min-h-[600px]">
+            <div className={cn(
+              "gap-6 pb-8 h-[calc(100vh-200px)] min-h-[600px] transition-all duration-500",
+              activeView === 'MASONRY' 
+                ? "flex flex-col lg:flex-row" 
+                : "grid grid-cols-1 lg:grid-cols-[180px_1fr_250px] gap-2 lg:h-[calc(100vh-150px)]"
+            )}>
                
-               {/* Left Column (200px) - Navigation Directory */}
-               <div className="w-full lg:w-[200px] shrink-0 flex flex-col gap-4 overflow-y-auto pr-2 custom-scrollbar relative p-2 bg-[#0a0f19]/80 backdrop-blur-[20px] border-[0.5px] border-[#ffffff1a] shadow-[0_0_15px_rgba(0,0,0,0.5)] z-20 transition-shadow duration-500">
+               {/* Left Column - Navigation Directory */}
+               <div className={cn(
+                 "shrink-0 flex flex-col overflow-y-auto custom-scrollbar relative z-20 transition-all duration-500",
+                 activeView === 'MASONRY' ? "w-full lg:w-[200px] gap-4 pr-2 p-2 bg-[#050b14]/90 backdrop-blur-[20px] border-[0.5px] border-[#3b82f633] shadow-[0_0_15px_rgba(0,0,0,0.5),inset_0_0_30px_rgba(59,130,246,0.03)]" : "w-full gap-2 p-1 border-[0.5px] border-[#3b82f633] bg-[#050b14]/90"
+               )}>
                  {/* Decorative L borders for the container */}
-                 <div className="absolute top-0 left-0 w-3 h-3 border-t-[1px] border-l-[1px] border-[#00ffff] shadow-[0_0_8px_rgba(0,255,255,0.5)] pointer-events-none" />
-                 <div className="absolute top-0 right-0 w-3 h-3 border-t-[1px] border-r-[1px] border-[#00ffff] shadow-[0_0_8px_rgba(0,255,255,0.5)] pointer-events-none" />
-                 <div className="absolute bottom-0 left-0 w-3 h-3 border-b-[1px] border-l-[1px] border-[#00ffff] shadow-[0_0_8px_rgba(0,255,255,0.5)] pointer-events-none" />
-                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b-[1px] border-r-[1px] border-[#00ffff] shadow-[0_0_8px_rgba(0,255,255,0.5)] pointer-events-none" />
+                 <div className="absolute top-0 left-0 w-3 h-3 border-t-[1px] border-l-[1px] border-[#3b82f680] shadow-[0_0_8px_rgba(59,130,246,0.3)] pointer-events-none" />
+                 <div className="absolute top-0 right-0 w-3 h-3 border-t-[1px] border-r-[1px] border-[#3b82f680] shadow-[0_0_8px_rgba(59,130,246,0.3)] pointer-events-none" />
+                 <div className="absolute bottom-0 left-0 w-3 h-3 border-b-[1px] border-l-[1px] border-[#3b82f680] shadow-[0_0_8px_rgba(59,130,246,0.3)] pointer-events-none" />
+                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b-[1px] border-r-[1px] border-[#3b82f680] shadow-[0_0_8px_rgba(59,130,246,0.3)] pointer-events-none" />
                  
                  {/* Vertical Scanline */}
-                 <div className="absolute top-0 right-1 w-[1px] h-full bg-gradient-to-b from-transparent to-transparent opacity-30 animate-[packet-drift_4s_linear_infinite]" style={{ backgroundImage: `linear-gradient(to bottom, transparent, ${activeColor}, transparent)` }} />
+                 <div className="absolute top-0 right-1 w-[1px] h-full bg-gradient-to-b from-transparent to-transparent opacity-30 animate-[packet-drift_4s_linear_infinite]" style={{ backgroundImage: `linear-gradient(to bottom, transparent, #3b82f6, transparent)` }} />
 
-                 <div className="text-[11px] font-mono text-[#57534e] mb-1 uppercase tracking-[0.1em] pl-2">Directory</div>
+                 <div className="text-[11px] font-mono text-[#60a5fa] mb-1 uppercase tracking-[0.1em] pl-2 drop-shadow-[0_0_2px_rgba(96,165,250,0.5)]">Archive_Directory</div>
                  
                  <div className="flex flex-col gap-2 flex-1 relative z-10 w-full overflow-y-auto hide-scrollbar custom-scrollbar pr-1">
                    {domains.map(cat => {
                       const isExpanded = cat === activeDomain;
-                      const categoryTools = techStackData.filter(t => t.category === cat);
+                      let categoryTools = techStackData.filter(t => t.category === cat);
+                      if (activeFilter !== 'ALL') {
+                        categoryTools = categoryTools.filter(t => t.level.toUpperCase() === activeFilter);
+                      }
+                      if (activeSort === 'MASTERY') {
+                        categoryTools = [...categoryTools].sort((a, b) => b.proficiency - a.proficiency);
+                       }
                       const colorPair = categoryColors[cat] || { pri: '#B08A52', sec: '#D98F5A' };
+                      
+                      if (categoryTools.length === 0) return null;
                       
                       return (
                          <div key={cat} className="flex flex-col gap-1">
                             <button 
                               onClick={() => { setActiveDomain(cat); setIsMobileMenuOpen(false); }}
-                              className="flex items-center justify-between w-full p-2 text-[11px] font-space font-bold uppercase tracking-widest transition-colors bg-[#ffffff05] border-[0.5px] border-[#ffffff1a] hover:bg-[#ffffff0a]"
-                              style={isExpanded ? { borderLeft: `2px solid ${colorPair.pri}`, color: 'white' } : { color: '#a8a29e' }}
+                              className="flex items-center justify-between w-full p-2 text-[11px] font-space font-bold uppercase tracking-widest transition-colors bg-[#0f172a] border-[0.5px] border-[#1e293b] hover:bg-[#1e293b]"
+                              style={isExpanded ? { borderLeft: `2px solid #60a5fa`, color: '#bfdbfe', backgroundColor: '#1e293b' } : { color: '#64748b' }}
                             >
                                <span className="flex items-center gap-2">
-                                  <span className={cn("text-[8px] transition-transform", isExpanded ? "rotate-90 text-white" : "text-[#57534e]")}>▶</span>
+                                  <span className={cn("text-[8px] transition-transform", isExpanded ? "rotate-90 text-[#60a5fa]" : "text-[#475569]")}>▶</span>
                                   {DOMAIN_CONFIG[cat]?.title || cat}
                                </span>
-                               <span className="font-mono text-[9px] opacity-50">[{categoryTools.length}]</span>
+                               <span className="font-mono text-[9px] opacity-70">[{categoryTools.length}]</span>
                             </button>
                             
                             <AnimatePresence>
@@ -975,23 +1204,33 @@ export function CoreCapabilitiesModule() {
                                   initial={{ height: 0, opacity: 0 }}
                                   animate={{ height: 'auto', opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
-                                  className="flex flex-col overflow-hidden w-full"
+                                  className="flex flex-col overflow-hidden w-full pl-2 border-l-[0.5px] border-[#1e293b] ml-1 mt-1"
                                 >
                                    {categoryTools.map((tool, idx) => (
                                       <div
                                          key={tool.id}
-                                         className={cn("w-full transition-all duration-200 cursor-pointer relative group/nav p-2 border-[0.5px] border-t-0 flex items-center gap-2 rounded-none", expandedToolId === tool.id ? "bg-[#ffffff0a]" : "border-transparent hover:bg-[#ffffff05]")}
-                                         style={expandedToolId === tool.id ? { borderColor: `${colorPair.pri}4d`, boxShadow: `inset 0 0 10px ${colorPair.pri}26` } : {}}
-                                         onClick={() => setExpandedToolId(tool.id)}
+                                         className={cn("w-full transition-all duration-300 cursor-pointer relative group/nav p-1.5 border-[0.5px] border-t-0 flex items-center gap-2 rounded-none overflow-hidden", expandedToolId === tool.id ? "bg-[#1e293b80]" : "border-transparent hover:bg-[#1e293b40]")}
+                                         style={expandedToolId === tool.id ? { borderColor: `#3b82f640`, boxShadow: `inset 0 0 10px #3b82f61a` } : {}}
+                                         onClick={() => handleToolSelect(tool.id)}
                                       >
-                                         <div className="scale-75 origin-left">
+                                         {/* Scanning Sweep Effect on Hover */}
+                                         <div className="absolute top-0 bottom-0 left-0 w-1 bg-[#60a5fa] opacity-0 group-hover/nav:opacity-100 group-hover/nav:animate-[pulse_1.5s_infinite] transition-all" />
+                                         <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f633] to-transparent translate-x-[-100%] group-hover/nav:animate-[thermo-flow_1.5s_ease-out_infinite] pointer-events-none mix-blend-screen" />
+
+                                         <div className="scale-75 origin-left opacity-80 group-hover/nav:opacity-100 transition-opacity z-10 shrink-0">
                                            <TechSigil name={tool.name} isHovered={expandedToolId === tool.id} colorPair={colorPair} />
                                          </div>
-                                         <div className="flex flex-col flex-1 overflow-hidden">
-                                            <span className={cn("text-[11px] font-mono truncate transition-colors font-medium tracking-[0.05em]", expandedToolId === tool.id ? "text-white" : "text-[#a8a29e] group-hover/nav:text-white")}>{tool.name}</span>
-                                            <span className="text-[9px] font-mono text-[#57534e] truncate w-full flex items-center justify-between mt-0.5 tracking-wider">
+                                         <div className="flex flex-col flex-1 overflow-hidden z-10 relative">
+                                            <div className="flex items-center justify-between w-full">
+                                               <span className={cn("text-[10px] font-mono truncate transition-colors font-medium tracking-[0.05em]", expandedToolId === tool.id ? "text-[#bfdbfe]" : "text-[#94a3b8] group-hover/nav:text-[#e2e8f0]")}>{tool.name}</span>
+                                               {/* Micro telemetry that wakes up on hover */}
+                                               <span className="text-[7px] font-mono text-[#60a5fa] opacity-0 group-hover/nav:opacity-80 transition-opacity duration-300 translate-x-2 group-hover/nav:translate-x-0 tracking-widest uppercase">
+                                                   SYNC
+                                               </span>
+                                            </div>
+                                            <span className="text-[8px] font-mono text-[#475569] truncate w-full flex items-center justify-between mt-[2px] tracking-widest opacity-80 group-hover/nav:opacity-100">
                                               <span>{tool.level.toUpperCase()}</span>
-                                              {expandedToolId === tool.id && <span className="animate-pulse shadow-sm" style={{ color: colorPair.pri, textShadow: `0 0 5px ${colorPair.pri}` }}>●</span>}
+                                              {expandedToolId === tool.id && <span className="animate-pulse shadow-[0_0_5px_#60a5fa] text-[#60a5fa]">●</span>}
                                             </span>
                                          </div>
                                       </div>
@@ -1002,17 +1241,44 @@ export function CoreCapabilitiesModule() {
                          </div>
                       );
                    })}
+                   
+                   {/* Sense of Scale: Truncated Indicators */}
+                   <div className="mt-4 pb-8 flex flex-col gap-2 relative opacity-50">
+                      <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#475569] to-transparent" />
+                      <div className="flex items-center gap-2 pl-2 mt-2">
+                         <span className="w-1.5 h-1.5 bg-[#475569] rounded-sm" />
+                         <span className="font-mono text-[9px] text-[#475569] tracking-widest uppercase">7 Archival Nodes</span>
+                      </div>
+                      <div className="flex items-center gap-2 pl-2">
+                         <span className="w-1.5 h-1.5 bg-[#475569] rounded-sm" />
+                         <span className="font-mono text-[9px] text-[#475569] tracking-widest uppercase">14 Encrypted Subsystems</span>
+                      </div>
+                      <div className="flex items-center justify-center mt-4">
+                         <span className="font-mono text-[8px] text-[#3b82f6] tracking-widest uppercase animate-pulse drop-shadow-[0_0_2px_#3b82f6]">REMOTE ARCHIVE LINKED</span>
+                      </div>
+                      {/* Fading rail off-screen */}
+                      <div className="absolute top-[80%] left-[-10px] w-[50px] h-[1px] bg-gradient-to-r from-transparent to-[#475569] -rotate-45 pointer-events-none" />
+                   </div>
                  </div>
                </div>
 
                {/* Center Column (1fr) - Detailed Content Area */}
-               <div className="w-full lg:flex-1 shrink-0 bg-[#0a0f19]/60 backdrop-blur-[20px] border-[0.5px] border-[#ffffff1a] relative flex flex-col h-full overflow-visible z-10 hover:-translate-y-1 transition-transform duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.8),inset_0_0_20px_rgba(255,255,255,0.02)]"
-                    style={{ WebkitBoxReflect: 'below 4px linear-gradient(to bottom, transparent 90%, rgba(255,255,255,0.1) 100%)' }}>
-                 <div className="absolute top-0 left-0 w-4 h-4 border-t-[1.5px] border-l-[1.5px] border-[#00ffff] shadow-[0_0_12px_rgba(0,255,255,0.6)] pointer-events-none z-20" />
-                 <div className="absolute top-0 right-0 w-4 h-4 border-t-[1.5px] border-r-[1.5px] border-[#00ffff] shadow-[0_0_12px_rgba(0,255,255,0.6)] pointer-events-none z-20" />
-                 <div className="absolute bottom-0 left-0 w-4 h-4 border-b-[1.5px] border-l-[1.5px] border-[#00ffff] shadow-[0_0_12px_rgba(0,255,255,0.6)] pointer-events-none z-20" />
-                 <div className="absolute bottom-0 right-0 w-4 h-4 border-b-[1.5px] border-r-[1.5px] border-[#00ffff] shadow-[0_0_12px_rgba(0,255,255,0.6)] pointer-events-none z-20" />
+               <div className={cn(
+                 "w-full shrink-0 relative flex flex-col h-full overflow-hidden z-10 transition-all duration-500",
+                 activeView === 'MASONRY' 
+                   ? "lg:flex-1 bg-[#0f0905]/80 backdrop-blur-[30px] border-[0.5px] border-[#f59e0b33] hover:-translate-y-1 shadow-[0_10px_30px_rgba(0,0,0,0.8),inset_0_0_40px_rgba(245,158,11,0.03)]" 
+                   : "bg-[#0f0905]/60 border-[0.5px] border-[#f59e0b1a]"
+               )}
+                    style={activeView === 'MASONRY' ? { WebkitBoxReflect: 'below 4px linear-gradient(to bottom, transparent 90%, rgba(255,255,255,0.1) 100%)' } : {}}>
+                 <div className="absolute top-0 left-0 w-4 h-4 border-t-[1.5px] border-l-[1.5px] border-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.6)] pointer-events-none z-20" />
+                 <div className="absolute top-0 right-0 w-4 h-4 border-t-[1.5px] border-r-[1.5px] border-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.6)] pointer-events-none z-20" />
+                 <div className="absolute bottom-0 left-0 w-4 h-4 border-b-[1.5px] border-l-[1.5px] border-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.6)] pointer-events-none z-20" />
+                 <div className="absolute bottom-0 right-0 w-4 h-4 border-b-[1.5px] border-r-[1.5px] border-[#f59e0b] shadow-[0_0_12px_rgba(245,158,11,0.6)] pointer-events-none z-20" />
                  
+                 {/* Internal CRT Glow */}
+                 <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-screen" style={{ background: 'radial-gradient(circle at center, transparent 30%, #78350f 100%)' }} />
+                 <div className="absolute top-0 left-0 w-full h-[1px] bg-[#f59e0b] opacity-40 shadow-[0_0_8px_#f59e0b,0_0_2px_white] z-[120] pointer-events-none mix-blend-screen animate-[continuous-scan_4s_linear_infinite]" />
+
                  <AnimatePresence mode="wait">
                     {techStackData.filter(t => t.id === expandedToolId).map(tool => (
                       <motion.div
@@ -1021,30 +1287,31 @@ export function CoreCapabilitiesModule() {
                         animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                         exit={{ opacity: 0, scale: 0.99, filter: 'blur(4px)' }}
                         transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="w-full h-full relative overflow-hidden group/dossier"
+                        className="w-full h-full relative overflow-hidden group/dossier flex flex-col"
                       >
-                         <motion.div 
-                           initial={{ top: '-10%' }}
-                           animate={{ top: '110%' }}
-                           transition={{ duration: 0.6, ease: "linear" }}
-                           className="absolute left-0 right-0 h-[2px] bg-white opacity-50 shadow-[0_0_10px_white] z-[100] pointer-events-none mix-blend-screen" 
-                         />
-                         <SpecimenCard 
-                           tool={tool} 
-                           isExpandedOverride={true}
-                           onExpand={() => {}}
-                         />
+                         <div className={cn(
+                           "absolute left-0 right-0 w-full h-[80px] bg-gradient-to-b from-transparent via-[#f59e0b90] to-transparent z-[150] pointer-events-none mix-blend-screen opacity-0 transition-opacity",
+                           isContentSweeping ? "animate-[scan-downward_0.4s_ease-out] opacity-100" : ""
+                         )} />
+                         <div className={cn("transition-opacity duration-200 h-full w-full", isContentSweeping ? "opacity-30 blur-[2px]" : "opacity-100")}>
+                           <SpecimenCard 
+                             tool={tool} 
+                             isExpandedOverride={true}
+                             onExpand={() => {}}
+                           />
+                         </div>
                       </motion.div>
                     ))}
                   </AnimatePresence>
                </div>
 
                {/* Right Column (300px) - Technical Metrics Radar & Timeline */}
-               <div className="w-full lg:w-[300px] shrink-0 bg-[#0a0f19]/60 backdrop-blur-[20px] border-[0.5px] border-[#ffffff1a] relative flex flex-col h-full overflow-hidden p-4 shadow-[0_0_20px_rgba(0,0,0,0.5)] z-20">
-                 <div className="absolute top-0 left-0 w-3 h-3 border-t-[1px] border-l-[1px] border-[#00ffff] shadow-[0_0_8px_rgba(0,255,255,0.5)] pointer-events-none z-20" />
-                 <div className="absolute top-0 right-0 w-3 h-3 border-t-[1px] border-r-[1px] border-[#00ffff] shadow-[0_0_8px_rgba(0,255,255,0.5)] pointer-events-none z-20" />
-                 <div className="absolute bottom-0 left-0 w-3 h-3 border-b-[1px] border-l-[1px] border-[#00ffff] shadow-[0_0_8px_rgba(0,255,255,0.5)] pointer-events-none z-20" />
-                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b-[1px] border-r-[1px] border-[#00ffff] shadow-[0_0_8px_rgba(0,255,255,0.5)] pointer-events-none z-20" />
+               <div className="w-full lg:w-[300px] shrink-0 bg-[#031014]/90 backdrop-blur-[20px] border-[0.5px] border-[#06b6d433] relative flex flex-col h-full overflow-hidden p-4 shadow-[0_0_20px_rgba(0,0,0,0.5),inset_0_0_30px_rgba(6,182,212,0.03)] z-20">
+                 <div className="absolute top-0 left-0 w-3 h-3 border-t-[1px] border-l-[1px] border-[#06b6d480] shadow-[0_0_8px_rgba(6,182,212,0.3)] pointer-events-none z-20" />
+                 <div className="absolute top-0 right-0 w-3 h-3 border-t-[1px] border-r-[1px] border-[#06b6d480] shadow-[0_0_8px_rgba(6,182,212,0.3)] pointer-events-none z-20" />
+                 <div className="absolute bottom-0 left-0 w-3 h-3 border-b-[1px] border-l-[1px] border-[#06b6d480] shadow-[0_0_8px_rgba(6,182,212,0.3)] pointer-events-none z-20" />
+                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b-[1px] border-r-[1px] border-[#06b6d480] shadow-[0_0_8px_rgba(6,182,212,0.3)] pointer-events-none z-20" />
+
                  
                  <AnimatePresence mode="wait">
                     {techStackData.filter(t => t.id === expandedToolId).map(tool => (
@@ -1109,6 +1376,11 @@ export function CoreCapabilitiesModule() {
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background: rgba(255,255,255,0.2);
         }
+        
+        button, a, [role="button"], .cursor-pointer {
+          cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4v4M12 16v4M4 12h4M16 12h4M10 10h4v4h-4z" stroke="%2306b6d4" stroke-width="1.5" fill="none"/></svg>') 12 12, pointer !important;
+        }
+
         .thermometer-fill.hovered::after {
           content: '';
           position: absolute;
@@ -1124,6 +1396,34 @@ export function CoreCapabilitiesModule() {
         @keyframes thermo-flow {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(800%); }
+        }
+        @keyframes scan-downward {
+          0% { transform: translateY(-20%); }
+          100% { transform: translateY(120vh); }
+        }
+        @keyframes continuous-scan {
+          0% { transform: translateY(0); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(100vh); opacity: 0; }
+        }
+        @keyframes typewriter {
+          from { width: 0; }
+          to { width: 100%; }
+        }
+        @keyframes blink { 
+          50% { border-color: transparent } 
+        }
+        .typewriter-text {
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          vertical-align: bottom;
+          border-right: 2px solid #06b6d4;
+          animation: typewriter 0.8s steps(30, end) forwards, blink 1s step-end infinite;
+        }
+        .typewriter-text-fast {
+          animation: typewriter 0.4s steps(20, end) forwards, blink 1s step-end infinite;
         }
       `}</style>
     </section>
