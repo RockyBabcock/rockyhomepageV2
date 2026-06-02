@@ -96,17 +96,22 @@ export function MuseumDirectory() {
         
         {/* Layout elements */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 mb-8 border-b border-ink/10 dark:border-base/10 relative z-10">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/10 rounded-2xl text-primary border border-primary/20">
-              <Map className="w-6 h-6 animate-[pulse_2s_infinite]" />
+          <div className="flex flex-col gap-4 max-w-xl">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-primary/10 rounded-2xl text-primary border border-primary/20 shrink-0">
+                <Map className="w-6 h-6 animate-[pulse_2s_infinite]" />
+              </div>
+              <div>
+                <div className="text-[10px] font-mono tracking-[0.2em] text-primary font-bold uppercase">Archive Directory Mapping</div>
+                <h3 className="text-2xl md:text-3xl font-headline font-black uppercase text-ink dark:text-base">Museum Floor Plan</h3>
+              </div>
             </div>
-            <div>
-              <div className="text-[10px] font-mono tracking-[0.2em] text-primary font-bold uppercase">Archive Directory Mapping</div>
-              <h3 className="text-2xl md:text-3xl font-headline font-black uppercase text-ink dark:text-base">Museum Floor Plan</h3>
-            </div>
+            <p className="text-xs text-ink/70 dark:text-base/70 font-mono leading-relaxed border-l-2 border-primary/40 pl-3 py-1">
+              This museum contains shipped work, active builds, prototypes, learning archives, and personal exhibits. Each hall is labeled by status so visitors can distinguish finished work from experiments.
+            </p>
           </div>
           
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             <button
               onClick={() => handleScrollTo('projects')}
               className="text-xs font-mono uppercase tracking-wider font-bold px-4 py-2.5 bg-primary text-white hover:bg-primary/95 transition-all rounded-xl shadow-lg border border-primary/20 flex items-center gap-2 group cursor-pointer"

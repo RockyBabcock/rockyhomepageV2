@@ -1,40 +1,16 @@
 import React from 'react';
 
-export type TechLevel = 'expert' | 'advanced' | 'proficient';
-
-export interface TechFeature {
-  name: string;
-  status: string;
-  importance: number;
-}
-
-export interface Project {
-  name: string;
-  url: string;
-  repo: string;
-  desc: string;
-  image: string;
-  status: 'SHIPPED' | 'PROTOTYPE' | 'EXPERIMENT' | 'ARCHIVED' | 'MAINTENANCE';
-  date: string;
-}
+export type SkillLevel = 'Exploring' | 'Learning' | 'Comfortable' | 'Advanced' | 'Primary Tool';
 
 export interface TechItem {
   id: string;
   name: string;
   category: 'frontend' | 'backend' | 'devops' | 'design' | 'ai' | 'web3' | 'creative' | 'audio' | 'hardware' | 'language' | 'spatial' | 'tooling';
-  level: TechLevel;
+  level: SkillLevel;
   description: string;
-  version: string;
-  operationalStatus: string;
-  ecosystemMaturity: string;
-  adoption: string;
-  deploymentConfidence: string;
-  features: TechFeature[];
-  philosophy: string[];
-  projects: Project[];
-  proficiency: number;
-  cert?: { label: string; bg: string };
-  yearsActive: number;
+  evidence: string[];
+  usedIn: string[];
+  learningFocus?: string;
 }
 
 export const categoryColors: Record<string, { pri: string, sec: string }> = {
@@ -53,9 +29,11 @@ export const categoryColors: Record<string, { pri: string, sec: string }> = {
 };
 
 export const levelColors: Record<string, string> = {
-  expert: '#f59e0b', 
-  advanced: '#3b82f6', 
-  proficient: '#10b981', 
+  'Primary Tool': '#f59e0b', 
+  'Advanced': '#3b82f6', 
+  'Comfortable': '#10b981',
+  'Learning': '#a855f7',
+  'Exploring': '#94a3b8'
 };
 
 const rawData = [
@@ -75,106 +53,55 @@ const rawData = [
 
 export const TECH_DATABASE: Record<string, Partial<TechItem>> = {
   'React': {
-    description: 'Emphasizes virtual DOM, concurrent rendering, and high-performance component architecture.',
-    features: [
-      { name: 'Atomic Design', status: 'DEPLOYED', importance: 95 },
-      { name: 'Custom Hooks', status: 'ACTIVE', importance: 90 },
-      { name: 'Performance Profiling', status: 'HIGH', importance: 85 }
+    level: 'Primary Tool',
+    description: 'Component architecture, interaction design, frontend systems.',
+    evidence: [
+      'Built modular homepage architecture',
+      'Created reusable interface modules',
+      'Managed component-level interaction logic'
     ],
-    philosophy: [
-      'Unidirectional data flow for predictable state management.',
-      'Component-driven architecture for robust composability.',
-      'Spec: Latency: <16ms (60FPS), Render: Virtualized.'
-    ],
-    projects: [
-      { name: 'Rocky Digital Museum', url: '#', repo: '#', desc: 'Used for modular interface architecture, interactive custom animations, and responsive layouts.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-06' }
-    ]
+    usedIn: ['Rocky Homepage V2', 'AI Assistant Experiments'],
+    learningFocus: 'Better state organization, lazy loading, cleaner component boundaries'
   },
   'TypeScript': {
-    description: 'Focuses on type safety, static analysis, and its engineering advantages in large-scale architectures.',
-    features: [
-      { name: 'Static Typing', status: 'DEPLOYED', importance: 100 },
-      { name: 'Interface Design', status: 'ACTIVE', importance: 95 },
-      { name: 'Decorators', status: 'HIGH', importance: 80 }
+    level: 'Primary Tool',
+    description: 'Type safety, state predictability, interface scaling.',
+    evidence: [
+      'Typed data pipelines and dynamic props',
+      'Integrated strict enums for status and module modes',
+      'Enforced component logic contracts'
     ],
-    philosophy: [
-      'Compile-time safety eliminates a completely entire class of runtime errors.',
-      'Self-documenting codebase through expressive types.',
-      'Spec: Reliability: 99.9%, Type Coverage: 100%.'
-    ],
-    projects: [
-      { name: 'Rocky Digital Museum', url: '#', repo: '#', desc: 'Provides strict complete typing across state events, component props, and API interfaces.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-06' }
-    ]
+    usedIn: ['Rocky Homepage V2', 'AI Assistant Experiments']
   },
   'Tailwind CSS': {
-    description: 'Modern CSS architecture, atomic class names, and rapid UI prototyping.',
-    features: [
-      { name: 'JIT Engine', status: 'DEPLOYED', importance: 95 },
-      { name: 'Responsive Design', status: 'ACTIVE', importance: 90 },
-      { name: 'Theming', status: 'HIGH', importance: 85 }
+    level: 'Primary Tool',
+    description: 'Rapid structural design and interaction aesthetics.',
+    evidence: [
+      'Created neo-brutalist dark terminal visual system',
+      'Implemented responsive token scales',
+      'Crafted component micro-interactions'
     ],
-    philosophy: [
-      'Utility-first approach constraints values to a standardized design system.',
-      'Enables rapid iteration without context-switching between files.',
-      'Spec: Build Time: <50ms, Output: Minimized CSS.'
-    ],
-    projects: [
-      { name: 'Rocky Digital Museum', url: '#', repo: '#', desc: 'Powers the entire neo-brutalist custom theme, responsive token scale, and terminal effects.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-06' }
-    ]
-  },
-  'Framer Motion': {
-    description: 'Declarative layout animations, exit states, and spring-driven physical gestures.',
-    features: [
-      { name: 'AnimatePresence', status: 'DEPLOYED', importance: 90 },
-      { name: 'Layout Morphing', status: 'ACTIVE', importance: 85 },
-      { name: 'Gesture Handling', status: 'HIGH', importance: 80 }
-    ],
-    philosophy: [
-      'Visual physics over standard cubic transitions.',
-      'Provides state-driven tactile feedback across modules.'
-    ],
-    projects: [
-      { name: 'Rocky Digital Museum', url: '#', repo: '#', desc: 'Handles transition thresholds, smooth route entrances, and tactile hover scales.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-06' }
-    ]
-  },
-  'Three.js': {
-    description: 'Low-overhead WebGL helper, custom coordinate geometry, and scene rendering.',
-    features: [
-      { name: 'Custom Shaders', status: 'DEPLOYED', importance: 85 },
-      { name: 'Camera Controls', status: 'ACTIVE', importance: 80 }
-    ],
-    philosophy: [
-      'Encapsulates primitive matrices for rapid 3D space prototyping.'
-    ],
-    projects: [
-      { name: 'Interactive Chess Concepts', url: '#', repo: '#', desc: 'Renders interactive modular 3D chess boards and geometric tactical game state visualizations.', image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400&q=80', status: 'PROTOTYPE', date: '2026-05' }
-    ]
+    usedIn: ['Rocky Homepage V2']
   },
   'Solidity': {
-    description: 'EVM-compatible language for secure contract design and consensus parameters.',
-    features: [
-      { name: 'Token Standards', status: 'DEPLOYED', importance: 95 },
-      { name: 'Access Control', status: 'ACTIVE', importance: 90 }
+    level: 'Learning',
+    description: 'EVM smart contract design and consensus modeling.',
+    evidence: [
+      'Studying wallet UX, ownership models, and decentralized patterns',
+      'Self-authored basic security vaults'
     ],
-    philosophy: [
-      'Immutability and strict failure states over complex on-chain logic.'
-    ],
-    projects: [
-      { name: 'Web3 Learning Projects', url: '#', repo: '#', desc: 'Self-authored sandbox protocols mapping multi-sig treasury security vaults.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'EXPERIMENT', date: '2026-04' }
-    ]
+    usedIn: ['Web3 Archive Vault'],
+    learningFocus: 'Smart contracts, wallet interactions, on-chain identity'
   },
   'OpenAI API': {
-    description: 'Enterprise API integration for deep thinking LLMs, vector embedding, and assistant models.',
-    features: [
-      { name: 'Model Tuning', status: 'DEPLOYED', importance: 90 },
-      { name: 'Function Calling', status: 'ACTIVE', importance: 85 }
+    level: 'Learning',
+    description: 'API integration for deep thinking and agent routing.',
+    evidence: [
+      'Integrating model inference into frontend concepts',
+      'Exploring tool formulation schemas'
     ],
-    philosophy: [
-      'Empowers direct user intents via scalable tool routing endpoints.'
-    ],
-    projects: [
-      { name: 'AI Assistant Experiments', url: '#', repo: '#', desc: 'Constructing multi-agent decision chains integrating local environmental feedback loops.', image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400&q=80', status: 'EXPERIMENT', date: '2026-05' }
-    ]
+    usedIn: ['AI Assistant Experiments'],
+    learningFocus: 'Function calling robustness and continuous context management'
   }
 }
 
@@ -182,72 +109,24 @@ export const techStackData: TechItem[] = [];
 
 rawData.forEach(row => {
   row.tools.forEach((tool, idx) => {
-    let level: TechLevel = 'proficient';
-    if (idx === 0 || idx === 1) level = 'expert';
-    else if (idx === 2 || idx === 3) level = 'advanced';
-    
-    let proficiency = 60;
-    if (tool === 'Docker') {
-       proficiency = 97;
-    } else if (level === 'expert') {
-       proficiency = Math.floor(Math.random() * 5) + 95;
-    } else if (level === 'advanced') {
-       proficiency = Math.floor(Math.random() * 10) + 80;
-    } else {
-       proficiency = Math.floor(Math.random() * 15) + 65;
-    }
-    
-    let cert: { label: string; bg: string } | undefined;
-    if (tool === 'React') cert = { label: 'META FRONTEND', bg: '#0668E1' };
-    if (tool === 'AWS / GCP') cert = { label: 'AWS CERTIFIED', bg: '#ff9900' };
+    let level: SkillLevel = 'Comfortable';
+    if (idx === 0 || idx === 1) level = 'Primary Tool';
+    else if (idx === 2 || idx === 3) level = 'Advanced';
+    else if (idx >= 4) level = 'Exploring';
 
     const dbEntry = TECH_DATABASE[tool] || {};
-
-    const categoryFeatures: Record<string, string[]> = {
-      frontend: ['COMPONENT ARCHITECTURE', 'STATE MANAGEMENT', 'USER INTERFACES'],
-      backend: ['API GATEWAY', 'DATABASE INTEGRATION', 'SCALABLE COMPUTE'],
-      devops: ['CONTAINERIZATION', 'CI/CD AUTOMATION', 'INFRASTRUCTURE AS CODE'],
-      design: ['DESIGN SYSTEMS', 'USER EXPERIENCE', 'WIREFRAMING'],
-      ai: ['MODEL INFERENCE', 'DATA PIPELINES', 'NEURAL NETWORKS'],
-      web3: ['SMART CONTRACTS', 'DECENTRALIZED STORAGE', 'CONSENSUS ALGORITHMS'],
-      creative: ['WEBGL RENDERING', 'PROCEDURAL GENERATION', 'PARTICLE SYSTEMS'],
-      audio: ['SIGNAL PROCESSING', 'SYNTHESIS ENGINE', 'FFT ANALYSIS'],
-      hardware: ['FIRMWARE', 'SENSOR INTEGRATION', 'I/O ROUTING'],
-      language: ['AST PARSING', 'COMPILER PIPELINE', 'STATIC ANALYSIS'],
-      spatial: ['3D CANVAS', 'TRACKING ALGORITHMS', 'SPATIAL AUDIO'],
-      tooling: ['WORKFLOW AUTOMATION', 'IDE INTEGRATION', 'VERSION CONTROL']
-    };
-
-    const fallbackFeatNames = categoryFeatures[row.cat as string] || ['CORE ARCHITECTURE', 'ASYNC PATTERNS', 'STATE ISOLATION'];
 
     techStackData.push({
       id: tool.toLowerCase().replace(/[^a-z0-9]/g, '-'),
       name: tool,
       category: row.cat as any,
-      level,
-      description: dbEntry.description || `A pivotal subsystem of the operational ${row.cat} architecture. Selected for its high-performance deployment profile and ecosystem maturity. Handles complex ${tool}-specific workflows seamlessly.`,
-      version: 'v' + Math.floor(Math.random() * 20) + '.' + Math.floor(Math.random() * 10) + '.0 RC',
-      operationalStatus: level === 'expert' ? 'PRIMARY INTERFACE' : level === 'advanced' ? 'SUPPORTING SYSTEM' : 'EXPERIMENTAL',
-      ecosystemMaturity: 'HIGH',
-      adoption: 'WIDESPREAD',
-      deploymentConfidence: level === 'expert' ? '99.9%' : '85.0%',
-      features: dbEntry.features || [
-         { name: fallbackFeatNames[0], status: 'DEPLOYED', importance: 95 },
-         { name: fallbackFeatNames[1], status: 'ACTIVE', importance: 85 },
-         { name: fallbackFeatNames[2], status: 'HIGH', importance: 75 },
+      level: dbEntry.level || level,
+      description: dbEntry.description || `Learning and applying ${tool} for specialized ${row.cat} workloads.`,
+      evidence: dbEntry.evidence || [
+        `Used as part of exploratory ${row.cat} builds.`
       ],
-      philosophy: dbEntry.philosophy || [
-         `Maximizes structural flexibility without compromising ${row.cat} safety.`,
-         `Ensures low-friction scalability during high-traffic ${tool} operations.`,
-         'Integrates seamlessly with existing orchestration layers.'
-      ],
-      projects: dbEntry.projects || [
-        { name: `${tool.toLowerCase()}-sys-beta`, url: '#', repo: '#', desc: 'Secure data aggregation layer instance.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-01-12' },
-        { name: `project-neo-${tool.toLowerCase()}`, url: '#', repo: '#', desc: 'Next-generation user interfaces for AI platforms.', image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400&q=80', status: 'PROTOTYPE', date: '2025-11-20' }
-      ],
-      proficiency,
-      cert,
-      yearsActive: Math.floor(Math.random() * 6) + 1
+      usedIn: dbEntry.usedIn || [`Various local prototypes.`],
+      learningFocus: dbEntry.learningFocus || undefined
     });
   });
 });

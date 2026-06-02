@@ -179,13 +179,22 @@ export const TechMetricsPanel = ({ tool, colorPair }: { tool: TechItem, colorPai
     return () => clearTimeout(intervalId);
   }, []);
 
-  // Frequency based on tool complexity (level) and Mastery (proficiency)
-  const masteryRatio = tool.proficiency / 100;
+  // Frequency based on tool level
+  const getMasteryRatio = () => {
+    switch(tool.level) {
+      case 'Primary Tool': return 1.0;
+      case 'Advanced': return 0.8;
+      case 'Comfortable': return 0.6;
+      case 'Learning': return 0.4;
+      default: return 0.2;
+    }
+  };
+  const masteryRatio = getMasteryRatio();
   // High Mastery = Dense, stable waves. Low Mastery = Faster, erratic pulses.
   const waveDurationBase = 0.3 + (masteryRatio * 1.5); // high mastery -> longer duration -> slower/stable
   const heightVariance = masteryRatio > 0.8 ? 20 : 60; // high mastery -> stable max height
   
-  const pulseLabel = tool.level === 'expert' ? 'HIGH FREQUENCY' : tool.level === 'advanced' ? 'MED FREQUENCY' : 'LOW FREQUENCY';
+  const pulseLabel = tool.level === 'Primary Tool' ? 'HIGH FREQUENCY' : tool.level === 'Advanced' ? 'MED FREQUENCY' : 'LOW FREQUENCY';
   // number of waves: more dense logic
   const waveCount = Math.floor(20 + (masteryRatio * 30)); // 20 to 50 nodes
 
@@ -319,7 +328,7 @@ const TerminalBootSequence = ({ tool, colorPair, onCollapse }: { tool: TechItem,
     "> Node integrity checks    [SECURED]",
     "> Layer cache check        [OPTIMIZED]",
     "> Swarm manager status     [OPERATIONAL]"
-  ] : tool.projects.map((p, i) => `> ${p.name.padEnd(20)} [${i === 0 ? 'DEPLOYED' : i === 1 ? 'BETA' : 'ACTIVE'}]`);
+  ] : (tool.usedIn || []).map((p, i) => `> ${p.padEnd(20)} [${i === 0 ? 'DEPLOYED' : i === 1 ? 'BETA' : 'ACTIVE'}]`);
 
   const capLabels = isDocker ? [
     "> IMAGE LAYER OPT    [LOCKED]",
@@ -341,7 +350,7 @@ ${isDocker ? '[KEY CAPABILITIES PROFILE]' : '[CAPABILITY MANIFEST]'}
 ${capLabels.join('\n')}
 
 [ACCESS PERMISSIONS]
-> ${tool.level === 'expert' ? 'LEVEL 5 CLEARANCE GRANTED' : 'LEVEL 3 CLEARANCE GRANTED'}
+> ${tool.level === 'Primary Tool' ? 'LEVEL 5 CLEARANCE GRANTED' : 'LEVEL 3 CLEARANCE GRANTED'}
 
 > DOSSIER COMPLETE. 112ms.`;
 
@@ -395,8 +404,8 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
       {/* Radial Bloom Behind Content */}
       <div className="absolute top-[20%] left-[50%] w-[500px] h-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none opacity-[0.08] mix-blend-screen" style={{ background: `radial-gradient(circle, ${colorPair.pri} 0%, transparent 70%)` }} />
       {/* Giant Background Mastery Metric Watermark */}
-      <div className="absolute top-[30px] right-2 font-digital text-[200px] font-black pointer-events-none leading-none opacity-[0.02]" style={{ color: colorPair.pri }}>
-         {tool.proficiency}
+      <div className="absolute top-[30px] right-2 font-space text-[120px] font-black pointer-events-none leading-none opacity-[0.02] uppercase" style={{ color: colorPair.pri }}>
+         {tool.level}
       </div>
 
       {/* HEADER STRIP */}
@@ -418,7 +427,7 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
                   </h4>
                   <div className="flex items-center gap-3 mt-2 font-mono text-[10px] md:text-[11px] text-[#9ca3af] uppercase tracking-widest">
                      <span className="bg-[#1f2937]/50 px-2 py-0.5 border-[0.5px] border-[#ffffff1a]">{tool.version || 'v1.0.0'}</span>
-                     <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_5px]" style={{ backgroundColor: tool.level === 'expert' ? '#00ff88' : '#f59e0b', color: tool.level === 'expert' ? '#00ff88' : '#f59e0b' }}/> {tool.operationalStatus || 'ACTIVE'}</span>
+                     <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_5px]" style={{ backgroundColor: tool.level === 'Primary Tool' ? '#00ff88' : '#f59e0b', color: tool.level === 'Primary Tool' ? '#00ff88' : '#f59e0b' }}/> {tool.operationalStatus || 'ACTIVE'}</span>
                   </div>
                </div>
             </div>
@@ -434,14 +443,12 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
                   <span className="text-white font-bold tracking-widest">{tool.deploymentConfidence || '99.9%'}</span>
                </div>
                <div className="flex flex-col text-right relative pt-4 flex-shrink-0 min-w-[120px]">
-                  <span className="text-[#6b7280] absolute top-0 right-0">Mastery</span>
+                  <span className="text-[#6b7280] absolute top-0 right-0">Skill Level</span>
                   <div className="flex items-baseline justify-end -space-x-1 mt-1">
-                     <span className="font-digital text-[40px] leading-none" style={{ color: '#00ff88', textShadow: '0 0 15px #00ff88' }}>
-                        {tool.proficiency}
+                     <span className="font-space font-bold uppercase text-[24px] leading-none" style={{ color: '#00ff88', textShadow: '0 0 15px #00ff88' }}>
+                        {tool.level}
                      </span>
-                     <span className="font-digital text-[20px] leading-none" style={{ color: '#00ff88', textShadow: '0 0 15px #00ff88' }}>%</span>
                   </div>
-                  <span className="font-bold tracking-widest mt-1" style={{ color: colorPair.pri }}>{tool.level}</span>
                </div>
             </div>
          </div>
@@ -510,29 +517,22 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
             </div>
          </div>
 
-         {/* SECTION 2: KEY FEATURES */}
+         {/* SECTION 2: EVIDENCE MATRIX */}
          <div className="flex flex-col gap-4">
             <h5 className="font-mono text-[10px] text-[#6b7280] uppercase tracking-[0.2em] border-b border-[#1f2937] w-full pb-2">
-               <span className="typewriter-text-fast" style={{ borderColor: colorPair.pri }}>02 // Feature Matrix</span>
+               <span className="typewriter-text-fast" style={{ borderColor: colorPair.pri }}>02 // Evidence List</span>
             </h5>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-               {(tool.features || []).map((feat, i) => (
+            <div className="grid grid-cols-1 gap-3">
+               {(tool.evidence || []).map((ev, i) => (
                   <div key={i} className="bg-[#111827] border border-[#1f2937] p-3 flex flex-col gap-2 relative overflow-hidden group">
                      <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-br from-[#1f2937]/50 to-transparent pointer-events-none" />
                      <div className="flex justify-between items-center">
-                        <span className="font-space font-bold text-[11px] uppercase tracking-wide text-[#e5e7eb]">{feat.name}</span>
-                        <span className="font-mono text-[8px]" style={{ color: feat.status === 'DEPLOYED' ? '#10b981' : '#f59e0b'}}>[{feat.status}]</span>
+                        <span className="font-space font-bold text-[11px] uppercase tracking-wide text-[#e5e7eb]">{ev}</span>
                      </div>
-                     <div className="w-full h-[2px] bg-[#1f2937] relative overflow-hidden">
-                         <div className="absolute left-0 top-0 h-full transition-all relative overflow-hidden" style={{ width: `${feat.importance}%`, backgroundColor: colorPair.pri }}>
-                             <div className="absolute -inset-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-60 translate-x-[-150%] group-hover:animate-[thermo-flow_1.5s_ease-out_infinite]" style={{ transform: 'skewX(-20deg)' }} />
-                         </div>
-                     </div>
-                     <span className="font-mono text-[8px] text-[#4b5563] text-right mt-1">CAPACITY: {feat.importance}%</span>
                   </div>
                ))}
-               {(!tool.features || tool.features.length === 0) && (
-                  <div className="col-span-full font-mono text-[10px] text-[#6b7280] p-4 border border-dashed border-[#374151] text-center">NO FEATURE MATRIX DATA AVAILABLE.</div>
+               {(!tool.evidence || tool.evidence.length === 0) && (
+                  <div className="col-span-full font-mono text-[10px] text-[#6b7280] p-4 border border-dashed border-[#374151] text-center">NO EVIDENCE DATA AVAILABLE.</div>
                )}
             </div>
          </div>
@@ -599,19 +599,18 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
          <div className="flex flex-col gap-4 mt-auto w-full pt-4 relative z-10">
             <h5 className="font-mono text-[11px] text-[#6b7280] uppercase tracking-[0.2em] border-b-[0.5px] border-[#ffffff1a] w-full pb-2 flex justify-between">
                <span>04 // MISSION LOG [Artifact Deployments]</span>
-               <span className="opacity-50">[{tool.projects.length} RECORDS]</span>
+               <span className="opacity-50">[{tool.usedIn?.length || 0} RECORDS]</span>
             </h5>
             <div className="flex flex-col gap-4 w-full">
-               {tool.projects.map((proj, i) => (
+               {(tool.usedIn || []).map((proj, i) => (
                   <div key={i} className="flex flex-col md:flex-row w-full bg-[#030508]/60 border-[0.5px] border-[#ffffff1a] p-4 gap-4 relative hover:bg-[#ffffff05] transition-colors group/proj">
-                     <div className="absolute top-0 left-0 w-full h-[1px]" style={{ backgroundColor: proj.status === 'SHIPPED' ? '#10b981' : '#f59e0b', opacity: 0.3 }} />
+                     <div className="absolute top-0 left-0 w-full h-[1px]" style={{ backgroundColor: '#10b981', opacity: 0.3 }} />
                      
                      <div className="flex flex-col md:w-[60%] gap-3 border-r-[0.5px] border-transparent md:border-[#ffffff1a] md:pr-4">
                         <div className="flex items-center justify-between">
-                           <h6 className="font-space font-bold uppercase text-[14px] text-[#e5e7eb] tracking-tight">{proj.name}</h6>
-                           <span className="font-mono text-[9px] font-bold px-1.5 py-0.5" style={{ backgroundColor: proj.status === 'SHIPPED' ? '#10b9811a' : '#f59e0b1a', color: proj.status === 'SHIPPED' ? '#10b981' : '#f59e0b', border: `0.5px solid ${proj.status === 'SHIPPED' ? '#10b9814d' : '#f59e0b4d'}`}}>{proj.status || 'ACTIVE'}</span>
+                           <h6 className="font-space font-bold uppercase text-[14px] text-[#e5e7eb] tracking-tight">{proj}</h6>
+                           <span className="font-mono text-[9px] font-bold px-1.5 py-0.5" style={{ backgroundColor: '#10b9811a', color: '#10b981', border: `0.5px solid #10b9814d`}}>ACTIVE</span>
                         </div>
-                        <p className="font-mono text-[11px] text-[#9ca3af] leading-relaxed">{proj.desc}</p>
                      </div>
                      
                      <div className="flex flex-col md:w-[40%] gap-2 justify-center pl-2">
@@ -620,21 +619,10 @@ const SpecimenCard: React.FC<{ tool: TechItem; onHoverChange?: (hovered: boolean
                            <span>//</span>
                            <span>ID: {Math.random().toString(16).slice(2, 10).toUpperCase()}</span>
                         </div>
-                        <div className="flex flex-wrap gap-2">
-                           <button className="h-[28px] px-3 font-mono text-[9px] uppercase tracking-widest text-[#e5e7eb] border-[0.5px] border-[#ffffff33] bg-[#0a0f19] hover:bg-[#ffffff1a] hover:border-white transition-all flex items-center gap-2 shadow-[4px_4px_0_0_rgba(255,255,255,0.05)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0_0_transparent]">
-                              <span className="w-1.5 h-1.5 bg-[#4b5563] group-hover/proj:bg-white transition-colors" /> VIEW SOURCE
-                           </button>
-                           <button className="h-[28px] px-3 font-mono text-[9px] uppercase tracking-widest text-[#00ff88] border-[0.5px] border-[#00ff884d] bg-[#00ff880a] hover:bg-[#00ff881a] hover:border-[#00ff88] transition-all flex items-center gap-2 shadow-[4px_4px_0_0_rgba(0,255,136,0.1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0_0_transparent]">
-                              <span className="w-1.5 h-1.5 bg-[#00ff88] animate-pulse" /> LIVE DEMO
-                           </button>
-                           <button className="h-[28px] px-3 font-mono text-[9px] uppercase tracking-widest text-[#e5e7eb] border-[0.5px] border-[#ffffff33] bg-[#0a0f19] hover:bg-[#ffffff1a] hover:border-white transition-all flex items-center gap-2 shadow-[4px_4px_0_0_rgba(255,255,255,0.05)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0_0_transparent]">
-                              CASE FILE
-                           </button>
-                        </div>
                      </div>
                   </div>
                ))}
-               {tool.projects.length === 0 && (
+               {(!tool.usedIn || tool.usedIn.length === 0) && (
                   <div className="w-full font-mono text-[11px] text-[#6b7280] p-4 border border-dashed border-[#ffffff1a] text-center">NO MISSIONS LOGGED FOR THIS SYSTEM.</div>
                )}
             </div>
@@ -743,11 +731,11 @@ const MaterialSampleBlock: React.FC<{
 }> = ({ tool, isActive, onClick }) => {
   let bgClass = "";
   let shimmerClass = "";
-  if (tool.level === "expert") {
+  if (tool.level === "Primary Tool") {
     bgClass = "bg-[#B08A52] border-[#ebd1a5]"; // Gold brick
     shimmerClass =
       "bg-gradient-to-tr from-transparent via-white/40 to-transparent";
-  } else if (tool.level === "advanced") {
+  } else if (tool.level === "Advanced") {
     bgClass = "bg-[#D98F5A] border-[#f2be9b]"; // Copper ingot
     shimmerClass =
       "bg-gradient-to-tr from-transparent via-white/30 to-transparent";
@@ -1178,7 +1166,14 @@ export function CoreCapabilitiesModule() {
                         categoryTools = categoryTools.filter(t => t.level.toUpperCase() === activeFilter);
                       }
                       if (activeSort === 'MASTERY') {
-                        categoryTools = [...categoryTools].sort((a, b) => b.proficiency - a.proficiency);
+                        const levelScores: Record<string, number> = {
+                           'Primary Tool': 5,
+                           'Advanced': 4,
+                           'Comfortable': 3,
+                           'Learning': 2,
+                           'Exploring': 1
+                        };
+                        categoryTools = [...categoryTools].sort((a, b) => (levelScores[b.level] || 0) - (levelScores[a.level] || 0));
                        }
                       const colorPair = categoryColors[cat] || { pri: '#B08A52', sec: '#D98F5A' };
                       

@@ -25,30 +25,7 @@ import { MuseumDirectory } from "../components/MuseumDirectory";
 import { ExhibitNote } from "../components/ExhibitNote";
 import { TransitionPanel } from "../components/TransitionPanel";
 
-const ComingSoonPlaceholder = ({ colSpan = "col-span-12 md:col-span-4" }: { colSpan?: string }) => (
-  <motion.div 
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    viewport={{ once: true }}
-    className={`${colSpan} group relative min-h-[300px] border-2 border-dashed border-primary/20 dark:border-primary/20 rounded-3xl flex flex-col items-center justify-center p-8 text-center overflow-hidden bg-white/35 dark:bg-black/30 backdrop-blur-sm cursor-pointer hover:bg-primary/5 transition-colors duration-500`}
-  >
-    {/* Blueprint bg decoration */}
-    <div className="absolute inset-0 pointer-events-none opacity-[0.02] dark:opacity-[0.04]" 
-         style={{ 
-           backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 10px, currentColor 10px, currentColor 11px), repeating-linear-gradient(90deg, transparent, transparent 10px, currentColor 10px, currentColor 11px)`, 
-           backgroundSize: '10px 10px' 
-         }} 
-    />
-    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary/20 group-hover:text-primary transition-all duration-500 shadow-md">
-      <Plus className="w-8 h-8 text-primary opacity-60 group-hover:opacity-100" />
-    </div>
-    <div className="text-[10px] font-mono tracking-[0.2em] text-primary/70 mb-2 uppercase font-bold">Sealed Archive Gate</div>
-    <h3 className="font-headline text-2xl font-black mb-2 opacity-90 text-ink dark:text-base">Exhibit Under Construction</h3>
-    <p className="font-body text-xs text-ink/60 dark:text-base/60 max-w-[280px] leading-relaxed">
-      This chamber is currently locked and undergoing heavy active calibration. Reserved for future software intelligence & cybernetic hardware expansions.
-    </p>
-  </motion.div>
-);
+import { SealedArchive } from "../components/SealedArchive";
 
 export default function HomePage() {
   return (
@@ -246,7 +223,9 @@ export default function HomePage() {
             <div className="col-span-12 lg:col-span-8">
               <BlogModule />
             </div>
-            <ComingSoonPlaceholder colSpan="col-span-12 lg:col-span-4" />
+            <div className="col-span-12 lg:col-span-4">
+              <SealedArchive />
+            </div>
           </div>
         </div>
 

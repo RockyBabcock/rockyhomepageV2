@@ -2,17 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { projectLabData, ProjectEntry } from '../data/projectLabData';
-import { Hammer, ArrowUpRight, Activity } from 'lucide-react';
-
-const getStatusColor = (status: ProjectEntry['status']) => {
-  switch (status) {
-    case 'Building': return 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20';
-    case 'Exploring': return 'text-blue-500 bg-blue-500/10 border-blue-500/20';
-    case 'Prototype': return 'text-purple-500 bg-purple-500/10 border-purple-500/20';
-    case 'Learning': return 'text-amber-500 bg-amber-500/10 border-amber-500/20';
-    default: return 'text-gray-500 bg-gray-500/10 border-gray-500/20';
-  }
-};
+import { Hammer, ArrowUpRight, CheckCircle2, ChevronRight, Workflow, ExternalLink } from 'lucide-react';
+import { StatusPill } from './StatusPill';
+import { EvidenceBadge } from './EvidenceBadge';
 
 export const ProjectLabModule = () => {
   return (
@@ -54,7 +46,7 @@ export const ProjectLabModule = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-6">
           {projectLabData.map((project, index) => (
             <motion.div 
               key={project.id}
@@ -62,41 +54,63 @@ export const ProjectLabModule = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
+              className="p-6 md:p-8 flex flex-col rounded-3xl bg-white/50 dark:bg-[#0a0a0a]/50 border border-ink/5 dark:border-base/10 hover:border-indigo-500/30 transition-all shadow-sm group/card"
             >
-              <Link to="/projects" className="h-full p-5 flex flex-col rounded-2xl bg-white/50 dark:bg-[#111]/50 border border-ink/5 dark:border-base/5 hover:border-indigo-500/30 hover:bg-white/80 dark:hover:bg-[#111]/80 transition-all cursor-pointer shadow-sm hover:shadow-md group/card">
-                <div className="flex justify-between items-start mb-4 gap-2">
-                  <h3 className="font-headline font-bold text-lg group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-400 transition-colors leading-tight">
+              <div className="flex flex-col lg:flex-row gap-8">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <StatusPill status={project.status} />
+                    <span className="text-[11px] font-mono uppercase text-ink/50 dark:text-base/50 tracking-wider font-bold">Role: {project.role}</span>
+                  </div>
+                  
+                  <h3 className="text-2xl font-headline font-black mb-3 text-ink dark:text-base leading-tight group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-400 transition-colors">
                     {project.title}
                   </h3>
-                  <span className={`text-[9px] font-mono whitespace-nowrap uppercase px-2 py-1 rounded-md border font-bold ${getStatusColor(project.status)}`}>
-                    {project.status}
-                  </span>
-                </div>
-                
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {project.techChips.map(chip => (
-                    <span key={chip} className="text-[10px] font-mono px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-ink/5 dark:border-base/5 text-ink/60 dark:text-base/60">
-                      {chip}
-                    </span>
-                  ))}
+                  
+                  <p className="text-sm md:text-base font-body text-ink/80 dark:text-base/80 mb-6 leading-relaxed max-w-2xl">
+                    {project.oneLine}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {project.techStack.map(chip => (
+                      <span key={chip} className="text-[10px] font-mono px-2.5 py-1 rounded bg-black/5 dark:bg-white/5 text-ink/70 dark:text-base/70 font-semibold tracking-wide">
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    {project.liveUrl && <EvidenceBadge type="Live Demo" href={project.liveUrl} />}
+                    {project.repoUrl && <EvidenceBadge type="GitHub" href={project.repoUrl} />}
+                    {!project.liveUrl && !project.repoUrl && <EvidenceBadge type="Case Study" />}
+                  </div>
                 </div>
 
-                <div className="space-y-2 mt-auto">
-                  <div className="flex justify-between text-[10px] font-mono uppercase text-ink/50 dark:text-base/50 font-bold">
-                    <span className="flex items-center gap-1.5"><Activity size={10} /> Progress</span>
-                    <span>{project.progress}%</span>
+                <div className="lg:w-2/5 space-y-5 bg-ink/5 dark:bg-base/5 rounded-2xl p-5 md:p-6 border border-ink/5 dark:border-base/5">
+                  <div>
+                    <h4 className="text-[10px] font-mono uppercase text-indigo-600 dark:text-indigo-400 font-bold tracking-widest mb-2 flex items-center gap-2">
+                      <Workflow className="w-3 h-3" /> Core Challenge
+                    </h4>
+                    <p className="text-xs text-ink/70 dark:text-base/70 leading-relaxed">
+                      {project.problem}
+                    </p>
                   </div>
-                  <div className="h-1.5 w-full bg-black/5 dark:bg-white/10 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${project.progress}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.2 + (index * 0.1) }}
-                      className="h-full bg-indigo-500 rounded-full"
-                    />
+                  
+                  <div className="pt-4 border-t border-ink/10 dark:border-base/10">
+                    <h4 className="text-[10px] font-mono uppercase text-emerald-600 dark:text-emerald-400 font-bold tracking-widest mb-2 flex items-center gap-2">
+                      <CheckCircle2 className="w-3 h-3" /> Executed Scope
+                    </h4>
+                    <ul className="space-y-1.5">
+                      {project.built.slice(0, 3).map((item, i) => (
+                        <li key={i} className="text-xs text-ink/70 dark:text-base/70 leading-relaxed flex items-start gap-1.5">
+                          <ChevronRight className="w-3 h-3 mt-0.5 shrink-0 text-emerald-500/50" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
-              </Link>
+              </div>
             </motion.div>
           ))}
         </div>
