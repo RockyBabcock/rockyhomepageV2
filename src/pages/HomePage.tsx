@@ -78,10 +78,10 @@ export default function HomePage() {
 
         {/* Transition: Entrance -> Laboratory */}
         <TransitionPanel 
-          currentHall="HALL 00 / ENTRANCE HALL" 
-          nextHall="HALL 01 / PROJECT LABORATORY" 
-          visitorPath="proof-of-work route"
-          signalStrength="stable // telemetry live"
+          eyebrow="Route Shift / 01"
+          title="First, Proof of Work"
+          body="Before listing tools, the laboratory shows what has actually been built, shipped, or prototyped."
+          next="Project Laboratory"
         />
 
         {/* HALL 02 // LAB PROJECTS */}
@@ -101,10 +101,10 @@ export default function HomePage() {
 
         {/* Transition: Laboratory -> The Forge */}
         <TransitionPanel 
-          currentHall="HALL 01 / PROJECT LABORATORY" 
-          nextHall="HALL 02 / THE FORGE" 
-          visitorPath="technical capability flow"
-          signalStrength="dense frequency waves // online"
+          eyebrow="Route Shift / 02"
+          title="From Output to System"
+          body="The projects show the result. The Forge exposes the tools, patterns, and technical habits behind those results."
+          next="The Forge"
         />
 
         {/* HALL 03 // THE FORGE */}
@@ -123,10 +123,10 @@ export default function HomePage() {
 
         {/* Transition: The Forge -> Experiments */}
         <TransitionPanel 
-          currentHall="HALL 02 / THE FORGE" 
-          nextHall="HALL 03 / EXPERIMENT CHAMBERS" 
-          visitorPath="conceptual explorations link"
-          signalStrength="computational entropy elevated"
+          eyebrow="Route Shift / 03"
+          title="Entering Experiment Chambers"
+          body="Once the build system is visible, the next wing shows where it is being tested: AI interfaces, Web3 concepts, and small living systems."
+          next="Experiment Chambers"
         />
 
         {/* HALL 04 // EXPERIMENTS */}
@@ -147,9 +147,9 @@ export default function HomePage() {
             </div>
             <div className="col-span-12">
               <ExhibitNote 
-                label="living systems telemetry"
-                title="Biological & Mechanical Systems Integration"
-                body="Small-scale automated loops, microcontrollers, and real-time environment variables applied directly to physical flora. This documents the exact same state machine logic backing virtual software systems, customized to run in physical soil."
+                label="Why this exists"
+                title="Small automation, real environment"
+                body="The watering system represents physical-world systems thinking: sensing, routine, feedback, and environmental interaction."
                 className="mb-4"
               />
               <WateringSystemModule />
@@ -159,10 +159,10 @@ export default function HomePage() {
 
         {/* Transition: Experiments -> Archives */}
         <TransitionPanel 
-          currentHall="HALL 03 / EXPERIMENT CHAMBERS" 
-          nextHall="HALL 04 / PERSONAL ARCHIVES" 
-          visitorPath="sensory exploration zone"
-          signalStrength="calm // human memories accessible"
+          eyebrow="Route Shift / 04"
+          title="Beyond the Workbench"
+          body="Not every system is professional. Some systems shape how I think, move, play, remember, and form taste."
+          next="Personal Archives"
         />
 
         {/* HALL 05 // LIFE ARCHIVES */}
@@ -178,17 +178,17 @@ export default function HomePage() {
           <div className="grid grid-cols-12 gap-6 mb-8">
             <div className="col-span-12 xl:col-span-6">
               <ExhibitNote 
-                label="strategic logic exhibit"
-                title="Strategic Thinking Hall"
-                body="Chess is included here because it reflects how I think about systems: constraints, time limits, sacrifice, pattern recognition, and long-term planning."
+                label="Why this exists"
+                title="Chess as a thinking system"
+                body="Chess appears here because it reflects how I think about systems: constraints, timing, sacrifice, pattern recognition, and long-term planning."
                 className="h-full"
               />
             </div>
             <div className="col-span-12 xl:col-span-6">
               <ExhibitNote 
-                label="discipline and kinetics"
-                title="Motion & Discipline Archive"
-                body="A personal record of rhythm, practice, physical stamina, and competitive mindset, documenting the active relationship between physical action and mental clarity."
+                label="Why this exists"
+                title="Basketball as rhythm and discipline"
+                body="Basketball records another kind of system: movement, repetition, physical timing, competitive pressure, and practice."
                 className="h-full"
               />
             </div>
@@ -202,15 +202,15 @@ export default function HomePage() {
           <div className="grid grid-cols-12 gap-6 my-6">
             <div className="col-span-12 lg:col-span-6">
               <ExhibitNote 
-                label="taste & design grammar"
-                title="Media Universe"
-                body="Curating cinematic frames, visual environments, structural storyboarding, and interactive game design history to establish a rich creative library."
+                label="Why this exists"
+                title="Media as worldbuilding material"
+                body="Games and media are included as cultural inputs — the worlds, mechanics, and atmospheres that influence my design taste."
                 className="h-full"
               />
             </div>
             <div className="col-span-12 lg:col-span-6">
               <ExhibitNote 
-                label="temporal records"
+                label="Why this exists"
                 title="Curated Timeline Terminal"
                 body="A linear log documenting professional evolutions, speaking engagements, design thresholds, and historical contributions throughout my journey."
                 className="h-full"
@@ -226,10 +226,10 @@ export default function HomePage() {
 
         {/* Transition: Archives -> Garden */}
         <TransitionPanel 
-          currentHall="HALL 04 / PERSONAL ARCHIVES" 
-          nextHall="HALL 05 / DIGITAL GARDEN" 
-          visitorPath="cognitive semantic path"
-          signalStrength="thought stream optimized"
+          eyebrow="Route Shift / 05"
+          title="The Semantic Garden"
+          body="The timeline archives concrete events and milestones. The digital garden registers ongoing creative reflections, logic post-mortems, and writing."
+          next="Digital Garden"
         />
 
         {/* HALL 06 // DIGITAL GARDEN */}
@@ -252,10 +252,10 @@ export default function HomePage() {
 
         {/* Transition: Garden -> Signal Room */}
         <TransitionPanel 
-          currentHall="HALL 05 / DIGITAL GARDEN" 
-          nextHall="HALL 06 / SIGNAL ROOM" 
-          visitorPath="comm-port connection"
-          signalStrength="link clear // ready to bind"
+          eyebrow="Route Shift / 06"
+          title="Signal Port Open"
+          body="At the end of currently indexed digital museum space lies direct portal access. Communications channels are verified and online."
+          next="Signal Room"
         />
 
         {/* HALL 07 // SIGNAL ROOM */}

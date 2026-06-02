@@ -85,6 +85,9 @@ export const TECH_DATABASE: Record<string, Partial<TechItem>> = {
       'Unidirectional data flow for predictable state management.',
       'Component-driven architecture for robust composability.',
       'Spec: Latency: <16ms (60FPS), Render: Virtualized.'
+    ],
+    projects: [
+      { name: 'Rocky Digital Museum', url: '#', repo: '#', desc: 'Used for modular interface architecture, interactive custom animations, and responsive layouts.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-06' }
     ]
   },
   'TypeScript': {
@@ -98,6 +101,9 @@ export const TECH_DATABASE: Record<string, Partial<TechItem>> = {
       'Compile-time safety eliminates a completely entire class of runtime errors.',
       'Self-documenting codebase through expressive types.',
       'Spec: Reliability: 99.9%, Type Coverage: 100%.'
+    ],
+    projects: [
+      { name: 'Rocky Digital Museum', url: '#', repo: '#', desc: 'Provides strict complete typing across state events, component props, and API interfaces.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-06' }
     ]
   },
   'Tailwind CSS': {
@@ -111,6 +117,63 @@ export const TECH_DATABASE: Record<string, Partial<TechItem>> = {
       'Utility-first approach constraints values to a standardized design system.',
       'Enables rapid iteration without context-switching between files.',
       'Spec: Build Time: <50ms, Output: Minimized CSS.'
+    ],
+    projects: [
+      { name: 'Rocky Digital Museum', url: '#', repo: '#', desc: 'Powers the entire neo-brutalist custom theme, responsive token scale, and terminal effects.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-06' }
+    ]
+  },
+  'Framer Motion': {
+    description: 'Declarative layout animations, exit states, and spring-driven physical gestures.',
+    features: [
+      { name: 'AnimatePresence', status: 'DEPLOYED', importance: 90 },
+      { name: 'Layout Morphing', status: 'ACTIVE', importance: 85 },
+      { name: 'Gesture Handling', status: 'HIGH', importance: 80 }
+    ],
+    philosophy: [
+      'Visual physics over standard cubic transitions.',
+      'Provides state-driven tactile feedback across modules.'
+    ],
+    projects: [
+      { name: 'Rocky Digital Museum', url: '#', repo: '#', desc: 'Handles transition thresholds, smooth route entrances, and tactile hover scales.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-06' }
+    ]
+  },
+  'Three.js': {
+    description: 'Low-overhead WebGL helper, custom coordinate geometry, and scene rendering.',
+    features: [
+      { name: 'Custom Shaders', status: 'DEPLOYED', importance: 85 },
+      { name: 'Camera Controls', status: 'ACTIVE', importance: 80 }
+    ],
+    philosophy: [
+      'Encapsulates primitive matrices for rapid 3D space prototyping.'
+    ],
+    projects: [
+      { name: 'Interactive Chess Concepts', url: '#', repo: '#', desc: 'Renders interactive modular 3D chess boards and geometric tactical game state visualizations.', image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400&q=80', status: 'PROTOTYPE', date: '2026-05' }
+    ]
+  },
+  'Solidity': {
+    description: 'EVM-compatible language for secure contract design and consensus parameters.',
+    features: [
+      { name: 'Token Standards', status: 'DEPLOYED', importance: 95 },
+      { name: 'Access Control', status: 'ACTIVE', importance: 90 }
+    ],
+    philosophy: [
+      'Immutability and strict failure states over complex on-chain logic.'
+    ],
+    projects: [
+      { name: 'Web3 Learning Projects', url: '#', repo: '#', desc: 'Self-authored sandbox protocols mapping multi-sig treasury security vaults.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'EXPERIMENT', date: '2026-04' }
+    ]
+  },
+  'OpenAI API': {
+    description: 'Enterprise API integration for deep thinking LLMs, vector embedding, and assistant models.',
+    features: [
+      { name: 'Model Tuning', status: 'DEPLOYED', importance: 90 },
+      { name: 'Function Calling', status: 'ACTIVE', importance: 85 }
+    ],
+    philosophy: [
+      'Empowers direct user intents via scalable tool routing endpoints.'
+    ],
+    projects: [
+      { name: 'AI Assistant Experiments', url: '#', repo: '#', desc: 'Constructing multi-agent decision chains integrating local environmental feedback loops.', image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400&q=80', status: 'EXPERIMENT', date: '2026-05' }
     ]
   }
 }
@@ -178,7 +241,7 @@ rawData.forEach(row => {
          `Ensures low-friction scalability during high-traffic ${tool} operations.`,
          'Integrates seamlessly with existing orchestration layers.'
       ],
-      projects: [
+      projects: dbEntry.projects || [
         { name: `${tool.toLowerCase()}-sys-beta`, url: '#', repo: '#', desc: 'Secure data aggregation layer instance.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-01-12' },
         { name: `project-neo-${tool.toLowerCase()}`, url: '#', repo: '#', desc: 'Next-generation user interfaces for AI platforms.', image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=400&q=80', status: 'PROTOTYPE', date: '2025-11-20' }
       ],
