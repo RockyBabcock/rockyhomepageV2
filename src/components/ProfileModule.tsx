@@ -153,23 +153,32 @@ export function ProfileModule() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-headline font-black text-ink mb-4 leading-[1.1] tracking-tight uppercase"
+            className="text-4xl md:text-6xl lg:text-7xl font-headline font-black text-ink mb-1 leading-[1.1] tracking-tight uppercase"
           >
-            ROCKY BABCOCK
+            ROCKY BABCOCK DIGITAL MUSEUM
           </motion.h1>
+
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="text-base md:text-lg font-body font-semibold tracking-wide text-ink/70 dark:text-base/70 mb-4 max-w-xl"
+          >
+            A living archive of interfaces, systems, experiments, and personal worlds.
+          </motion.p>
 
           <motion.p 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-xl md:text-2xl font-mono text-ink max-w-2xl mb-12 font-bold tracking-tight bg-primary/20 inline-block px-4 py-2 border border-ink shadow-[4px_4px_0px_0px_currentColor]"
+            className="text-sm md:text-base font-mono text-ink max-w-2xl mb-12 font-bold tracking-tight bg-primary/20 inline-block px-4 py-2 border border-ink shadow-[4px_4px_0px_0px_currentColor]"
           >
             <Typewriter 
               words={[
-                "Creative Technologist & Builder.",
-                "Design Systems Architect.",
-                "Neo-Brutalist Engineer.",
-                "AI Builder & Web3 Expert."
+                "AI Builder • Creative Technologist • Interface Explorer",
+                "Architecting Tactile Digital Exhibitions.",
+                "Neo-Brutalist Systems Engineer.",
+                "Explore Museum Exhibits // Build Laboratory Live."
               ]} 
               typingSpeed={50} 
               deletingSpeed={30} 
@@ -183,11 +192,31 @@ export function ProfileModule() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <button className="px-8 py-4 bg-primary text-ink border-[3px] border-ink font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-2">
-              <Download className="w-5 h-5" /> Download CV
+            <button 
+              onClick={() => {
+                const el = document.getElementById('projects');
+                if (el) {
+                  const offset = 80;
+                  const pos = el.getBoundingClientRect().top + window.pageYOffset - offset;
+                  window.scrollTo({ top: pos, behavior: 'smooth' });
+                }
+              }}
+              className="px-8 py-4 bg-primary text-white border-[3px] border-ink font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-2 cursor-pointer"
+            >
+              Take Fast Route (Projects + CV)
             </button>
-            <button className="px-8 py-4 bg-ink text-base border-[3px] border-ink font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_currentColor] active:translate-y-0 active:shadow-[2px_2px_0px_0px_currentColor] transition-all flex items-center gap-2">
-              <Layout className="w-5 h-5" /> Portfolio
+            <button 
+              onClick={() => {
+                const el = document.getElementById('directory');
+                if (el) {
+                  const offset = 80;
+                  const pos = el.getBoundingClientRect().top + window.pageYOffset - offset;
+                  window.scrollTo({ top: pos, behavior: 'smooth' });
+                }
+              }}
+              className="px-8 py-4 bg-ink text-base border-[3px] border-ink font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_currentColor] active:translate-y-0 active:shadow-[2px_2px_0px_0px_currentColor] transition-all flex items-center gap-2 cursor-pointer"
+            >
+              Explore Full Museum Map
             </button>
           </motion.div>
 

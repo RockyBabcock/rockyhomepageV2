@@ -4,13 +4,14 @@ import { cn } from '../lib/utils';
 import { Menu, X } from 'lucide-react';
 
 const homeSections = [
-  { id: 'hero', label: 'Overview' },
-  { id: 'foundations', label: 'Foundations' },
-  { id: 'active-systems', label: 'Active Systems' },
-  { id: 'milestones', label: 'Milestones' },
-  { id: 'personal', label: 'Personal Worlds' },
-  { id: 'blog', label: 'Digital Garden' },
-  { id: 'connect', label: 'Connect' }
+  { id: 'hero', label: '00 // ENTRANCE' },
+  { id: 'directory', label: '01 // MAP DIRECTORY' },
+  { id: 'projects', label: '02 // LAB PROJECTS' },
+  { id: 'forge', label: '03 // THE FORGE' },
+  { id: 'experiments', label: '04 // EXPERIMENTS' },
+  { id: 'archives', label: '05 // LIFE ARCHIVES' },
+  { id: 'garden', label: '06 // DIGITAL GARDEN' },
+  { id: 'signal', label: '07 // SIGNAL ROOM' }
 ];
 
 export function TableOfContents() {
