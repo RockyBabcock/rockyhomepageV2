@@ -24,9 +24,9 @@ const SpectrumSpine = () => {
   const scaleY = useTransform(scrollYProgress, [0, 1], [0.1, 1]);
 
   return (
-    <div className="fixed inset-y-0 left-0 w-1.5 sm:w-2 md:left-6 md:my-32 md:rounded-full bg-[var(--museum-panel)] border border-[var(--museum-border-strong)] overflow-hidden pointer-events-none z-50 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+    <div className="fixed inset-y-0 left-0 w-1.5 sm:w-2 md:left-6 md:my-32 md:rounded-full bg-white/50 border border-[rgba(15,23,42,0.05)] overflow-hidden pointer-events-none z-50 shadow-sm backdrop-blur-md">
        {/* Background structural tube */}
-       <div className="absolute inset-0 opacity-20 bg-gradient-to-b from-transparent via-white to-transparent" />
+       <div className="absolute inset-0 opacity-40 bg-gradient-to-b from-transparent via-white to-transparent" />
        
        {/* The filling liquid spectrum */}
        <motion.div 
@@ -47,7 +47,7 @@ const SpectrumSpine = () => {
 
        {/* Current active glow indicator moving down */}
        <motion.div
-         className="absolute w-full h-12 rounded-full blur-[8px] mix-blend-screen"
+         className="absolute w-full h-12 rounded-full blur-[8px] opacity-60"
          style={{
            top: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]),
            translateY: "-50%",
@@ -80,10 +80,9 @@ export default function App() {
           <BackToTop />
         </main>
 
-        <footer className="w-full max-w-7xl mx-auto px-8 py-16 flex flex-col md:flex-row justify-between items-center border-t border-ink/5 dark:border-base/5 lg:ml-64 relative z-10 transition-colors">
-          <p className="font-mono text-[10px] uppercase text-ink/50 dark:text-base/50 mb-6 md:mb-0 font-bold tracking-[0.1em]">
-            © 2024 The Curated Archive. Engineered with Neo-Brutalist Intent &
-            Tonal Layering.
+        <footer className="w-full max-w-7xl mx-auto px-8 py-16 flex flex-col md:flex-row justify-between items-center border-t border-[rgba(15,23,42,0.05)] lg:ml-64 relative z-10 transition-colors">
+          <p className="font-body text-xs text-[var(--museum-text-muted)] mb-6 md:mb-0 font-medium">
+            © 2024 Rocky Babcock. Built with React, Tailwind & Framer Motion.
           </p>
           <div className="flex gap-10">
             <a

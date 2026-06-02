@@ -9,13 +9,13 @@
   --font-body: "Plus Jakarta Sans", sans-serif;
   --font-label: "JetBrains Mono", monospace;
 
-  --color-base: #07080d;
-  --color-ink: #f8fafc;
-  --color-muted: #94a3b8;
+  --color-base: #FFFDF8;
+  --color-ink: #171717;
+  --color-muted: #64748B;
 
-  --color-panel: rgba(15, 23, 42, 0.72);
-  --color-panel-strong: rgba(15, 23, 42, 0.92);
-  --color-border-soft: rgba(255, 255, 255, 0.10);
+  --color-panel: rgba(255, 255, 255, 0.76);
+  --color-panel-strong: rgba(255, 255, 255, 0.95);
+  --color-border-soft: rgba(15, 23, 42, 0.10);
 
   --color-rainbow-red: #ff4d6d;
   --color-rainbow-orange: #ff9f1c;
@@ -48,13 +48,27 @@
 
   body {
     @apply bg-base text-ink font-body antialiased;
-    background-image:
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"),
-      linear-gradient(180deg, var(--color-base) 0%, #0B0F19 100%);
-    background-size:
-      auto,
-      100% 100%;
+    background:
+      radial-gradient(circle at 8% 12%, rgba(255, 0, 110, 0.16), transparent 28%),
+      radial-gradient(circle at 88% 8%, rgba(0, 194, 255, 0.18), transparent 30%),
+      radial-gradient(circle at 20% 75%, rgba(6, 214, 160, 0.14), transparent 28%),
+      radial-gradient(circle at 78% 82%, rgba(255, 159, 28, 0.16), transparent 30%),
+      linear-gradient(180deg, #FFFDF8 0%, #F8FAFC 45%, #FFF7ED 100%);
     overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+    background-size: 36px 36px;
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+    mask-image: linear-gradient(to bottom, black, transparent 85%);
   }
 
   /* Keep legacy dark class rules just in case they are explicitly invoked, though the whole app is now dark. */
