@@ -140,26 +140,43 @@ rawData.forEach(row => {
 
     const dbEntry = TECH_DATABASE[tool] || {};
 
+    const categoryFeatures: Record<string, string[]> = {
+      frontend: ['COMPONENT ARCHITECTURE', 'STATE MANAGEMENT', 'USER INTERFACES'],
+      backend: ['API GATEWAY', 'DATABASE INTEGRATION', 'SCALABLE COMPUTE'],
+      devops: ['CONTAINERIZATION', 'CI/CD AUTOMATION', 'INFRASTRUCTURE AS CODE'],
+      design: ['DESIGN SYSTEMS', 'USER EXPERIENCE', 'WIREFRAMING'],
+      ai: ['MODEL INFERENCE', 'DATA PIPELINES', 'NEURAL NETWORKS'],
+      web3: ['SMART CONTRACTS', 'DECENTRALIZED STORAGE', 'CONSENSUS ALGORITHMS'],
+      creative: ['WEBGL RENDERING', 'PROCEDURAL GENERATION', 'PARTICLE SYSTEMS'],
+      audio: ['SIGNAL PROCESSING', 'SYNTHESIS ENGINE', 'FFT ANALYSIS'],
+      hardware: ['FIRMWARE', 'SENSOR INTEGRATION', 'I/O ROUTING'],
+      language: ['AST PARSING', 'COMPILER PIPELINE', 'STATIC ANALYSIS'],
+      spatial: ['3D CANVAS', 'TRACKING ALGORITHMS', 'SPATIAL AUDIO'],
+      tooling: ['WORKFLOW AUTOMATION', 'IDE INTEGRATION', 'VERSION CONTROL']
+    };
+
+    const fallbackFeatNames = categoryFeatures[row.cat as string] || ['CORE ARCHITECTURE', 'ASYNC PATTERNS', 'STATE ISOLATION'];
+
     techStackData.push({
       id: tool.toLowerCase().replace(/[^a-z0-9]/g, '-'),
       name: tool,
       category: row.cat as any,
       level,
-      description: dbEntry.description || `A pivotal element of the operational ${row.cat} architecture, selected for its ecosystem maturity and robust deployment profile. This tool allows for high-velocity iterations while maintaining rigorous boundaries.`,
+      description: dbEntry.description || `A pivotal subsystem of the operational ${row.cat} architecture. Selected for its high-performance deployment profile and ecosystem maturity. Handles complex ${tool}-specific workflows seamlessly.`,
       version: 'v' + Math.floor(Math.random() * 20) + '.' + Math.floor(Math.random() * 10) + '.0 RC',
       operationalStatus: level === 'expert' ? 'PRIMARY INTERFACE' : level === 'advanced' ? 'SUPPORTING SYSTEM' : 'EXPERIMENTAL',
       ecosystemMaturity: 'HIGH',
       adoption: 'WIDESPREAD',
       deploymentConfidence: level === 'expert' ? '99.9%' : '85.0%',
       features: dbEntry.features || [
-         { name: 'CORE ARCHITECTURE', status: 'DEPLOYED', importance: 95 },
-         { name: 'ASYNC PATTERNS', status: 'ACTIVE', importance: 80 },
-         { name: 'STATE ISOLATION', status: 'HIGH', importance: 90 },
+         { name: fallbackFeatNames[0], status: 'DEPLOYED', importance: 95 },
+         { name: fallbackFeatNames[1], status: 'ACTIVE', importance: 85 },
+         { name: fallbackFeatNames[2], status: 'HIGH', importance: 75 },
       ],
       philosophy: dbEntry.philosophy || [
          `Maximizes structural flexibility without compromising ${row.cat} safety.`,
-         'Ensures low-friction scalability during high-traffic events.',
-         'Integrates seamlessly with existing orchestration layer.'
+         `Ensures low-friction scalability during high-traffic ${tool} operations.`,
+         'Integrates seamlessly with existing orchestration layers.'
       ],
       projects: [
         { name: `${tool.toLowerCase()}-sys-beta`, url: '#', repo: '#', desc: 'Secure data aggregation layer instance.', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80', status: 'SHIPPED', date: '2026-01-12' },
