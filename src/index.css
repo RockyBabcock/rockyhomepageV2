@@ -9,35 +9,50 @@
   --font-body: "Plus Jakarta Sans", sans-serif;
   --font-label: "JetBrains Mono", monospace;
 
-  --color-base: #FFFDF8;
-  --color-ink: #171717;
-  --color-muted: #64748B;
+  --lab-bg: #fffdf8;
+  --lab-bg-soft: #f8fafc;
+  --lab-card: rgba(255, 255, 255, 0.78);
+  --lab-card-solid: #ffffff;
 
-  --color-panel: rgba(255, 255, 255, 0.76);
-  --color-panel-strong: rgba(255, 255, 255, 0.95);
-  --color-border-soft: rgba(15, 23, 42, 0.10);
+  --lab-text: #111827;
+  --lab-text-soft: #475569;
+  --lab-text-muted: #94a3b8;
 
-  --color-rainbow-red: #ff4d6d;
-  --color-rainbow-orange: #ff9f1c;
-  --color-rainbow-yellow: #ffe66d;
-  --color-rainbow-green: #06d6a0;
-  --color-rainbow-cyan: #00c2ff;
-  --color-rainbow-blue: #3a86ff;
-  --color-rainbow-purple: #8338ec;
-  --color-rainbow-pink: #ff006e;
+  --lab-border: rgba(15, 23, 42, 0.10);
+  --lab-border-strong: rgba(15, 23, 42, 0.16);
 
-  --museum-bg: var(--color-base);
-  --museum-panel: var(--color-panel);
-  --museum-panel-elevated: var(--color-panel-strong);
+  --rainbow-pink: #ff006e;
+  --rainbow-red: #ff4d6d;
+  --rainbow-orange: #ff9f1c;
+  --rainbow-yellow: #ffe66d;
+  --rainbow-green: #06d6a0;
+  --rainbow-cyan: #00c2ff;
+  --rainbow-blue: #3a86ff;
+  --rainbow-purple: #8338ec;
 
-  --museum-text: var(--color-ink);
-  --museum-text-muted: var(--color-muted);
+  --color-rainbow-red: var(--rainbow-red);
+  --color-rainbow-orange: var(--rainbow-orange);
+  --color-rainbow-yellow: var(--rainbow-yellow);
+  --color-rainbow-green: var(--rainbow-green);
+  --color-rainbow-cyan: var(--rainbow-cyan);
+  --color-rainbow-blue: var(--rainbow-blue);
+  --color-rainbow-purple: var(--rainbow-purple);
+  --color-rainbow-pink: var(--rainbow-pink);
+
+  --museum-bg: var(--lab-bg);
+  --museum-panel: var(--lab-card);
+  --museum-panel-elevated: var(--lab-card-solid);
+  --museum-text: var(--lab-text);
+  --museum-text-muted: var(--lab-text-muted);
   --museum-text-faint: rgba(148, 163, 184, 0.5);
 
-  --museum-border: var(--color-border-soft);
-  --museum-border-strong: rgba(255, 255, 255, 0.15);
+  --color-base: var(--lab-bg);
+  --color-ink: var(--lab-text);
 
-  --museum-accent: var(--color-rainbow-cyan);
+  --museum-border: var(--lab-border);
+  --museum-border-strong: var(--lab-border-strong);
+
+  --museum-accent: var(--rainbow-cyan);
   --museum-accent-soft: rgba(0, 194, 255, 0.18);
 }
 
@@ -47,7 +62,7 @@
   }
 
   body {
-    @apply bg-base text-ink font-body antialiased;
+    @apply text-[var(--lab-text)] font-body antialiased;
     background:
       radial-gradient(circle at 8% 12%, rgba(255, 0, 110, 0.16), transparent 28%),
       radial-gradient(circle at 88% 8%, rgba(0, 194, 255, 0.18), transparent 30%),
@@ -73,7 +88,7 @@
 
   /* Keep legacy dark class rules just in case they are explicitly invoked, though the whole app is now dark. */
   .dark body {
-    @apply bg-base text-ink;
+    @apply text-[var(--lab-text)];
     background-image:
       url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"),
       radial-gradient(
@@ -94,7 +109,7 @@
   h4,
   h5,
   h6 {
-    @apply font-headline text-ink;
+    @apply font-headline text-[var(--lab-text)];
     line-height: 1.1;
   }
 
@@ -104,19 +119,199 @@
   .dark h4,
   .dark h5,
   .dark h6 {
-    @apply text-base;
+    @apply text-[var(--lab-bg)];
   }
 
   p {
-    @apply text-ink/80 leading-relaxed;
+    @apply text-[var(--lab-text-soft)] leading-relaxed;
   }
 
   .dark p {
-    @apply text-base/80;
+    @apply text-[var(--lab-text-muted)];
   }
 }
 
 @layer utilities {
+  .rainbow-lab-bg {
+    background:
+      radial-gradient(circle at 8% 12%, rgba(255, 0, 110, 0.14), transparent 28%),
+      radial-gradient(circle at 88% 8%, rgba(0, 194, 255, 0.15), transparent 30%),
+      radial-gradient(circle at 20% 75%, rgba(6, 214, 160, 0.12), transparent 28%),
+      radial-gradient(circle at 78% 82%, rgba(255, 159, 28, 0.13), transparent 30%),
+      linear-gradient(180deg, #fffdf8 0%, #f8fafc 48%, #fff7ed 100%);
+  }
+
+  .lab-card {
+    background: var(--lab-card);
+    border: 1px solid var(--lab-border);
+    border-radius: 28px;
+    box-shadow:
+      0 24px 80px rgba(15, 23, 42, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(18px);
+  }
+
+  .btn-primary {
+    background: #111827;
+    color: white;
+    border-radius: 999px;
+    padding: 0.85rem 1.35rem;
+    font-weight: 700;
+    transition: all 0.25s ease;
+  }
+
+  .btn-primary:hover {
+    background: var(--rainbow-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(255, 0, 110, 0.22);
+  }
+
+  .btn-soft {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid var(--lab-border);
+    color: var(--lab-text);
+    border-radius: 999px;
+    padding: 0.85rem 1.35rem;
+    font-weight: 700;
+    transition: all 0.25s ease;
+  }
+
+  .btn-soft:hover {
+    background: white;
+    border-color: var(--lab-border-strong);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  }
+
+  .btn-ghost {
+    color: var(--lab-text-soft);
+    border-radius: 999px;
+    padding: 0.85rem 1.1rem;
+    transition: all 0.25s ease;
+  }
+
+  .btn-ghost:hover {
+    color: var(--lab-text);
+    background: rgba(15, 23, 42, 0.04);
+  }
+
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--lab-border);
+  }
+
+  .lab-section {
+    position: relative;
+    padding: clamp(72px, 10vw, 132px) 1.25rem;
+  }
+
+  .lab-section-inner {
+    width: min(1240px, 100%);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .lab-card-hover {
+    transition:
+      transform 240ms ease,
+      box-shadow 240ms ease,
+      border-color 240ms ease;
+  }
+
+  .lab-card-hover:hover {
+    transform: translateY(-4px);
+  }
+
+  .rainbow-rule {
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      var(--rainbow-pink),
+      var(--rainbow-orange),
+      var(--rainbow-yellow),
+      var(--rainbow-green),
+      var(--rainbow-cyan),
+      var(--rainbow-blue),
+      var(--rainbow-purple)
+    );
+  }
+
+  .hero-spectrum-glow {
+    position: absolute;
+    inset: 8% 4% auto auto;
+    width: min(620px, 70vw);
+    height: min(620px, 70vw);
+    background:
+      conic-gradient(
+        from 180deg,
+        rgba(255, 0, 110, 0.22),
+        rgba(255, 159, 28, 0.18),
+        rgba(6, 214, 160, 0.18),
+        rgba(0, 194, 255, 0.20),
+        rgba(131, 56, 236, 0.20),
+        rgba(255, 0, 110, 0.22)
+      );
+    filter: blur(70px);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  .contact-portal {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255, 0, 110, 0.18), transparent 32%),
+      radial-gradient(circle at 80% 20%, rgba(255, 159, 28, 0.18), transparent 32%),
+      radial-gradient(circle at 50% 100%, rgba(131, 56, 236, 0.16), transparent 38%),
+      rgba(255, 255, 255, 0.78);
+  }
+
+  .lab-section-grid-default {
+    display: grid;
+    gap: 24px;
+  }
+
+  .lab-section-grid-featured {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.6fr);
+    gap: 28px;
+  }
+
+  .lab-section-grid-split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+
+  .lab-section-grid-mosaic {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .lab-section-grid-editorial {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: 32px;
+  }
+
+  @media (max-width: 900px) {
+    .lab-section-grid-featured,
+    .lab-section-grid-split,
+    .lab-section-grid-editorial {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
     height: 6px;

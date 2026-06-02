@@ -6,14 +6,11 @@ import { GitHubModule } from "../components/GitHubModule";
 import { ConnectModule } from "../components/ConnectModule";
 import { ProjectLabModule } from "../components/ProjectLabModule";
 import { TableOfContents } from "../components/TableOfContents";
-import { TemporalQuotesModule } from "../components/chess/TemporalQuotesModule";
 
 // Museum components
-import { MuseumDirectory } from "../components/MuseumDirectory";
 import { ExhibitNote } from "../components/ExhibitNote";
-import { TransitionPanel } from "../components/TransitionPanel";
 import { SealedArchive } from "../components/SealedArchive";
-import { MuseumSectionLayout } from "@/components/layout/MuseumSectionLayout";
+import { MuseumSectionLayout, sectionTones } from "@/components/layout/MuseumSectionLayout";
 import { ModuleSkeleton } from "@/components/common/ModuleSkeleton";
 import { features } from "../config/features";
 import { ModuleErrorBoundary } from "../components/common/ModuleErrorBoundary";
@@ -63,304 +60,206 @@ const VisitorAnalyticsModule = lazy(() =>
   })),
 );
 
+function SectionBridge({
+  label,
+  from,
+  to,
+  color,
+}: {
+  label: string;
+  from: string;
+  to: string;
+  color: string;
+}) {
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="rainbow-rule opacity-70" />
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 text-xs font-mono uppercase tracking-[0.18em] text-slate-400">
+        <span>{from}</span>
+        <span style={{ color, fontWeight: "bold" }}>{label}</span>
+        <span>{to}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
   return (
-    <>
+    <main className="rainbow-lab-bg text-[var(--museum-text)]">
       <TableOfContents />
-      {/* Mobile Fast Route */}
-      <div className="col-span-12 block md:hidden scroll-mt-32 -mt-4 mb-4">
-        <div className="grid grid-cols-2 gap-3">
-          <a href="#projects" className="flex items-center justify-center p-3 text-sm font-semibold tracking-wide border border-stone-800 bg-stone-950/40 text-stone-300 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
-            View Projects
-          </a>
-          <a href="#forge" className="flex items-center justify-center p-3 text-sm font-semibold tracking-wide border border-stone-800 bg-stone-950/40 text-stone-300 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
-            View Stack
-          </a>
-          <a href="#experiments" className="flex items-center justify-center p-3 text-sm font-semibold tracking-wide border border-stone-800 bg-stone-950/40 text-stone-300 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
-            AI Chamber
-          </a>
-          <a href="#signal" className="flex items-center justify-center p-3 text-sm font-semibold tracking-wide border border-stone-800 bg-stone-950/40 text-stone-300 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
-            Signal Room
-          </a>
+      
+      {/* 01 Entrance */}
+      <ProfileModule />
+
+      <SectionBridge
+        label="Route Shift / 01"
+        from="Entrance"
+        to="Project Lab"
+        color="var(--rainbow-blue)"
+      />
+
+      {/* 02 Proof of Work */}
+      <MuseumSectionLayout 
+        id="projects" 
+        tone="projects"
+        layout="featured"
+      >
+        <ProjectLabModule />
+      </MuseumSectionLayout>
+
+      {/* 03 Capability System */}
+      <MuseumSectionLayout 
+        id="directory" 
+        tone="skills" 
+        layout="immersive"
+      >
+        <CoreCapabilitiesModule />
+      </MuseumSectionLayout>
+
+      <SectionBridge
+        label="Route Shift / 02"
+        from="Skill Spectrum"
+        to="Experiment Chambers"
+        color="var(--rainbow-purple)"
+      />
+
+      {/* 04 Experiments */}
+      <MuseumSectionLayout 
+        id="experiments" 
+        tone="experiments" 
+        layout="split"
+        title="Experimental Chambers"
+        eyebrow="Labs & Prototypes"
+        description="Live testing grounds for AI interfaces and Web3 concepts."
+      >
+        <ModuleErrorBoundary fallbackTitle="AI Experiment Chamber Offline">
+          <Suspense fallback={<ModuleSkeleton label="Loading AI Playground..." />}>
+            {features.aiPlayground ? (
+              <AIPlaygroundModule />
+            ) : (
+              <SealedArchive 
+                title="AI Experiment Chamber Offline" 
+                description="Live AI calls are disabled in this production build."
+              />
+            )}
+          </Suspense>
+        </ModuleErrorBoundary>
+
+        <ModuleErrorBoundary fallbackTitle="Web3 Archive Mode">
+          <Suspense fallback={<ModuleSkeleton label="Loading Web3 Vault..." />}>
+            {features.web3Vault ? (
+              <Web3VaultModule />
+            ) : (
+              <SealedArchive 
+                title="Web3 Archive Mode" 
+                description="Wallet interaction is disabled."
+              />
+            )}
+          </Suspense>
+        </ModuleErrorBoundary>
+      </MuseumSectionLayout>
+
+      {/* 05 Live Proof */}
+      <MuseumSectionLayout 
+        id="live-proof" 
+        tone="liveProof" 
+        layout="split"
+        title="Live Proof"
+        eyebrow="Signals & Data"
+        description="Signals from what I build, commit, test, and improve."
+      >
+        <ModuleErrorBoundary fallbackTitle="GitHub Signal Unavailable">
+          {features.githubActivity ? (
+            <GitHubModule />
+          ) : (
+            <SealedArchive 
+              title="GitHub Signal Unavailable" 
+              description="Live repository data could not be loaded."
+            />
+          )}
+        </ModuleErrorBoundary>
+
+        <ModuleErrorBoundary fallbackTitle="Telemetry Simulation">
+          <Suspense fallback={<ModuleSkeleton label="Loading Analytics..." />}>
+            {features.telemetry ? (
+              <VisitorAnalyticsModule />
+            ) : (
+              <SealedArchive 
+                title="Telemetry Simulation" 
+                description="Real analytics are not connected yet."
+              />
+            )}
+          </Suspense>
+        </ModuleErrorBoundary>
+      </MuseumSectionLayout>
+
+      {/* 06 Personal Worlds */}
+      <MuseumSectionLayout 
+        id="archives" 
+        tone="archives" 
+        layout="mosaic"
+        title="Personal Worlds"
+        eyebrow="Life Archives"
+        description="Systems that shape how I think, move, play, remember, and form taste."
+      >
+        <div className="col-span-12 lg:col-span-6">
+          <Suspense fallback={<ModuleSkeleton label="Loading Chess Visualizer..." />}>
+            <ChessModule />
+          </Suspense>
         </div>
-      </div>
-
-      <div className="grid grid-cols-12 gap-6 md:gap-8 lg:gap-10">
-        {/* HALL 00 // ENTRANCE */}
-        <div className="col-span-12 scroll-mt-32">
-          <MuseumSectionLayout sectionId="entrance">
-            <ProfileModule />
-            <div className="mt-8">
-              <JobApplicationModule />
-            </div>
-            <div id="directory" className="mt-12">
-              <MuseumDirectory />
-            </div>
-          </MuseumSectionLayout>
+        <div className="col-span-12 lg:col-span-6">
+          <Suspense fallback={<ModuleSkeleton label="Loading Basketball Archive..." />}>
+            <BasketballModule />
+          </Suspense>
         </div>
-
-        {/* Transition: Entrance -> Laboratory */}
-        <div className="col-span-12">
-          <TransitionPanel
-            eyebrow="Route Shift / 01"
-            title="First, Proof of Work"
-            body="Before listing tools, the laboratory shows what has actually been built, shipped, or prototyped."
-            next="Project Laboratory"
-          />
+        <div className="col-span-12 lg:col-span-7">
+          <Suspense fallback={<ModuleSkeleton label="Loading Game Media..." />}>
+            <GameMediaModule />
+          </Suspense>
         </div>
-
-        {/* HALL 01 // LAB PROJECTS */}
-        <div className="col-span-12 scroll-mt-32">
-          <MuseumSectionLayout sectionId="projects">
-            <ProjectLabModule />
-            <div className="mt-6">
-              <ModuleErrorBoundary fallbackTitle="GitHub Signal Unavailable">
-                {features.githubActivity ? (
-                  <GitHubModule />
-                ) : (
-                  <SealedArchive 
-                    title="GitHub Signal Unavailable" 
-                    description="Live repository data could not be loaded. Static project links remain available in the Project Laboratory."
-                  />
-                )}
-              </ModuleErrorBoundary>
-            </div>
-          </MuseumSectionLayout>
+        <div className="col-span-12 lg:col-span-5">
+          <Suspense fallback={<ModuleSkeleton label="Loading Watering System..." />}>
+            <WateringSystemModule />
+          </Suspense>
         </div>
+      </MuseumSectionLayout>
 
-        {/* Transition: Laboratory -> The Forge */}
-        <div className="col-span-12">
-          <TransitionPanel
-            eyebrow="Route Shift / 02"
-            title="From Output to System"
-            body="The projects show the result. The Forge exposes the tools, patterns, and technical habits behind those results."
-            next="The Forge"
-          />
+      {/* 07 Writing */}
+      <MuseumSectionLayout 
+        id="garden" 
+        tone="garden" 
+        layout="editorial"
+        title="Digital Garden"
+        eyebrow="Writing & Thoughts"
+        description="Ongoing creative reflections, logic post-mortems, and writing."
+      >
+        <div>
+          <Suspense fallback={<ModuleSkeleton label="Loading Blog Module..." />}>
+            <BlogModule />
+          </Suspense>
         </div>
-
-        {/* HALL 02 // THE FORGE */}
-        <div className="col-span-12 scroll-mt-32">
-          <MuseumSectionLayout sectionId="forge">
-            <div className="w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] lg:w-[calc(100%+4rem)] -ml-4 md:-ml-8 lg:-ml-8">
-              <CoreCapabilitiesModule />
-            </div>
-          </MuseumSectionLayout>
+        <div>
+          <Suspense fallback={<ModuleSkeleton label="Loading Timeline..." />}>
+            <TimelineModule />
+          </Suspense>
         </div>
+      </MuseumSectionLayout>
 
-        {/* Transition: The Forge -> Experiments */}
-        <div className="col-span-12">
-          <TransitionPanel
-            eyebrow="Route Shift / 03"
-            title="Entering Experiment Chambers"
-            body="Once the build system is visible, the next wing shows where it is being tested: AI interfaces, Web3 concepts, and small living systems."
-            next="Experiment Chambers"
-          />
-        </div>
+      <SectionBridge
+        label="Route Shift / 03"
+        from="Life Archives"
+        to="Signal Room"
+        color="var(--rainbow-pink)"
+      />
 
-        {/* HALL 03 // EXPERIMENTS */}
-        <div className="col-span-12 scroll-mt-32">
-          <MuseumSectionLayout sectionId="experiments">
-            <div className="grid grid-cols-12 gap-6">
-              <div className="col-span-12 lg:col-span-6">
-                <ModuleErrorBoundary fallbackTitle="AI Experiment Chamber Offline">
-                  <Suspense
-                    fallback={<ModuleSkeleton label="Loading AI Playground..." />}
-                  >
-                    {features.aiPlayground ? (
-                      <AIPlaygroundModule />
-                    ) : (
-                      <SealedArchive 
-                        title="AI Experiment Chamber Offline" 
-                        description="Live AI calls are disabled in this production build. This chamber currently documents the interface concept and future workflow direction."
-                      />
-                    )}
-                  </Suspense>
-                </ModuleErrorBoundary>
-              </div>
-              <div className="col-span-12 lg:col-span-6">
-                <ModuleErrorBoundary fallbackTitle="Web3 Archive Mode">
-                  <Suspense
-                    fallback={<ModuleSkeleton label="Loading Web3 Vault..." />}
-                  >
-                    {features.web3Vault ? (
-                      <Web3VaultModule />
-                    ) : (
-                      <SealedArchive 
-                        title="Web3 Archive Mode" 
-                        description="Wallet interaction is disabled. This vault is currently displayed as a learning archive."
-                      />
-                    )}
-                  </Suspense>
-                </ModuleErrorBoundary>
-              </div>
-              <div className="col-span-12">
-                <ExhibitNote
-                  label="Why this exists"
-                  title="Small automation, real environment"
-                  body="The watering system represents physical-world systems thinking: sensing, routine, feedback, and environmental interaction."
-                  className="mb-4"
-                />
-                <Suspense
-                  fallback={
-                    <ModuleSkeleton label="Loading Watering System..." />
-                  }
-                >
-                  <WateringSystemModule />
-                </Suspense>
-              </div>
-            </div>
-          </MuseumSectionLayout>
-        </div>
-
-        {/* Transition: Experiments -> Archives */}
-        <div className="col-span-12">
-          <TransitionPanel
-            eyebrow="Route Shift / 04"
-            title="Beyond the Workbench"
-            body="Not every system is professional. Some systems shape how I think, move, play, remember, and form taste."
-            next="Personal Archives"
-          />
-        </div>
-
-        {/* HALL 04 // LIFE ARCHIVES */}
-        <div className="col-span-12 scroll-mt-32">
-          <MuseumSectionLayout sectionId="archives">
-            <div className="grid grid-cols-12 gap-6 mb-8">
-              <div className="col-span-12 xl:col-span-6">
-                <ExhibitNote
-                  label="Why this exists"
-                  title="Chess as a thinking system"
-                  body="Chess appears here because it reflects how I think about systems: constraints, timing, sacrifice, pattern recognition, and long-term planning."
-                  className="h-full"
-                />
-              </div>
-              <div className="col-span-12 xl:col-span-6">
-                <ExhibitNote
-                  label="Why this exists"
-                  title="Basketball as rhythm and discipline"
-                  body="Basketball records another kind of system: movement, repetition, physical timing, competitive pressure, and practice."
-                  className="h-full"
-                />
-              </div>
-            </div>
-
-            <Suspense
-              fallback={<ModuleSkeleton label="Loading Chess Visualizer..." />}
-            >
-              <ChessModule />
-            </Suspense>
-
-            <div className="my-6">
-              <Suspense
-                fallback={
-                  <ModuleSkeleton label="Loading Basketball Archive..." />
-                }
-              >
-                <BasketballModule />
-              </Suspense>
-            </div>
-
-            <div className="grid grid-cols-12 gap-6 my-6">
-              <div className="col-span-12 lg:col-span-6">
-                <ExhibitNote
-                  label="Why this exists"
-                  title="Media as worldbuilding material"
-                  body="Games and media are included as cultural inputs — the worlds, mechanics, and atmospheres that influence my design taste."
-                  className="h-full"
-                />
-              </div>
-              <div className="col-span-12 lg:col-span-6">
-                <ExhibitNote
-                  label="Why this exists"
-                  title="Curated Timeline Terminal"
-                  body="A linear log documenting professional evolutions, speaking engagements, design thresholds, and historical contributions throughout my journey."
-                  className="h-full"
-                />
-              </div>
-            </div>
-
-            <Suspense
-              fallback={<ModuleSkeleton label="Loading Game Media..." />}
-            >
-              <GameMediaModule />
-            </Suspense>
-
-            <div className="mt-6">
-              <Suspense
-                fallback={<ModuleSkeleton label="Loading Timeline..." />}
-              >
-                <TimelineModule />
-              </Suspense>
-            </div>
-          </MuseumSectionLayout>
-        </div>
-
-        {/* Transition: Archives -> Garden */}
-        <div className="col-span-12">
-          <TransitionPanel
-            eyebrow="Route Shift / 05"
-            title="The Semantic Garden"
-            body="The timeline archives concrete events and milestones. The digital garden registers ongoing creative reflections, logic post-mortems, and writing."
-            next="Digital Garden"
-          />
-        </div>
-
-        {/* HALL 05 // DIGITAL GARDEN */}
-        <div className="col-span-12 scroll-mt-32">
-          <MuseumSectionLayout sectionId="garden">
-            <TemporalQuotesModule />
-            <div className="grid grid-cols-12 gap-6 mt-6">
-              <div className="col-span-12 lg:col-span-8">
-                <Suspense
-                  fallback={<ModuleSkeleton label="Loading Blog Module..." />}
-                >
-                  <BlogModule />
-                </Suspense>
-              </div>
-              <div className="col-span-12 lg:col-span-4">
-                <SealedArchive />
-              </div>
-            </div>
-          </MuseumSectionLayout>
-        </div>
-
-        {/* Transition: Garden -> Signal Room */}
-        <div className="col-span-12">
-          <TransitionPanel
-            eyebrow="Route Shift / 06"
-            title="Signal Port Open"
-            body="At the end of currently indexed digital museum space lies direct portal access. Communications channels are verified and online."
-            next="Signal Room"
-          />
-        </div>
-
-        {/* HALL 07 // SIGNAL ROOM */}
-        <div className="col-span-12 scroll-mt-32">
-          <MuseumSectionLayout sectionId="signal">
-            <div className="grid grid-cols-12 gap-6">
-              <div className="col-span-12 xl:col-span-7">
-                <ConnectModule />
-              </div>
-              <div className="col-span-12 xl:col-span-5">
-                <ModuleErrorBoundary fallbackTitle="Telemetry Wall Simulation">
-                  <Suspense
-                    fallback={<ModuleSkeleton label="Loading Analytics..." />}
-                  >
-                    {features.telemetry ? (
-                      <VisitorAnalyticsModule />
-                    ) : (
-                      <SealedArchive 
-                        title="Telemetry Wall Simulation" 
-                        description="Real analytics are not connected yet. This panel currently shows the future interface direction."
-                      />
-                    )}
-                  </Suspense>
-                </ModuleErrorBoundary>
-              </div>
-            </div>
-          </MuseumSectionLayout>
-        </div>
-      </div>
-    </>
+      {/* 08 Contact */}
+      <MuseumSectionLayout 
+        id="signal" 
+        tone="signal"
+        layout="default"
+      >
+        <ConnectModule />
+      </MuseumSectionLayout>
+    </main>
   );
 }
