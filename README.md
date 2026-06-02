@@ -1,20 +1,16 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# The Curated Archive
 
-# Run and deploy your AI Studio app
+A modular digital museum engineered with Neo-Brutalist Intent & Tonal Layering.
 
-This contains everything you need to run your app locally.
+## Architecture
 
-View your app in AI Studio: https://ai.studio/apps/ae212803-7e87-47ef-b6df-2711f4b1e3ca
+This homepage is organized as a modular digital museum.
 
-## Run Locally
+- `src/pages/HomePage.tsx` controls the main route.
+- `src/data/museumSections.ts` defines hall metadata.
+- `src/components/common` contains reusable UI primitives.
+- `src/components/` (and its subdirectories) contain individual exhibit modules.
+- `src/data` contains project, skill, timeline, and archive content.
+- `src/types` contains shared TypeScript interfaces (if defined).
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+The site separates museum structure, module UI, and content data so that new halls can be added without rewriting the homepage.

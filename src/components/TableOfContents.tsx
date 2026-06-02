@@ -1,47 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { cn } from '../lib/utils';
-import { Menu, X } from 'lucide-react';
-
-const homeSections = [
-  { id: 'hero', label: '00 // ENTRANCE' },
-  { id: 'directory', label: '01 // MAP DIRECTORY' },
-  { id: 'projects', label: '02 // LAB PROJECTS' },
-  { id: 'forge', label: '03 // THE FORGE' },
-  { id: 'experiments', label: '04 // EXPERIMENTS' },
-  { id: 'archives', label: '05 // LIFE ARCHIVES' },
-  { id: 'garden', label: '06 // DIGITAL GARDEN' },
-  { id: 'signal', label: '07 // SIGNAL ROOM' }
-];
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { cn } from "../lib/utils";
+import { Menu, X } from "lucide-react";
+import { museumSections } from "@/data/museumSections";
 
 export function TableOfContents() {
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState(
+    museumSections[0]?.id || "entrance",
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -60% 0px',
-      threshold: 0
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      let currentActiveId = '';
-      
-      entries.forEach(entry => {
+      let currentActiveId = "";
+
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           currentActiveId = entry.target.id;
         }
       });
-      
+
       if (currentActiveId) {
         setActiveSection(currentActiveId);
       }
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
 
-    homeSections.forEach(({ id }) => {
+    museumSections.forEach(({ id }) => {
       const element = document.getElementById(id);
       if (element) observer.observe(element);
     });
@@ -55,10 +50,10 @@ export function TableOfContents() {
       const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-      
+
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
       setIsOpen(false);
     }
@@ -67,7 +62,7 @@ export function TableOfContents() {
   return (
     <>
       {/* Mobile Toggle */}
-      <button 
+      <button
         className="lg:hidden fixed top-24 right-4 z-50 p-2 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-ink/10 rounded-full shadow-lg text-ink"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle Page Navigation"
@@ -78,32 +73,41 @@ export function TableOfContents() {
       {/* Navigation Menu */}
       <AnimatePresence>
         {(isOpen || window.innerWidth >= 1024) && (
-          <motion.nav 
+          <motion.nav
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             className={cn(
               "fixed right-8 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3 pointer-events-auto items-end",
-              isOpen && "!flex right-4 top-40 translate-y-0 bg-white/95 dark:bg-black/95 p-6 rounded-2xl border border-ink/10 shadow-2xl backdrop-blur-md"
+              isOpen &&
+                "!flex right-4 top-40 translate-y-0 bg-white/95 dark:bg-black/95 p-6 rounded-2xl border border-ink/10 shadow-2xl backdrop-blur-md",
             )}
           >
-            {homeSections.map(({ id, label }) => (
+            {museumSections.map(({ id, code, title }) => (
               <button
                 key={id}
                 onClick={() => scrollToSection(id)}
                 className="group flex items-center gap-3 transition-all outline-none"
               >
-                <span className={cn(
-                  "font-label text-xs uppercase tracking-widest font-bold transition-all duration-300",
-                  activeSection === id ? "text-primary opacity-100 translate-x-0" : "text-ink/40 w-0 opacity-0 lg:-translate-x-4 lg:group-hover:opacity-100 lg:group-hover:-translate-x-0 overflow-hidden lg:overflow-visible text-right whitespace-nowrap",
-                  isOpen && "w-auto opacity-100 translate-x-0 text-right"
-                )}>
-                  {label}
+                <span
+                  className={cn(
+                    "font-label text-xs uppercase tracking-widest font-bold transition-all duration-300",
+                    activeSection === id
+                      ? "text-primary opacity-100 translate-x-0"
+                      : "text-ink/40 w-0 opacity-0 lg:-translate-x-4 lg:group-hover:opacity-100 lg:group-hover:-translate-x-0 overflow-hidden lg:overflow-visible text-right whitespace-nowrap",
+                    isOpen && "w-auto opacity-100 translate-x-0 text-right",
+                  )}
+                >
+                  {code.replace("HALL ", "")} // {title}
                 </span>
-                <span className={cn(
-                  "block w-2 transition-all duration-300 rounded-full shrink-0",
-                  activeSection === id ? "h-6 bg-primary" : "h-2 bg-ink/20 group-hover:bg-primary/50 group-hover:h-4"
-                )} />
+                <span
+                  className={cn(
+                    "block w-2 transition-all duration-300 rounded-full shrink-0",
+                    activeSection === id
+                      ? "h-6 bg-primary"
+                      : "h-2 bg-ink/20 group-hover:bg-primary/50 group-hover:h-4",
+                  )}
+                />
               </button>
             ))}
           </motion.nav>

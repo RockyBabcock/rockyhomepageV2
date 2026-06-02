@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { TechItem, categoryColors } from '../data/techStack';
+import React, { useState, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { TechItem, categoryColors } from "../data/techStack";
 
 interface TechIconProps {
   item: TechItem;
@@ -10,18 +10,18 @@ interface TechIconProps {
   onHoverEnd?: () => void;
   className?: string;
   style?: React.CSSProperties;
-  mode?: 'physics' | 'orbital' | 'grid';
+  mode?: "physics" | "orbital" | "grid";
 }
 
-export const TechIcon: React.FC<TechIconProps> = ({ 
-  item, 
-  temperature, 
-  onClick, 
-  onHoverStart, 
+export const TechIcon: React.FC<TechIconProps> = ({
+  item,
+  temperature,
+  onClick,
+  onHoverStart,
   onHoverEnd,
-  className = '',
+  className = "",
   style = {},
-  mode = 'grid'
+  mode = "grid",
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -29,50 +29,51 @@ export const TechIcon: React.FC<TechIconProps> = ({
 
   // Hierarchy Styles
   let scale = 1;
-  let borderColor = 'border-gray-400';
+  let borderColor = "border-gray-400";
   let opacity = 1;
 
-  if (item.level === 'core') {
+  if (item.level === "core") {
     scale = 1.5;
-    borderColor = 'border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.5)]'; // Gold
-  } else if (item.level === 'proficient') {
+    borderColor = "border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.5)]"; // Gold
+  } else if (item.level === "proficient") {
     scale = 1;
-    borderColor = 'border-slate-300'; // Silver
-  } else if (item.level === 'exploration') {
+    borderColor = "border-slate-300"; // Silver
+  } else if (item.level === "exploration") {
     scale = 0.8;
-    borderColor = 'border-gray-500'; // Gray
+    borderColor = "border-gray-500"; // Gray
     opacity = 0.7;
   }
 
   // Temperature Effects
   // 0 -> 50: Grayscale to Color
-  const grayscale = temperature < 50 ? 100 - (temperature * 2) : 0;
-  
+  const grayscale = temperature < 50 ? 100 - temperature * 2 : 0;
+
   // 50 -> 100: Pulsating Glow
   const glowIntensity = temperature > 50 ? (temperature - 50) / 50 : 0;
-  const glowShadow = glowIntensity > 0 
-    ? `0 0 ${10 + glowIntensity * 20}px ${5 + glowIntensity * 10}px rgba(255, 68, 68, ${glowIntensity * 0.6})` 
-    : 'none';
+  const glowShadow =
+    glowIntensity > 0
+      ? `0 0 ${10 + glowIntensity * 20}px ${5 + glowIntensity * 10}px rgba(255, 68, 68, ${glowIntensity * 0.6})`
+      : "none";
 
   // Base 3D Tilt
-  const tiltTransform = 'perspective(500px) rotateX(5deg) rotateY(-5deg)';
+  const tiltTransform = "perspective(500px) rotateX(5deg) rotateY(-5deg)";
 
   // Mode Specific Hover Effects
   let hoverTransform = tiltTransform;
   if (isHovered) {
-    if (mode === 'physics') {
+    if (mode === "physics") {
       hoverTransform = `${tiltTransform} translateY(-10px)`;
-    } else if (mode === 'orbital') {
+    } else if (mode === "orbital") {
       // Cursor-facing rotation
       hoverTransform = `perspective(500px) rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg) scale(1.1)`;
-    } else if (mode === 'grid') {
+    } else if (mode === "grid") {
       // 3D flip
       hoverTransform = `perspective(500px) rotateY(180deg)`;
     }
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (mode !== 'orbital' || !iconRef.current) return;
+    if (mode !== "orbital" || !iconRef.current) return;
     const rect = iconRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
@@ -88,10 +89,13 @@ export const TechIcon: React.FC<TechIconProps> = ({
         height: 80 * scale,
         opacity: isHovered ? 1 : opacity,
         filter: `grayscale(${grayscale}%)`,
-        boxShadow: isHovered && mode === 'physics' ? `0 20px 25px -5px rgba(0, 0, 0, 0.5), ${glowShadow}` : glowShadow,
+        boxShadow:
+          isHovered && mode === "physics"
+            ? `0 20px 25px -5px rgba(0, 0, 0, 0.5), ${glowShadow}`
+            : glowShadow,
         transform: hoverTransform,
-        transformStyle: 'preserve-3d',
-        ...style
+        transformStyle: "preserve-3d",
+        ...style,
       }}
       onClick={onClick}
       onMouseEnter={() => {
@@ -114,7 +118,7 @@ export const TechIcon: React.FC<TechIconProps> = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
             className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 w-48 bg-ink text-white text-xs p-3 rounded-2xl shadow-xl z-[100] pointer-events-none"
-            style={{ backfaceVisibility: 'hidden' }}
+            style={{ backfaceVisibility: "hidden" }}
           >
             <div className="font-bold mb-1 flex items-center gap-2">
               {item.name}
@@ -122,7 +126,9 @@ export const TechIcon: React.FC<TechIconProps> = ({
                 {item.level}
               </span>
             </div>
-            <p className="text-white/70 leading-tight mb-2">{item.description}</p>
+            <p className="text-white/70 leading-tight mb-2">
+              {item.description}
+            </p>
             {item.projects.length > 0 && (
               <div className="text-[9px] text-primary font-bold">
                 Project: {item.projects[0].name}
@@ -135,12 +141,17 @@ export const TechIcon: React.FC<TechIconProps> = ({
       </AnimatePresence>
 
       {/* Front Side */}
-      <div 
+      <div
         className="absolute inset-0 flex flex-col items-center justify-center backface-hidden"
-        style={{ backfaceVisibility: 'hidden' }}
+        style={{ backfaceVisibility: "hidden" }}
       >
-        <div className="mb-1 transition-colors duration-300" style={{ color: isHovered ? categoryColors[item.category] : 'white' }}>
-          {React.cloneElement(item.icon as React.ReactElement, { size: 24 * scale })}
+        <div
+          className="mb-1 transition-colors duration-300"
+          style={{ color: isHovered ? categoryColors[item.category] : "white" }}
+        >
+          {React.cloneElement(item.icon as React.ReactElement, {
+            size: 24 * scale,
+          })}
         </div>
         <span className="text-white font-mono text-[10px] font-bold text-center px-1 truncate w-full">
           {item.name}
@@ -148,33 +159,90 @@ export const TechIcon: React.FC<TechIconProps> = ({
       </div>
 
       {/* Back Side (Grid Mode Flip) */}
-      {mode === 'grid' && (
-        <div 
+      {mode === "grid" && (
+        <div
           className="absolute inset-0 flex flex-col items-center justify-center bg-ink text-white rounded-3xl backface-hidden p-2"
-          style={{ 
-            backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)'
+          style={{
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
           }}
         >
-          <span className="text-[8px] font-mono text-white/70 mb-1">Proficiency</span>
-          
+          <span className="text-[8px] font-mono text-white/70 mb-1">
+            Proficiency
+          </span>
+
           {/* Simple Radar Chart SVG */}
           <div className="w-full flex-1 relative flex items-center justify-center">
-            <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
+            <svg
+              viewBox="0 0 100 100"
+              className="w-full h-full overflow-visible"
+            >
               {/* Background Grid */}
-              <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              <polygon points="50,30 70,40 70,60 50,70 30,60 30,40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              
+              <polygon
+                points="50,10 90,30 90,70 50,90 10,70 10,30"
+                fill="none"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
+              <polygon
+                points="50,30 70,40 70,60 50,70 30,60 30,40"
+                fill="none"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
+
               {/* Axes */}
-              <line x1="50" y1="50" x2="50" y2="10" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              <line x1="50" y1="50" x2="90" y2="30" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              <line x1="50" y1="50" x2="90" y2="70" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              <line x1="50" y1="50" x2="50" y2="90" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              <line x1="50" y1="50" x2="10" y2="70" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-              <line x1="50" y1="50" x2="10" y2="30" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+              <line
+                x1="50"
+                y1="50"
+                x2="50"
+                y2="10"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
+              <line
+                x1="50"
+                y1="50"
+                x2="90"
+                y2="30"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
+              <line
+                x1="50"
+                y1="50"
+                x2="90"
+                y2="70"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
+              <line
+                x1="50"
+                y1="50"
+                x2="50"
+                y2="90"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
+              <line
+                x1="50"
+                y1="50"
+                x2="10"
+                y2="70"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
+              <line
+                x1="50"
+                y1="50"
+                x2="10"
+                y2="30"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
+              />
 
               {/* Data Polygon */}
-              <polygon 
+              <polygon
                 points={`
                   50,${50 - (item.proficiency / 10) * 40} 
                   ${50 + (Math.min(10, item.proficiency + 1) / 10) * 40 * 0.866},${50 - (Math.min(10, item.proficiency + 1) / 10) * 40 * 0.5} 
@@ -182,15 +250,17 @@ export const TechIcon: React.FC<TechIconProps> = ({
                   50,${50 + (item.proficiency / 10) * 40} 
                   ${50 - (Math.min(10, item.proficiency + 2) / 10) * 40 * 0.866},${50 + (Math.min(10, item.proficiency + 2) / 10) * 40 * 0.5} 
                   ${50 - (Math.max(1, item.proficiency - 2) / 10) * 40 * 0.866},${50 - (Math.max(1, item.proficiency - 2) / 10) * 40 * 0.5}
-                `} 
-                fill="rgba(0, 178, 169, 0.4)" 
-                stroke="#00B2A9" 
-                strokeWidth="1.5" 
+                `}
+                fill="rgba(0, 178, 169, 0.4)"
+                stroke="#00B2A9"
+                strokeWidth="1.5"
               />
             </svg>
           </div>
-          
-          <span className="text-[10px] font-bold mt-1">{item.proficiency}/10</span>
+
+          <span className="text-[10px] font-bold mt-1">
+            {item.proficiency}/10
+          </span>
         </div>
       )}
     </motion.div>

@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { cn } from '../lib/utils';
+import React from "react";
+import { motion } from "motion/react";
+import { cn } from "../lib/utils";
 
 type TransitionPanelProps = {
   eyebrow: string;
@@ -18,17 +18,20 @@ export function TransitionPanel({
   className,
 }: TransitionPanelProps) {
   return (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={cn("col-span-12 my-12 border-y border-ink/15 dark:border-base/15 py-8 relative", className)}
+      className={cn(
+        "col-span-12 my-12 border-y border-ink/15 dark:border-base/15 py-8 relative",
+        className,
+      )}
     >
       <div className="absolute top-0 left-4 px-3 -translate-y-1/2 bg-[#faf8f5] dark:bg-[#030508] text-[9px] font-mono uppercase tracking-[0.3em] text-primary border border-ink/10 dark:border-base/10 shadow-sm">
         Route Transition Gateway
       </div>
-      
+
       <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-ink/40 dark:text-base/40">
         {eyebrow}
       </div>

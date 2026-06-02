@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { BoxSelect } from 'lucide-react';
-import { StatusPill } from './StatusPill';
+import React from "react";
+import { motion } from "motion/react";
+import { BoxSelect } from "lucide-react";
+import { StatusPill } from "./StatusPill";
 
 export function SealedArchive({
   title = "Exhibit Under Construction",
@@ -11,7 +11,7 @@ export function SealedArchive({
   description?: string;
 }) {
   return (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -20,9 +20,9 @@ export function SealedArchive({
       <div className="mb-4">
         <StatusPill status="Sealed" />
       </div>
-      
+
       <BoxSelect className="w-8 h-8 text-stone-400 dark:text-stone-500 mb-3 opacity-50" />
-      
+
       <div className="text-xs font-mono uppercase tracking-[0.25em] text-stone-500 mb-2">
         Sealed Archive
       </div>

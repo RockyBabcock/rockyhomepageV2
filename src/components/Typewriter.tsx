@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 interface TypewriterProps {
   words: string[];
@@ -8,11 +8,11 @@ interface TypewriterProps {
   pauseTime?: number;
 }
 
-export function Typewriter({ 
-  words, 
-  typingSpeed = 80, 
-  deletingSpeed = 40, 
-  pauseTime = 2000 
+export function Typewriter({
+  words,
+  typingSpeed = 80,
+  deletingSpeed = 40,
+  pauseTime = 2000,
 }: TypewriterProps) {
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -35,7 +35,7 @@ export function Typewriter({
 
     if (!isDeleting && text === fullText) {
       timer = setTimeout(() => setIsDeleting(true), pauseTime);
-    } else if (isDeleting && text === '') {
+    } else if (isDeleting && text === "") {
       setIsDeleting(false);
       setLoopNum(loopNum + 1);
     }
@@ -46,9 +46,9 @@ export function Typewriter({
   return (
     <span className="inline-flex items-center">
       {text}
-      <motion.span 
+      <motion.span
         animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
         className="inline-block w-[3px] h-[1em] bg-primary ml-1 translate-y-[2px]"
       />
     </span>

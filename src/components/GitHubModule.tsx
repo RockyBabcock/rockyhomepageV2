@@ -1,18 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Github, Terminal, Cpu, Brain, Code2, ExternalLink, TreePine } from 'lucide-react';
-import { cn } from '../lib/utils';
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import {
+  Github,
+  Terminal,
+  Cpu,
+  Brain,
+  Code2,
+  ExternalLink,
+  TreePine,
+} from "lucide-react";
+import { cn } from "../lib/utils";
 
 const PREDICTOR_MODES = [
-  'First 🟩 expected in 30 days',
-  'Bugs not yet fixed; green dots indefinitely postponed',
-  'Wemby-level evolution: Screen will be solid green by tomorrow 🛸'
+  "First 🟩 expected in 30 days",
+  "Bugs not yet fixed; green dots indefinitely postponed",
+  "Wemby-level evolution: Screen will be solid green by tomorrow 🛸",
 ];
 
 const AI_PROJECTS = [
   { title: "LLM Fine-tuning", icon: Brain },
   { title: "Neural Chess Engine", icon: Cpu },
-  { title: "AI Agent Framework", icon: Code2 }
+  { title: "AI Agent Framework", icon: Code2 },
 ];
 
 export function GitHubModule() {
@@ -21,19 +29,21 @@ export function GitHubModule() {
   const [clickedCards, setClickedCards] = useState<Set<number>>(new Set());
   const [showSpeechBubble, setShowSpeechBubble] = useState(false);
   const [predictorMode, setPredictorMode] = useState(0);
-  const [cheatState, setCheatState] = useState<'rainbow' | 'spurs' | 'chess' | null>(null);
+  const [cheatState, setCheatState] = useState<
+    "rainbow" | "spurs" | "chess" | null
+  >(null);
   const [showCodeRain, setShowCodeRain] = useState(false);
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
 
   // Load from localStorage
   useEffect(() => {
-    const storedClicks = localStorage.getItem('octoClickCount');
+    const storedClicks = localStorage.getItem("octoClickCount");
     if (storedClicks) setOctoClicks(parseInt(storedClicks, 10));
   }, []);
 
   // Save to localStorage
   useEffect(() => {
-    localStorage.setItem('octoClickCount', octoClicks.toString());
+    localStorage.setItem("octoClickCount", octoClicks.toString());
   }, [octoClicks]);
 
   // Mouse tracking for trailing Octocat
@@ -41,36 +51,36 @@ export function GitHubModule() {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX + 15, y: e.clientY + 15 });
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Keyboard Cheat Codes
   useEffect(() => {
-    let keyBuffer = '';
+    let keyBuffer = "";
     const handleKeyDown = (e: KeyboardEvent) => {
       keyBuffer += e.key.toUpperCase();
       if (keyBuffer.length > 10) keyBuffer = keyBuffer.slice(-10);
 
-      if (keyBuffer.endsWith('GITHUB')) {
-        setCheatState('rainbow');
+      if (keyBuffer.endsWith("GITHUB")) {
+        setCheatState("rainbow");
         setTimeout(() => setCheatState(null), 3000);
-      } else if (keyBuffer.endsWith('WEMBY')) {
-        setCheatState('spurs');
+      } else if (keyBuffer.endsWith("WEMBY")) {
+        setCheatState("spurs");
         setTimeout(() => setCheatState(null), 3000);
-      } else if (keyBuffer.endsWith('CHESS')) {
-        setCheatState('chess');
+      } else if (keyBuffer.endsWith("CHESS")) {
+        setCheatState("chess");
         setTimeout(() => setCheatState(null), 3000);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const handleOctoClick = () => {
     const newClicks = octoClicks + 1;
     setOctoClicks(newClicks);
-    
+
     if (newClicks === 5) {
       setShowCodeRain(true);
       setTimeout(() => setShowCodeRain(false), 3000);
@@ -78,7 +88,7 @@ export function GitHubModule() {
   };
 
   const handleCardClick = (index: number) => {
-    setClickedCards(prev => {
+    setClickedCards((prev) => {
       const newSet = new Set(prev);
       newSet.add(index);
       if (newSet.size === 3) {
@@ -93,29 +103,36 @@ export function GitHubModule() {
   };
 
   const getGraphColor = (col: number, row: number) => {
-    if (cheatState === 'rainbow') {
-      const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500', 'bg-blue-500', 'bg-purple-500'];
+    if (cheatState === "rainbow") {
+      const colors = [
+        "bg-red-500",
+        "bg-orange-500",
+        "bg-yellow-500",
+        "bg-green-500",
+        "bg-blue-500",
+        "bg-purple-500",
+      ];
       return colors[(col + row) % colors.length];
     }
-    if (cheatState === 'spurs') {
-      return (col + row) % 2 === 0 ? 'bg-zinc-900' : 'bg-zinc-300';
+    if (cheatState === "spurs") {
+      return (col + row) % 2 === 0 ? "bg-zinc-900" : "bg-zinc-300";
     }
     // Default grayscale pattern
     const val = (col * 7 + row) % 10;
-    if (val > 8) return 'bg-zinc-300';
-    if (val > 6) return 'bg-zinc-500';
-    if (val > 3) return 'bg-zinc-700';
-    return 'bg-zinc-800/50';
+    if (val > 8) return "bg-zinc-300";
+    if (val > 6) return "bg-zinc-500";
+    if (val > 3) return "bg-zinc-700";
+    return "bg-zinc-800/50";
   };
 
   const getOctoVisual = () => {
-    if (cheatState === 'chess') return '♟️🐱';
-    if (cheatState === 'spurs') return '🧢🐱';
-    if (octoClicks >= 50) return '👑🐱';
-    if (octoClicks >= 20) return '🧢🐱';
-    if (octoClicks >= 10) return '👋🐱';
-    if (octoClicks >= 5) return '😳🐱';
-    return '😴🐱';
+    if (cheatState === "chess") return "♟️🐱";
+    if (cheatState === "spurs") return "🧢🐱";
+    if (octoClicks >= 50) return "👑🐱";
+    if (octoClicks >= 20) return "🧢🐱";
+    if (octoClicks >= 10) return "👋🐱";
+    if (octoClicks >= 5) return "😳🐱";
+    return "😴🐱";
   };
 
   return (
@@ -132,7 +149,7 @@ export function GitHubModule() {
       {/* Code Rain Overlay */}
       <AnimatePresence>
         {showCodeRain && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -142,15 +159,25 @@ export function GitHubModule() {
               <motion.div
                 key={i}
                 initial={{ y: -1000 }}
-                animate={{ y: '100vh' }}
-                transition={{ duration: 1.5 + Math.random() * 2, repeat: Infinity, ease: "linear", delay: Math.random() * 2 }}
+                animate={{ y: "100vh" }}
+                transition={{
+                  duration: 1.5 + Math.random() * 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: Math.random() * 2,
+                }}
                 className="text-green-500 font-mono text-xl opacity-80"
-                style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}
+                style={{
+                  writingMode: "vertical-rl",
+                  textOrientation: "upright",
+                }}
               >
-                {Array.from({ length: 25 }).map(() => Math.random() > 0.5 ? '1' : '0').join('')}
+                {Array.from({ length: 25 })
+                  .map(() => (Math.random() > 0.5 ? "1" : "0"))
+                  .join("")}
               </motion.div>
             ))}
-            <motion.div 
+            <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
@@ -162,7 +189,7 @@ export function GitHubModule() {
         )}
       </AnimatePresence>
 
-      <motion.section 
+      <motion.section
         id="GitHub"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -175,13 +202,15 @@ export function GitHubModule() {
               <Github className="w-6 h-6 text-[#c9d1d9]" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white tracking-tight">Digital Wilderness</h2>
+              <h2 className="text-2xl font-bold text-white tracking-tight">
+                Digital Wilderness
+              </h2>
               <p className="text-sm text-[#8b949e]">Journey from zero to one</p>
             </div>
           </div>
-          <a 
-            href="https://github.com/RockyBabcock" 
-            target="_blank" 
+          <a
+            href="https://github.com/RockyBabcock"
+            target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-6 py-3 bg-[#C17A53] hover:bg-[#a86541] text-white font-bold rounded-lg transition-colors shadow-lg"
           >
@@ -190,20 +219,21 @@ export function GitHubModule() {
         </div>
 
         <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6">
-          
           {/* Empty State (Wilderness Survival) */}
           <div className="2xl:col-span-2 flex flex-col gap-6">
-            <div 
+            <div
               className="border-2 border-dashed border-[#30363d] hover:border-[#C17A53]/50 bg-[#161b22]/50 rounded-3xl p-12 flex flex-col items-center justify-center relative cursor-pointer group transition-colors min-h-[200px]"
               onClick={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
             >
               <TreePine className="w-12 h-12 text-[#8b949e] mb-4 group-hover:text-[#C17A53] transition-colors" />
-              <p className="animate-pulse font-mono text-sm text-[#8b949e]">Surviving in the Wilderness... Coming Soon.</p>
-              
+              <p className="animate-pulse font-mono text-sm text-[#8b949e]">
+                Surviving in the Wilderness... Coming Soon.
+              </p>
+
               <AnimatePresence>
                 {showTooltip && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
@@ -219,7 +249,7 @@ export function GitHubModule() {
             <div className="relative">
               <AnimatePresence>
                 {showSpeechBubble && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, scale: 0.8, y: 10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.8, y: 10 }}
@@ -230,7 +260,7 @@ export function GitHubModule() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {AI_PROJECTS.map((proj, i) => (
                   <motion.div
@@ -239,12 +269,18 @@ export function GitHubModule() {
                     onClick={() => handleCardClick(i)}
                     className={cn(
                       "bg-[#161b22] p-5 rounded-3xl border cursor-pointer relative overflow-hidden transition-colors",
-                      clickedCards.has(i) ? "border-[#C17A53]" : "border-[#30363d] hover:border-[#8b949e]"
+                      clickedCards.has(i)
+                        ? "border-[#C17A53]"
+                        : "border-[#30363d] hover:border-[#8b949e]",
                     )}
                   >
-                    <div className="absolute top-3 right-3 bg-[#30363d] text-[#8b949e] text-[9px] font-mono px-2 py-1 rounded-full font-bold uppercase tracking-wider">WIP</div>
+                    <div className="absolute top-3 right-3 bg-[#30363d] text-[#8b949e] text-[9px] font-mono px-2 py-1 rounded-full font-bold uppercase tracking-wider">
+                      WIP
+                    </div>
                     <proj.icon className="w-8 h-8 mb-4 text-[#C17A53]" />
-                    <h4 className="font-bold text-sm text-white">{proj.title}</h4>
+                    <h4 className="font-bold text-sm text-white">
+                      {proj.title}
+                    </h4>
                   </motion.div>
                 ))}
               </div>
@@ -253,31 +289,39 @@ export function GitHubModule() {
 
           {/* Right Column: Octocat & Graph */}
           <div className="flex flex-col gap-6">
-            
             {/* Octocat Evolution */}
             <div className="bg-[#161b22] p-6 rounded-3xl border border-[#30363d] flex flex-col items-center justify-center relative overflow-hidden min-h-[200px]">
-              <h3 className="font-mono text-[10px] uppercase tracking-widest text-[#8b949e] mb-6 font-bold">Octocat Evolution</h3>
-              
+              <h3 className="font-mono text-[10px] uppercase tracking-widest text-[#8b949e] mb-6 font-bold">
+                Octocat Evolution
+              </h3>
+
               <motion.div
                 className={cn(
                   "text-7xl cursor-pointer select-none transition-all duration-500 relative z-10",
-                  octoClicks >= 50 ? "drop-shadow-[0_0_20px_rgba(255,215,0,0.6)]" : ""
+                  octoClicks >= 50
+                    ? "drop-shadow-[0_0_20px_rgba(255,215,0,0.6)]"
+                    : "",
                 )}
-                style={{ filter: octoClicks >= 50 ? 'sepia(1) saturate(5) hue-rotate(10deg)' : 'none' }}
+                style={{
+                  filter:
+                    octoClicks >= 50
+                      ? "sepia(1) saturate(5) hue-rotate(10deg)"
+                      : "none",
+                }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={handleOctoClick}
               >
                 {getOctoVisual()}
               </motion.div>
-              
+
               <div className="mt-6 font-mono text-xs font-bold text-[#C17A53] bg-[#C17A53]/10 px-3 py-1 rounded-full">
                 Level: {octoClicks}
               </div>
 
               <AnimatePresence>
                 {octoClicks >= 10 && octoClicks < 20 && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
@@ -286,8 +330,8 @@ export function GitHubModule() {
                     Hi Rocky! 👋
                   </motion.div>
                 )}
-                {cheatState === 'chess' && (
-                  <motion.div 
+                {cheatState === "chess" && (
+                  <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
@@ -305,29 +349,33 @@ export function GitHubModule() {
                 {Array.from({ length: 14 }).map((_, col) => (
                   <div key={col} className="flex flex-col gap-1">
                     {Array.from({ length: 7 }).map((_, row) => (
-                      <div 
-                        key={row} 
-                        className={cn("w-3 h-3 rounded-sm transition-colors duration-500", getGraphColor(col, row))} 
+                      <div
+                        key={row}
+                        className={cn(
+                          "w-3 h-3 rounded-sm transition-colors duration-500",
+                          getGraphColor(col, row),
+                        )}
                       />
                     ))}
                   </div>
                 ))}
               </div>
 
-              <div 
+              <div
                 className="p-4 bg-[#0d1117] rounded-lg cursor-pointer border border-[#30363d] hover:border-[#C17A53]/50 transition-colors group"
-                onClick={() => setPredictorMode(p => (p + 1) % 3)}
+                onClick={() => setPredictorMode((p) => (p + 1) % 3)}
               >
                 <div className="font-mono text-[10px] uppercase tracking-widest text-[#8b949e] mb-2 flex justify-between items-center">
                   <span>Contribution Predictor</span>
-                  <span className="text-[#C17A53] opacity-0 group-hover:opacity-100 transition-opacity">Click to cycle</span>
+                  <span className="text-[#C17A53] opacity-0 group-hover:opacity-100 transition-opacity">
+                    Click to cycle
+                  </span>
                 </div>
                 <div className="font-body text-sm font-bold text-white min-h-[40px] flex items-center">
                   {PREDICTOR_MODES[predictorMode]}
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </motion.section>

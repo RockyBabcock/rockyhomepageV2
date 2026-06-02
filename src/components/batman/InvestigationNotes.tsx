@@ -13,7 +13,7 @@ const STICKY_COLORS = [
   "bg-yellow-200 text-yellow-900 border-yellow-300",
   "bg-blue-200 text-blue-900 border-blue-300",
   "bg-green-200 text-green-900 border-green-300",
-  "bg-pink-200 text-pink-900 border-pink-300"
+  "bg-pink-200 text-pink-900 border-pink-300",
 ];
 
 export function InvestigationNotes({ eraId }: { eraId: string }) {
@@ -45,7 +45,7 @@ export function InvestigationNotes({ eraId }: { eraId: string }) {
           hour: "2-digit",
           minute: "2-digit",
         }),
-      color: STICKY_COLORS[Math.floor(Math.random() * STICKY_COLORS.length)]
+      color: STICKY_COLORS[Math.floor(Math.random() * STICKY_COLORS.length)],
     };
     const updated = [newNote, ...notes];
     setNotes(updated);
@@ -86,12 +86,19 @@ export function InvestigationNotes({ eraId }: { eraId: string }) {
             <motion.div
               layout
               key={note.id}
-              initial={{ opacity: 0, scale: 0.8, rotate: Math.random() * 20 - 10 }}
+              initial={{
+                opacity: 0,
+                scale: 0.8,
+                rotate: Math.random() * 20 - 10,
+              }}
               animate={{ opacity: 1, scale: 1, rotate: Math.random() * 10 - 5 }}
               className={`w-64 min-h-[200px] p-6 shadow-xl relative border ${note.color} transform transition-transform hover:scale-105 z-10 hover:z-20`}
             >
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-4 bg-black/20 mix-blend-overlay rotate-2" />
-              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-red-600/80 shadow-md border-2 border-red-800" style={{ boxShadow: '0 4px 6px -1px rgba(0,0,0,0.5)' }} />
+              <div
+                className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-red-600/80 shadow-md border-2 border-red-800"
+                style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.5)" }}
+              />
 
               <span className="absolute bottom-4 right-4 text-[9px] opacity-50 font-bold overflow-hidden">
                 {note.date}

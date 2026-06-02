@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const SectionHeading: React.FC<{ title: string }> = ({ title }) => {
   return (

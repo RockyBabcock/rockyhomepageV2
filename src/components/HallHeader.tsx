@@ -1,12 +1,14 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { cn } from '../lib/utils';
+import React from "react";
+import { motion } from "motion/react";
+import { cn } from "../lib/utils";
+
+import { MuseumSectionStatus } from "@/data/museumSections";
 
 type HallHeaderProps = {
   code: string;
   title: string;
   subtitle: string;
-  status?: "ACTIVE" | "ARCHIVED" | "EXPERIMENTAL" | "WIP" | "SEALED";
+  status?: MuseumSectionStatus | string;
   category?: string;
   className?: string;
 };
@@ -15,33 +17,46 @@ export function HallHeader({
   code,
   title,
   subtitle,
-  status = "ACTIVE",
+  status = "Active",
   category,
   className,
 }: HallHeaderProps) {
-  const statusColors = {
-    ACTIVE: "text-emerald-600 dark:text-emerald-400 border-emerald-500/20 bg-emerald-500/5",
-    ARCHIVED: "text-amber-600 dark:text-amber-400 border-amber-500/20 bg-amber-500/5",
-    EXPERIMENTAL: "text-cyan-600 dark:text-cyan-400 border-cyan-500/20 bg-cyan-500/5",
+  const statusColors: Record<string, string> = {
+    Active:
+      "text-emerald-600 dark:text-emerald-400 border-emerald-500/20 bg-emerald-500/5",
+    "Personal Archive":
+      "text-amber-600 dark:text-amber-400 border-amber-500/20 bg-amber-500/5",
+    "Learning Archive":
+      "text-yellow-600 dark:text-yellow-400 border-yellow-500/20 bg-yellow-500/5",
+    Experimental:
+      "text-cyan-600 dark:text-cyan-400 border-cyan-500/20 bg-cyan-500/5",
+    Simulation:
+      "text-purple-600 dark:text-purple-400 border-purple-500/20 bg-purple-500/5",
+    Sealed: "text-stone-500 border-stone-500/25 bg-stone-500/5",
     WIP: "text-purple-600 dark:text-purple-400 border-purple-500/20 bg-purple-500/5",
-    SEALED: "text-stone-500 border-stone-500/25 bg-stone-500/5",
+    ACTIVE:
+      "text-emerald-600 dark:text-emerald-400 border-emerald-500/20 bg-emerald-500/5",
+    ARCHIVED:
+      "text-amber-600 dark:text-amber-400 border-amber-500/20 bg-amber-500/5",
+    EXPERIMENTAL:
+      "text-cyan-600 dark:text-cyan-400 border-cyan-500/20 bg-cyan-500/5",
   };
 
   return (
-    <motion.header 
+    <motion.header
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={cn(
         "relative w-full border-b border-ink/10 dark:border-base/10 pb-6 mb-8 mt-12 bg-white/40 dark:bg-black/20 backdrop-blur-sm p-6 rounded-3xl overflow-hidden shadow-sm dark:shadow-none border-[0.5px] border-solid border-ink/5 dark:border-base/5",
-        className
+        className,
       )}
     >
       {/* Visual background guide lines */}
       <div className="absolute top-0 right-12 bottom-0 w-[1px] bg-ink/[0.04] dark:bg-base/[0.04] pointer-events-none" />
       <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-ink/[0.02] dark:bg-base/[0.02] pointer-events-none" />
-      
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 z-10 relative">
         <div className="flex items-center gap-3">
           <span className="font-mono text-xs font-bold tracking-[0.25em] text-primary/70 dark:text-primary/90 bg-primary/5 dark:bg-primary/10 px-2.5 py-1 rounded-md border border-primary/15 uppercase">
@@ -53,11 +68,13 @@ export function HallHeader({
             </span>
           )}
         </div>
-        
-        <div className={cn(
-          "w-fit font-mono text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border",
-          statusColors[status] || statusColors.ACTIVE
-        )}>
+
+        <div
+          className={cn(
+            "w-fit font-mono text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border",
+            statusColors[status] || statusColors["Active"],
+          )}
+        >
           {status}
         </div>
       </div>

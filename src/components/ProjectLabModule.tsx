@@ -1,10 +1,17 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Link } from 'react-router-dom';
-import { projectLabData, ProjectEntry } from '../data/projectLabData';
-import { Hammer, ArrowUpRight, CheckCircle2, ChevronRight, Workflow, ExternalLink } from 'lucide-react';
-import { StatusPill } from './StatusPill';
-import { EvidenceBadge } from './EvidenceBadge';
+import React from "react";
+import { motion } from "motion/react";
+import { Link } from "react-router-dom";
+import { projectLabData, ProjectEntry } from "../data/projectLabData";
+import {
+  Hammer,
+  ArrowUpRight,
+  CheckCircle2,
+  ChevronRight,
+  Workflow,
+  ExternalLink,
+} from "lucide-react";
+import { StatusPill } from "./StatusPill";
+import { EvidenceBadge } from "./EvidenceBadge";
 
 export const ProjectLabModule = () => {
   return (
@@ -16,14 +23,14 @@ export const ProjectLabModule = () => {
       className="col-span-12 lg:col-span-8 premium-card p-8 md:p-10 relative overflow-hidden group border-x-indigo-500/10 border-b-indigo-500/10 border-t-[3px] border-t-indigo-500"
     >
       {/* Blueprint Grid Background */}
-      <div 
+      <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none mix-blend-multiply dark:mix-blend-screen"
         style={{
           backgroundImage: `
             linear-gradient(to right, #4f46e5 1px, transparent 1px),
             linear-gradient(to bottom, #4f46e5 1px, transparent 1px)
           `,
-          backgroundSize: '40px 40px'
+          backgroundSize: "40px 40px",
         }}
       />
 
@@ -38,17 +45,24 @@ export const ProjectLabModule = () => {
                 System Status: Active
               </span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-headline font-black mb-2">Project Lab</h2>
-            <p className="font-body text-ink/70 dark:text-base/70">Tracking the systems, prototypes, and creative tools I'm building.</p>
+            <h2 className="text-3xl md:text-4xl font-headline font-black mb-2">
+              Project Lab
+            </h2>
+            <p className="font-body text-ink/70 dark:text-base/70">
+              Tracking the systems, prototypes, and creative tools I'm building.
+            </p>
           </div>
-          <Link to="/projects" className="flex items-center gap-2 px-6 py-3 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 rounded-xl transition-colors border border-indigo-500/20 font-bold text-sm tracking-wide">
+          <Link
+            to="/projects"
+            className="flex items-center gap-2 px-6 py-3 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 rounded-xl transition-colors border border-indigo-500/20 font-bold text-sm tracking-wide"
+          >
             Open Lab <ArrowUpRight size={16} />
           </Link>
         </div>
 
         <div className="grid grid-cols-1 gap-6">
           {projectLabData.map((project, index) => (
-            <motion.div 
+            <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -60,29 +74,40 @@ export const ProjectLabModule = () => {
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-3 mb-4">
                     <StatusPill status={project.status} />
-                    <span className="text-[11px] font-mono uppercase text-ink/50 dark:text-base/50 tracking-wider font-bold">Role: {project.role}</span>
+                    <span className="text-[11px] font-mono uppercase text-ink/50 dark:text-base/50 tracking-wider font-bold">
+                      Role: {project.role}
+                    </span>
                   </div>
-                  
+
                   <h3 className="text-2xl font-headline font-black mb-3 text-ink dark:text-base leading-tight group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-400 transition-colors">
                     {project.title}
                   </h3>
-                  
+
                   <p className="text-sm md:text-base font-body text-ink/80 dark:text-base/80 mb-6 leading-relaxed max-w-2xl">
                     {project.oneLine}
                   </p>
-                  
+
                   <div className="flex flex-wrap gap-2 mb-8">
-                    {project.techStack.map(chip => (
-                      <span key={chip} className="text-[10px] font-mono px-2.5 py-1 rounded bg-black/5 dark:bg-white/5 text-ink/70 dark:text-base/70 font-semibold tracking-wide">
+                    {project.techStack.map((chip) => (
+                      <span
+                        key={chip}
+                        className="text-[10px] font-mono px-2.5 py-1 rounded bg-black/5 dark:bg-white/5 text-ink/70 dark:text-base/70 font-semibold tracking-wide"
+                      >
                         {chip}
                       </span>
                     ))}
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3">
-                    {project.liveUrl && <EvidenceBadge type="Live Demo" href={project.liveUrl} />}
-                    {project.repoUrl && <EvidenceBadge type="GitHub" href={project.repoUrl} />}
-                    {!project.liveUrl && !project.repoUrl && <EvidenceBadge type="Case Study" />}
+                    {project.liveUrl && (
+                      <EvidenceBadge type="Live Demo" href={project.liveUrl} />
+                    )}
+                    {project.repoUrl && (
+                      <EvidenceBadge type="GitHub" href={project.repoUrl} />
+                    )}
+                    {!project.liveUrl && !project.repoUrl && (
+                      <EvidenceBadge type="Case Study" />
+                    )}
                   </div>
                 </div>
 
@@ -95,14 +120,17 @@ export const ProjectLabModule = () => {
                       {project.problem}
                     </p>
                   </div>
-                  
+
                   <div className="pt-4 border-t border-ink/10 dark:border-base/10">
                     <h4 className="text-[10px] font-mono uppercase text-emerald-600 dark:text-emerald-400 font-bold tracking-widest mb-2 flex items-center gap-2">
                       <CheckCircle2 className="w-3 h-3" /> Executed Scope
                     </h4>
                     <ul className="space-y-1.5">
                       {project.built.slice(0, 3).map((item, i) => (
-                        <li key={i} className="text-xs text-ink/70 dark:text-base/70 leading-relaxed flex items-start gap-1.5">
+                        <li
+                          key={i}
+                          className="text-xs text-ink/70 dark:text-base/70 leading-relaxed flex items-start gap-1.5"
+                        >
                           <ChevronRight className="w-3 h-3 mt-0.5 shrink-0 text-emerald-500/50" />
                           <span>{item}</span>
                         </li>

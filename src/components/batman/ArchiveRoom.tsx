@@ -12,7 +12,7 @@ export function ArchiveRoom({
 }) {
   const roomRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  
+
   // Track dynamically unlocked eras so they persist while component mounts
   const [unlockedEras, setUnlockedEras] = useState<Record<string, boolean>>({});
 
@@ -25,16 +25,16 @@ export function ArchiveRoom({
     setMousePos({ x, y });
   };
 
-  const isUnlocked = (era: typeof batmanEras[0]) => {
-     if (era.status === 'PUBLIC') return true;
-     if (era.status === 'CLASSIFIED') return false;
-     return !!unlockedEras[era.id];
+  const isUnlocked = (era: (typeof batmanEras)[0]) => {
+    if (era.status === "PUBLIC") return true;
+    if (era.status === "CLASSIFIED") return false;
+    return !!unlockedEras[era.id];
   };
 
-  const handleCabinetClick = (era: typeof batmanEras[0]) => {
-     if (isUnlocked(era)) {
-        onOpenCabinet(era.id);
-     }
+  const handleCabinetClick = (era: (typeof batmanEras)[0]) => {
+    if (isUnlocked(era)) {
+      onOpenCabinet(era.id);
+    }
   };
 
   return (
@@ -65,7 +65,7 @@ export function ArchiveRoom({
             const yOffset = isCenter ? 0 : Math.abs(2.5 - index) * 20;
             const zOffset = isCenter ? 50 : -Math.abs(2.5 - index) * 40;
             const rotateY = (index - 2.5) * 5;
-            
+
             const unlocked = isUnlocked(era);
 
             return (
@@ -73,7 +73,7 @@ export function ArchiveRoom({
                 key={era.id}
                 onClick={() => handleCabinetClick(era)}
                 whileHover={{ scale: 1.05 }}
-                className={`relative w-32 md:w-48 h-64 md:h-96 flex flex-col items-center justify-between p-4 bg-[#1a1a1a] border ${unlocked ? 'border-[#333]' : 'border-red-900/50'} shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer group transition-all duration-500 md:[transform:translateY(var(--tw-y))_translateZ(var(--tw-z))_rotateY(var(--tw-ry))] transform-none`}
+                className={`relative w-32 md:w-48 h-64 md:h-96 flex flex-col items-center justify-between p-4 bg-[#1a1a1a] border ${unlocked ? "border-[#333]" : "border-red-900/50"} shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer group transition-all duration-500 md:[transform:translateY(var(--tw-y))_translateZ(var(--tw-z))_rotateY(var(--tw-ry))] transform-none`}
                 style={
                   {
                     "--tw-y": `${yOffset}px`,
@@ -100,23 +100,33 @@ export function ArchiveRoom({
                 <div className="flex flex-col items-center justify-center h-full z-10 w-full relative">
                   {/* Metal Label Plate */}
                   <div className="w-[80%] bg-[#0a0a0a] border border-[#d4af37]/30 p-2 text-center shadow-inner group-hover:border-[#d4af37]/80 transition-colors">
-                     
-                     <div className="font-headline font-bold text-[10px] md:text-xs tracking-widest text-[#d4af37] uppercase block mb-1">
-                        <DynamicDecryption 
-                           text={era.name} 
-                           level={era.status as any} 
-                           puzzleContext={era.puzzle}
-                           onUnlock={() => setUnlockedEras(prev => ({...prev, [era.id]: true}))}
-                        />
-                     </div>
-                     <span className="font-mono text-[8px] text-white/50 tracking-widest">
-                        {era.timeRange}
-                     </span>
+                    <div className="font-headline font-bold text-[10px] md:text-xs tracking-widest text-[#d4af37] uppercase block mb-1">
+                      <DynamicDecryption
+                        text={era.name}
+                        level={era.status as any}
+                        puzzleContext={era.puzzle}
+                        onUnlock={() =>
+                          setUnlockedEras((prev) => ({
+                            ...prev,
+                            [era.id]: true,
+                          }))
+                        }
+                      />
+                    </div>
+                    <span className="font-mono text-[8px] text-white/50 tracking-widest">
+                      {era.timeRange}
+                    </span>
                   </div>
 
                   {/* Embossed Seal (Mock) */}
                   <div className="w-12 h-12 rounded-full border-2 border-dashed border-[#555] mt-8 flex flex-col items-center justify-center opacity-30 group-hover:opacity-70 transition-opacity">
-                    {!unlocked ? <Lock className="w-4 h-4 text-red-500" /> : <span className="text-[6px] tracking-widest">VERIFIED</span>}
+                    {!unlocked ? (
+                      <Lock className="w-4 h-4 text-red-500" />
+                    ) : (
+                      <span className="text-[6px] tracking-widest">
+                        VERIFIED
+                      </span>
+                    )}
                   </div>
                 </div>
 

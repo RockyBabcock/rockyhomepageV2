@@ -3,7 +3,7 @@ import { TechStackModule } from "./TechStackModule";
 
 export function StackModule() {
   return (
-    <motion.section 
+    <motion.section
       id="TechStack"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}

@@ -1,7 +1,7 @@
 export const TIME_PERIODS = {
-  1: 'Classical (18th-19th C)',
-  2: 'Modern (20th C)',
-  3: 'Information Era (21st C)'
+  1: "Classical (18th-19th C)",
+  2: "Modern (20th C)",
+  3: "Information Era (21st C)",
 };
 
 export const chessQuotes = [
@@ -11,8 +11,9 @@ export const chessQuotes = [
     author: "François-André Danican Philidor",
     category: "Sacrifice",
     period: 1,
-    reflection: "Every project I make begins as a pawn — a minimum viable prototype that advances step by step.",
-    caseLink: "/projects/pawn-mvp"
+    reflection:
+      "Every project I make begins as a pawn — a minimum viable prototype that advances step by step.",
+    caseLink: "/projects/pawn-mvp",
   },
   {
     id: "q2",
@@ -20,8 +21,9 @@ export const chessQuotes = [
     author: "Boris Spassky",
     category: "Sacrifice",
     period: 2,
-    reflection: "Removing features is harder than adding them. Simplicity requires sacrificing good ideas for edge cases to keep the core strong.",
-    caseLink: "/projects/spassky-simplicity"
+    reflection:
+      "Removing features is harder than adding them. Simplicity requires sacrificing good ideas for edge cases to keep the core strong.",
+    caseLink: "/projects/spassky-simplicity",
   },
   {
     id: "q3",
@@ -29,8 +31,9 @@ export const chessQuotes = [
     author: "Savielly Tartakower",
     category: "Sacrifice",
     period: 2,
-    reflection: "Design systems are strategy. UI tweaks are tactics. Both are necessary, but systems survive the test of time.",
-    caseLink: "/projects/tartakower-system"
+    reflection:
+      "Design systems are strategy. UI tweaks are tactics. Both are necessary, but systems survive the test of time.",
+    caseLink: "/projects/tartakower-system",
   },
   {
     id: "q4",
@@ -38,8 +41,9 @@ export const chessQuotes = [
     author: "Jose Raul Capablanca",
     category: "Patience",
     period: 1,
-    reflection: "Endurance during the last 10% of a project is what separates a good product from a great one.",
-    caseLink: "/projects/capa-endurance"
+    reflection:
+      "Endurance during the last 10% of a project is what separates a good product from a great one.",
+    caseLink: "/projects/capa-endurance",
   },
   {
     id: "q5",
@@ -47,8 +51,9 @@ export const chessQuotes = [
     author: "Anatoly Karpov",
     category: "Patience",
     period: 3,
-    reflection: "Balancing aesthetics, performance, and user experience is a delicate act of multi-disciplinary patience.",
-    caseLink: "/projects/karpov-balance"
+    reflection:
+      "Balancing aesthetics, performance, and user experience is a delicate act of multi-disciplinary patience.",
+    caseLink: "/projects/karpov-balance",
   },
   {
     id: "q6",
@@ -56,8 +61,9 @@ export const chessQuotes = [
     author: "Magnus Carlsen",
     category: "Patience",
     period: 3,
-    reflection: "Joy in the process outlasts motivation. I build systems because I genuinely enjoy the puzzle.",
-    caseLink: "/projects/carlsen-joy"
+    reflection:
+      "Joy in the process outlasts motivation. I build systems because I genuinely enjoy the puzzle.",
+    caseLink: "/projects/carlsen-joy",
   },
   {
     id: "q7",
@@ -65,8 +71,9 @@ export const chessQuotes = [
     author: "Aron Nimzowitsch",
     category: "Endgame",
     period: 2,
-    reflection: "Architectural purity isn't always flashy to the user, but it ensures the product scales elegantly.",
-    caseLink: "/projects/nimzo-architecture"
+    reflection:
+      "Architectural purity isn't always flashy to the user, but it ensures the product scales elegantly.",
+    caseLink: "/projects/nimzo-architecture",
   },
   {
     id: "q8",
@@ -74,8 +81,9 @@ export const chessQuotes = [
     author: "Bobby Fischer",
     category: "Endgame",
     period: 2,
-    reflection: "Data and performance metrics speak louder than assumed user personas. Execute cleanly.",
-    caseLink: "/projects/fischer-metrics"
+    reflection:
+      "Data and performance metrics speak louder than assumed user personas. Execute cleanly.",
+    caseLink: "/projects/fischer-metrics",
   },
   {
     id: "q9",
@@ -83,9 +91,10 @@ export const chessQuotes = [
     author: "Garry Kasparov",
     category: "Endgame",
     period: 3,
-    reflection: "Proactive error handling and intuitive UX prevent users from making mistakes in the first place.",
-    caseLink: "/projects/kasparov-ux"
-  }
+    reflection:
+      "Proactive error handling and intuitive UX prevent users from making mistakes in the first place.",
+    caseLink: "/projects/kasparov-ux",
+  },
 ];
 
 export const chessPieces = [
@@ -97,12 +106,13 @@ export const chessPieces = [
     monologue: [
       "I am the pawn. I do not retreat.",
       "I move with constraint, but every step matters.",
-      "Most systems begin with my discipline, not with brilliance."
+      "Most systems begin with my discipline, not with brilliance.",
     ],
     proof: {
-      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop",
-      text: "Starting small. The initial MVP was just a single button and a database connection."
-    }
+      image:
+        "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop",
+      text: "Starting small. The initial MVP was just a single button and a database connection.",
+    },
   },
   {
     id: "knight",
@@ -112,12 +122,13 @@ export const chessPieces = [
     monologue: [
       "I am the knight. My path is nonlinear.",
       "I bypass walls and ignore standard lines.",
-      "Breakthroughs happen when you approach the problem from an unexpected angle."
+      "Breakthroughs happen when you approach the problem from an unexpected angle.",
     ],
     proof: {
-      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop",
-      text: "Approaching a complex data viz problem by restructuring the underlying model completely."
-    }
+      image:
+        "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop",
+      text: "Approaching a complex data viz problem by restructuring the underlying model completely.",
+    },
   },
   {
     id: "bishop",
@@ -127,12 +138,13 @@ export const chessPieces = [
     monologue: [
       "I am the bishop. I see across the entire grid.",
       "But I am bound to my color, my chosen paradigm.",
-      "Consistency in architecture is more powerful than localized flexibility."
+      "Consistency in architecture is more powerful than localized flexibility.",
     ],
     proof: {
-      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop",
-      text: "Defining a strict separation of concerns where visual and semantic layers never cross boundaries."
-    }
+      image:
+        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop",
+      text: "Defining a strict separation of concerns where visual and semantic layers never cross boundaries.",
+    },
   },
   {
     id: "rook",
@@ -142,12 +154,13 @@ export const chessPieces = [
     monologue: [
       "I am the rook. I wait in the corners.",
       "When the path clears, I strike with absolute force.",
-      "True power is deployed in the final stages of a release."
+      "True power is deployed in the final stages of a release.",
     ],
     proof: {
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop",
-      text: "The final sprint. Deploying the CI/CD pipeline and massively scaling the infrastructure."
-    }
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop",
+      text: "The final sprint. Deploying the CI/CD pipeline and massively scaling the infrastructure.",
+    },
   },
   {
     id: "queen",
@@ -157,12 +170,13 @@ export const chessPieces = [
     monologue: [
       "I am the queen. I master every direction.",
       "I synthesize the strengths of the others.",
-      "But a system relies on me too much, and the King becomes vulnerable."
+      "But a system relies on me too much, and the King becomes vulnerable.",
     ],
     proof: {
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=600&auto=format&fit=crop",
-      text: "Bridging Postgres, GraphQL, and React to build a real-time reactive dashboard."
-    }
+      image:
+        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=600&auto=format&fit=crop",
+      text: "Bridging Postgres, GraphQL, and React to build a real-time reactive dashboard.",
+    },
   },
   {
     id: "king",
@@ -172,11 +186,12 @@ export const chessPieces = [
     monologue: [
       "I am the king. I move slow, but I am the reason you play.",
       "If I fall, the system collapses.",
-      "Vision is the constraint and the purpose of every action."
+      "Vision is the constraint and the purpose of every action.",
     ],
     proof: {
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop",
-      text: "Aligning product roadmap with business objectives to ensure product-market fit."
-    }
-  }
+      image:
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop",
+      text: "Aligning product roadmap with business objectives to ensure product-market fit.",
+    },
+  },
 ];
