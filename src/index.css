@@ -1,53 +1,44 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Berkshire+Swash&family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --font-space: "Space Grotesk", sans-serif;
-  --font-bebas: "Bebas Neue", sans-serif;
-  --font-artnouveau: "Berkshire Swash", cursive;
-  --font-headline: "Newsreader", serif;
+  --font-headline: "Space Grotesk", sans-serif;
   --font-body: "Plus Jakarta Sans", sans-serif;
-  --font-label: "Space Grotesk", monospace;
+  --font-label: "JetBrains Mono", monospace;
 
-  --color-base: #fdfdfc;
-  --color-primary: #8a3324;
-  --color-ink: #111827;
-  --color-silver: #f3f4f6;
-  --color-tertiary: #085f63;
+  --color-base: #07080d;
+  --color-ink: #f8fafc;
+  --color-muted: #94a3b8;
 
-  --color-surface-container-lowest: rgba(255, 255, 255, 0.9);
-  --color-surface-container-low: rgba(255, 255, 255, 0.6);
-  --color-surface-container: rgba(243, 244, 246, 0.6);
-  --color-surface-container-high: rgba(229, 231, 235, 0.6);
-  --color-surface-container-highest: rgba(209, 213, 219, 0.6);
+  --color-panel: rgba(15, 23, 42, 0.72);
+  --color-panel-strong: rgba(15, 23, 42, 0.92);
+  --color-border-soft: rgba(255, 255, 255, 0.10);
 
-  /* Neo-Brutalist Layout Tokens */
-  --module-gap: 120px;
-  --module-gap-mobile: 60px;
-  --void-corridor: 100px;
-  --void-color: #2a2724;
-  --tech-vault-bg: #3e3b38;
-  --tech-vault-border: #4c392d;
-  --divider-color: rgba(176, 138, 82, 0.3); /* Gold 30% */
-  --divider-strong: rgba(176, 138, 82, 0.5); /* Gold 50% */
+  --color-rainbow-red: #ff4d6d;
+  --color-rainbow-orange: #ff9f1c;
+  --color-rainbow-yellow: #ffe66d;
+  --color-rainbow-green: #06d6a0;
+  --color-rainbow-cyan: #00c2ff;
+  --color-rainbow-blue: #3a86ff;
+  --color-rainbow-purple: #8338ec;
+  --color-rainbow-pink: #ff006e;
 
-  --museum-bg: #0d0b09;
-  --museum-panel: #17120f;
-  --museum-panel-elevated: #211915;
+  --museum-bg: var(--color-base);
+  --museum-panel: var(--color-panel);
+  --museum-panel-elevated: var(--color-panel-strong);
 
-  --museum-text: #f3eadc;
-  --museum-text-muted: #b8aa99;
-  --museum-text-faint: #75695f;
+  --museum-text: var(--color-ink);
+  --museum-text-muted: var(--color-muted);
+  --museum-text-faint: rgba(148, 163, 184, 0.5);
 
-  --museum-border: rgba(228, 220, 207, 0.16);
-  --museum-border-strong: rgba(228, 220, 207, 0.32);
+  --museum-border: var(--color-border-soft);
+  --museum-border-strong: rgba(255, 255, 255, 0.15);
 
-  --museum-accent: #d97706;
-  --museum-accent-soft: rgba(217, 119, 6, 0.18);
-  --museum-danger: #ef4444;
-  --museum-success: #84cc16;
+  --museum-accent: var(--color-rainbow-cyan);
+  --museum-accent-soft: rgba(0, 194, 255, 0.18);
 }
 
 @layer base {
@@ -59,16 +50,16 @@
     @apply bg-base text-ink font-body antialiased;
     background-image:
       url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"),
-      linear-gradient(135deg, #ffffff, #f3f4f6, #f9fafb, #e5e7eb);
+      linear-gradient(180deg, var(--color-base) 0%, #0B0F19 100%);
     background-size:
       auto,
-      300% 300%;
-    animation: gradientFlow 20s ease infinite;
+      100% 100%;
     overflow-x: hidden;
   }
 
+  /* Keep legacy dark class rules just in case they are explicitly invoked, though the whole app is now dark. */
   .dark body {
-    @apply bg-ink text-base;
+    @apply bg-base text-ink;
     background-image:
       url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"),
       radial-gradient(
@@ -76,7 +67,7 @@
         rgba(255, 255, 255, 0.05) 1px,
         transparent 0
       ),
-      linear-gradient(180deg, #080a0f, #0d1117);
+      linear-gradient(180deg, var(--color-base), #0d1117);
     background-size:
       auto,
       16px 16px,

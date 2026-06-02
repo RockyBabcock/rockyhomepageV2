@@ -11,19 +11,58 @@ import GardenPage from "./pages/GardenPage";
 import ContactPage from "./pages/ContactPage";
 import { BackToTop } from "./components/BackToTop";
 
-const DecorativeElements = () => (
-  <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden hidden lg:block">
-    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px] mix-blend-multiply dark:bg-primary/10 dark:mix-blend-screen transition-opacity duration-1000"></div>
-    <div className="absolute top-[40%] right-[-10%] w-[30%] h-[30%] rounded-full bg-tertiary/5 blur-[100px] mix-blend-multiply dark:bg-tertiary/10 dark:mix-blend-screen transition-opacity duration-1000 delay-500"></div>
-    <div className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] rounded-full bg-emerald-500/5 blur-[150px] mix-blend-multiply dark:bg-emerald-500/10 dark:mix-blend-screen transition-opacity duration-1000 delay-1000"></div>
-  </div>
-);
+import { motion, useScroll, useTransform } from "motion/react";
+
+const SpectrumSpine = () => {
+  const { scrollYProgress } = useScroll();
+  
+  // Use scroll progress to shift colors
+  const color1 = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["#FF006E", "#FF9F1C", "#06D6A0", "#00C2FF", "#8338EC"]);
+  const color2 = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["#FF9F1C", "#06D6A0", "#00C2FF", "#8338EC", "#FF006E"]);
+  
+  // Scale the inner progress bar
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0.1, 1]);
+
+  return (
+    <div className="fixed inset-y-0 left-0 w-1.5 sm:w-2 md:left-6 md:my-32 md:rounded-full bg-[var(--museum-panel)] border border-[var(--museum-border-strong)] overflow-hidden pointer-events-none z-50 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+       {/* Background structural tube */}
+       <div className="absolute inset-0 opacity-20 bg-gradient-to-b from-transparent via-white to-transparent" />
+       
+       {/* The filling liquid spectrum */}
+       <motion.div 
+         className="absolute top-0 left-0 right-0 origin-top blur-[1px]"
+         style={{
+           height: "100%",
+           scaleY,
+           background: `linear-gradient(to bottom, var(--color-rainbow-red), var(--color-rainbow-pink))`
+         }}
+       >
+          <motion.div 
+             className="absolute inset-0 mix-blend-overlay"
+             style={{
+               backgroundImage: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.8))"
+             }}
+          />
+       </motion.div>
+
+       {/* Current active glow indicator moving down */}
+       <motion.div
+         className="absolute w-full h-12 rounded-full blur-[8px] mix-blend-screen"
+         style={{
+           top: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]),
+           translateY: "-50%",
+           backgroundColor: color1,
+         }}
+       />
+    </div>
+  );
+};
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen relative selection:bg-primary/20 selection:text-primary">
-        <DecorativeElements />
+      <div className="min-h-screen relative selection:bg-[var(--museum-accent-soft)] selection:text-[var(--museum-accent)]">
+        <SpectrumSpine />
         <Navigation />
         <Sidebar />
 

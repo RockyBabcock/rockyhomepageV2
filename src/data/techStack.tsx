@@ -44,26 +44,26 @@ export interface TechItem {
 }
 
 export const categoryColors: Record<string, { pri: string; sec: string }> = {
-  frontend: { pri: "#f59e0b", sec: "#00f0ff" }, // Amber
-  backend: { pri: "#3b82f6", sec: "#00f0ff" }, // Azure
-  devops: { pri: "#ef4444", sec: "#ff006e" }, // Red
-  design: { pri: "#00f0ff", sec: "#ff006e" }, // Cyan
-  ai: { pri: "#a855f7", sec: "#00f0ff" }, // Violet
-  web3: { pri: "#10b981", sec: "#00f0ff" }, // Matrix Green
-  creative: { pri: "#00b8ff", sec: "#00ffff" },
-  audio: { pri: "#ffaa00", sec: "#ffff00" },
-  hardware: { pri: "#ff5500", sec: "#ffaa00" },
-  language: { pri: "#aa00aa", sec: "#ff00ff" },
-  spatial: { pri: "#88ff00", sec: "#aaff00" },
-  tooling: { pri: "#00ff55", sec: "#55ff55" },
+  frontend: { pri: "#FF9F1C", sec: "#FFE66D" }, // warm creation
+  backend: { pri: "#3A86FF", sec: "#00C2FF" }, // system logic
+  devops: { pri: "#FF4D6D", sec: "#FF9F1C" }, // infrastructure/fire
+  design: { pri: "#FF006E", sec: "#8338EC" }, // visual imagination
+  ai: { pri: "#8338EC", sec: "#00C2FF" }, // intelligence
+  web3: { pri: "#06D6A0", sec: "#3A86FF" }, // network/value
+  creative: { pri: "#00C2FF", sec: "#FF006E" }, // generative media
+  audio: { pri: "#FFE66D", sec: "#FF9F1C" }, // sound/wave
+  hardware: { pri: "#FF6B35", sec: "#06D6A0" }, // physical computing
+  language: { pri: "#C77DFF", sec: "#FF006E" }, // abstraction
+  spatial: { pri: "#80FFDB", sec: "#3A86FF" }, // space/XR
+  tooling: { pri: "#06D6A0", sec: "#FFE66D" }, // productivity
 };
 
 export const levelColors: Record<string, string> = {
-  "Primary Tool": "#f59e0b",
-  Advanced: "#3b82f6",
-  Comfortable: "#10b981",
-  Learning: "#a855f7",
-  Exploring: "#94a3b8",
+  "Primary Tool": "#FF9F1C",
+  Advanced: "#3A86FF",
+  Comfortable: "#06D6A0",
+  Learning: "#8338EC",
+  Exploring: "#94A3B8",
 };
 
 const rawData = [
