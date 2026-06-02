@@ -235,13 +235,13 @@ function Narthex({ soundEnabled }: { soundEnabled: boolean }) {
         </div>
 
         <div className="text-center bg-black/80 px-4 py-8 md:p-8 border-4 border-[#C0C0C0] shadow-[12px_12px_0_rgba(0,0,0,1)] relative max-w-2xl w-full">
-          <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-white">
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-white">
             Some are born to build.
             <br />
             Some are born to become
             <br />
             the foundation.
-          </h1>
+          </h2>
           <p className="font-mono text-xs md:text-sm uppercase tracking-widest text-[#d4af37] border-t-2 border-[#C0C0C0] pt-4 mt-4 inline-block bg-[#4C392D] px-4">
             In design and on the court — structure is sacred.
           </p>
