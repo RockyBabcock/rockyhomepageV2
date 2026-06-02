@@ -13,6 +13,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { StatusPill } from "./StatusPill";
+import { MuseumCard } from "./common/MuseumCard";
 
 // --- Data ---
 const musicData = [
@@ -498,13 +499,11 @@ export function GameMediaModule() {
   }, [vinylClicks]);
 
   return (
-    <motion.section
+    <div
       id="GameMedia"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className={`col-span-12 premium-card !p-0 !bg-[#0b0c10] overflow-hidden relative ${eminemMode ? "animate-pulse bg-red-900/20" : ""}`}
+      className="col-span-12 h-full flex flex-col"
     >
+      <MuseumCard className={`!p-0 !bg-[#0b0c10] overflow-hidden relative h-full flex flex-col rounded-3xl ${eminemMode ? "animate-pulse bg-red-900/20" : ""}`}>
       {/* Global Easter Egg Effects */}
       {eminemMode && (
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -676,6 +675,7 @@ export function GameMediaModule() {
           />
         )}
       </AnimatePresence>
-    </motion.section>
+      </MuseumCard>
+    </div>
   );
 }

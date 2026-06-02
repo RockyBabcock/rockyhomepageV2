@@ -147,11 +147,11 @@ export const TechIcon: React.FC<TechIconProps> = ({
       >
         <div
           className="mb-1 transition-colors duration-300"
-          style={{ color: isHovered ? categoryColors[item.category] : "white" }}
+          style={{ color: isHovered ? (categoryColors[item.category]?.pri || "white") : "white" }}
         >
-          {React.cloneElement(item.icon as React.ReactElement, {
+          {item.icon ? React.cloneElement(item.icon as React.ReactElement<any>, {
             size: 24 * scale,
-          })}
+          }) : null}
         </div>
         <span className="text-white font-mono text-[10px] font-bold text-center px-1 truncate w-full">
           {item.name}

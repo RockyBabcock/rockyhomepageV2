@@ -24,29 +24,29 @@ export function TransitionPanel({
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={cn(
-        "col-span-12 my-12 border-y border-ink/15 dark:border-base/15 py-8 relative",
+        "col-span-12 my-12 border-y border-[var(--museum-border)] py-8 relative",
         className,
       )}
     >
-      <div className="absolute top-0 left-4 px-3 -translate-y-1/2 bg-[#faf8f5] dark:bg-[#030508] text-[9px] font-mono uppercase tracking-[0.3em] text-primary border border-ink/10 dark:border-base/10 shadow-sm">
+      <div className="absolute top-0 left-4 px-3 -translate-y-1/2 bg-[var(--museum-bg)] text-[9px] font-mono uppercase tracking-[0.3em] text-[var(--museum-accent)] border border-[var(--museum-border-strong)] shadow-sm">
         Route Transition Gateway
       </div>
 
-      <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-ink/40 dark:text-base/40">
+      <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-[var(--museum-text-faint)]">
         {eyebrow}
       </div>
 
-      <h3 className="mt-2 text-xl md:text-3xl font-headline font-black uppercase text-ink dark:text-white">
+      <h3 className="mt-2 text-xl md:text-3xl font-headline font-black uppercase text-[var(--museum-text)]">
         {title}
       </h3>
 
-      <p className="mt-3 max-w-2xl font-body text-xs md:text-sm text-ink/70 dark:text-base/60 leading-relaxed">
+      <p className="mt-3 max-w-2xl font-body text-xs md:text-sm text-[var(--museum-text-muted)] leading-relaxed">
         {body}
       </p>
 
       {next && (
-        <div className="mt-5 text-[9px] font-mono uppercase tracking-[0.25em] text-primary dark:text-primary flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse shadow-[0_0_8px_currentColor]" />
+        <div className="mt-5 text-[9px] font-mono uppercase tracking-[0.25em] text-[var(--museum-accent)] flex items-center gap-2">
+          <span className="w-1.5 h-1.5 bg-[var(--museum-accent)] rounded-full animate-pulse shadow-[0_0_8px_currentColor]" />
           <span>Next Hallward Target: {next}</span>
         </div>
       )}

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import gsap from "gsap";
 import { StatusPill } from "./StatusPill";
+import { MuseumCard } from "./common/MuseumCard";
 
 // --- Constants & Data ---
 const STAGES = [
@@ -791,14 +792,12 @@ export function WateringSystemModule() {
   };
 
   return (
-    <motion.section
+    <div
       id="Watering"
       ref={containerRef}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="col-span-12 grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 md:p-8 premium-card !p-6 md:!p-8 !bg-black/95 text-white overflow-hidden shadow-2xl"
+      className="col-span-12 h-full flex flex-col"
     >
+      <MuseumCard className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 md:p-8 h-full rounded-3xl !bg-black/95 text-white overflow-hidden shadow-2xl relative">
       <Background
         stageIndex={currentStageIndex}
         isSunbathing={isSunbathing}
@@ -1113,6 +1112,7 @@ export function WateringSystemModule() {
           ))}
         </div>
       </div>
-    </motion.section>
+      </MuseumCard>
+    </div>
   );
 }

@@ -15,6 +15,8 @@ import { TransitionPanel } from "../components/TransitionPanel";
 import { SealedArchive } from "../components/SealedArchive";
 import { MuseumSectionLayout } from "@/components/layout/MuseumSectionLayout";
 import { ModuleSkeleton } from "@/components/common/ModuleSkeleton";
+import { features } from "../config/features";
+import { ModuleErrorBoundary } from "../components/common/ModuleErrorBoundary";
 
 // Lazy-loaded heavy modules
 const AIPlaygroundModule = lazy(() =>
@@ -112,7 +114,16 @@ export default function HomePage() {
           <MuseumSectionLayout sectionId="projects">
             <ProjectLabModule />
             <div className="mt-6">
-              <GitHubModule />
+              <ModuleErrorBoundary fallbackTitle="GitHub Signal Unavailable">
+                {features.githubActivity ? (
+                  <GitHubModule />
+                ) : (
+                  <SealedArchive 
+                    title="GitHub Signal Unavailable" 
+                    description="Live repository data could not be loaded. Static project links remain available in the Project Laboratory."
+                  />
+                )}
+              </ModuleErrorBoundary>
             </div>
           </MuseumSectionLayout>
         </div>
@@ -151,18 +162,36 @@ export default function HomePage() {
           <MuseumSectionLayout sectionId="experiments">
             <div className="grid grid-cols-12 gap-6">
               <div className="col-span-12 lg:col-span-6">
-                <Suspense
-                  fallback={<ModuleSkeleton label="Loading AI Playground..." />}
-                >
-                  <AIPlaygroundModule />
-                </Suspense>
+                <ModuleErrorBoundary fallbackTitle="AI Experiment Chamber Offline">
+                  <Suspense
+                    fallback={<ModuleSkeleton label="Loading AI Playground..." />}
+                  >
+                    {features.aiPlayground ? (
+                      <AIPlaygroundModule />
+                    ) : (
+                      <SealedArchive 
+                        title="AI Experiment Chamber Offline" 
+                        description="Live AI calls are disabled in this production build. This chamber currently documents the interface concept and future workflow direction."
+                      />
+                    )}
+                  </Suspense>
+                </ModuleErrorBoundary>
               </div>
               <div className="col-span-12 lg:col-span-6">
-                <Suspense
-                  fallback={<ModuleSkeleton label="Loading Web3 Vault..." />}
-                >
-                  <Web3VaultModule />
-                </Suspense>
+                <ModuleErrorBoundary fallbackTitle="Web3 Archive Mode">
+                  <Suspense
+                    fallback={<ModuleSkeleton label="Loading Web3 Vault..." />}
+                  >
+                    {features.web3Vault ? (
+                      <Web3VaultModule />
+                    ) : (
+                      <SealedArchive 
+                        title="Web3 Archive Mode" 
+                        description="Wallet interaction is disabled. This vault is currently displayed as a learning archive."
+                      />
+                    )}
+                  </Suspense>
+                </ModuleErrorBoundary>
               </div>
               <div className="col-span-12">
                 <ExhibitNote
@@ -313,11 +342,20 @@ export default function HomePage() {
                 <ConnectModule />
               </div>
               <div className="col-span-12 xl:col-span-5">
-                <Suspense
-                  fallback={<ModuleSkeleton label="Loading Analytics..." />}
-                >
-                  <VisitorAnalyticsModule />
-                </Suspense>
+                <ModuleErrorBoundary fallbackTitle="Telemetry Wall Simulation">
+                  <Suspense
+                    fallback={<ModuleSkeleton label="Loading Analytics..." />}
+                  >
+                    {features.telemetry ? (
+                      <VisitorAnalyticsModule />
+                    ) : (
+                      <SealedArchive 
+                        title="Telemetry Wall Simulation" 
+                        description="Real analytics are not connected yet. This panel currently shows the future interface direction."
+                      />
+                    )}
+                  </Suspense>
+                </ModuleErrorBoundary>
               </div>
             </div>
           </MuseumSectionLayout>

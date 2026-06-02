@@ -10,6 +10,8 @@ import {
   TreePine,
 } from "lucide-react";
 import { cn } from "../lib/utils";
+import { MuseumCard } from "./common/MuseumCard";
+import { MuseumButton } from "./common/MuseumButton";
 
 const PREDICTOR_MODES = [
   "First 🟩 expected in 30 days",
@@ -119,10 +121,10 @@ export function GitHubModule() {
     }
     // Default grayscale pattern
     const val = (col * 7 + row) % 10;
-    if (val > 8) return "bg-zinc-300";
-    if (val > 6) return "bg-zinc-500";
-    if (val > 3) return "bg-zinc-700";
-    return "bg-zinc-800/50";
+    if (val > 8) return "bg-[var(--museum-border-strong)]";
+    if (val > 6) return "bg-stone-500";
+    if (val > 3) return "bg-stone-700";
+    return "bg-[var(--museum-bg)]";
   };
 
   const getOctoVisual = () => {
@@ -153,7 +155,7 @@ export function GitHubModule() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[110] pointer-events-none overflow-hidden flex justify-around bg-black/90 backdrop-blur-sm"
+            className="fixed inset-0 z-[110] pointer-events-none overflow-hidden flex justify-around bg-[var(--museum-bg)] backdrop-blur-sm"
           >
             {Array.from({ length: 30 }).map((_, i) => (
               <motion.div
@@ -166,7 +168,7 @@ export function GitHubModule() {
                   ease: "linear",
                   delay: Math.random() * 2,
                 }}
-                className="text-green-500 font-mono text-xl opacity-80"
+                className="text-[var(--museum-success)] font-mono text-xl opacity-80"
                 style={{
                   writingMode: "vertical-rl",
                   textOrientation: "upright",
@@ -181,7 +183,8 @@ export function GitHubModule() {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl md:text-7xl font-black text-green-400 drop-shadow-[0_0_30px_rgba(74,222,128,0.8)] tracking-widest"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl md:text-7xl font-black text-[var(--museum-success)] tracking-widest"
+              style={{ textShadow: "0 0 30px var(--museum-success)" }}
             >
               LEVEL UP!
             </motion.div>
@@ -189,45 +192,47 @@ export function GitHubModule() {
         )}
       </AnimatePresence>
 
-      <motion.section
+      <motion.div
         id="GitHub"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="col-span-12 md:col-span-6 premium-card !bg-[#0d1117] !text-[#c9d1d9] p-8 !rounded-3xl border border-[#30363d] relative overflow-hidden font-sans"
+        className="col-span-12 md:col-span-6 relative overflow-hidden h-full flex flex-col"
       >
+        <MuseumCard className="h-full flex flex-col p-8 md:p-10 rounded-3xl">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-[#161b22] rounded-lg border border-[#30363d]">
-              <Github className="w-6 h-6 text-[#c9d1d9]" />
+            <div className="p-3 bg-[var(--museum-panel-elevated)] rounded-lg border border-[var(--museum-border)]">
+              <Github className="w-6 h-6 text-[var(--museum-text)]" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white tracking-tight">
+              <h2 className="text-2xl font-bold text-[var(--museum-text)] tracking-tight">
                 Digital Wilderness
               </h2>
-              <p className="text-sm text-[#8b949e]">Journey from zero to one</p>
+              <p className="text-sm text-[var(--museum-text-muted)]">Journey from zero to one</p>
             </div>
           </div>
-          <a
+          <MuseumButton
+            as="a"
+            variant="primary"
             href="https://github.com/RockyBabcock"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 bg-[#C17A53] hover:bg-[#a86541] text-white font-bold rounded-lg transition-colors shadow-lg"
           >
-            Visit github.com/RockyBabcock <ExternalLink className="w-4 h-4" />
-          </a>
+            Visit github.com/RockyBabcock <ExternalLink className="w-4 h-4 ml-2" />
+          </MuseumButton>
         </div>
 
-        <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6 flex-1">
           {/* Empty State (Wilderness Survival) */}
           <div className="2xl:col-span-2 flex flex-col gap-6">
             <div
-              className="border-2 border-dashed border-[#30363d] hover:border-[#C17A53]/50 bg-[#161b22]/50 rounded-3xl p-12 flex flex-col items-center justify-center relative cursor-pointer group transition-colors min-h-[200px]"
+              className="border-2 border-dashed border-[var(--museum-border-strong)] hover:border-[var(--museum-accent)] bg-[var(--museum-panel-elevated)] rounded-3xl p-12 flex flex-col items-center justify-center relative cursor-pointer group transition-colors min-h-[200px]"
               onClick={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
             >
-              <TreePine className="w-12 h-12 text-[#8b949e] mb-4 group-hover:text-[#C17A53] transition-colors" />
-              <p className="animate-pulse font-mono text-sm text-[#8b949e]">
+              <TreePine className="w-12 h-12 text-[var(--museum-text-muted)] mb-4 group-hover:text-[var(--museum-accent)] transition-colors" />
+              <p className="animate-pulse font-mono text-sm text-[var(--museum-text-muted)]">
                 Surviving in the Wilderness... Coming Soon.
               </p>
 
@@ -237,7 +242,7 @@ export function GitHubModule() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-4 bg-[#C17A53] text-white text-xs px-4 py-2 rounded shadow-xl font-bold tracking-wide"
+                    className="absolute top-4 bg-[var(--museum-accent)] text-white text-xs px-4 py-2 rounded shadow-xl font-bold tracking-wide"
                   >
                     Star me to witness the journey from zero to one.
                   </motion.div>
@@ -253,10 +258,10 @@ export function GitHubModule() {
                     initial={{ opacity: 0, scale: 0.8, y: 10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.8, y: 10 }}
-                    className="absolute -top-14 left-1/2 -translate-x-1/2 bg-[#C17A53] text-white text-sm font-bold px-6 py-3 rounded-3xl whitespace-nowrap z-10 shadow-2xl"
+                    className="absolute -top-14 left-1/2 -translate-x-1/2 bg-[var(--museum-accent)] text-white text-sm font-bold px-6 py-3 rounded-3xl whitespace-nowrap z-10 shadow-2xl"
                   >
                     I'm working on it, I'm working on it! (Really!)
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#C17A53]" />
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[var(--museum-accent)]" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -268,17 +273,17 @@ export function GitHubModule() {
                     whileHover={{ rotateX: 5, rotateY: 5, scale: 1.05 }}
                     onClick={() => handleCardClick(i)}
                     className={cn(
-                      "bg-[#161b22] p-5 rounded-3xl border cursor-pointer relative overflow-hidden transition-colors",
+                      "bg-[var(--museum-panel-elevated)] p-5 rounded-3xl border cursor-pointer relative overflow-hidden transition-colors",
                       clickedCards.has(i)
-                        ? "border-[#C17A53]"
-                        : "border-[#30363d] hover:border-[#8b949e]",
+                        ? "border-[var(--museum-accent)]"
+                        : "border-[var(--museum-border-strong)] hover:border-[var(--museum-text-muted)]",
                     )}
                   >
-                    <div className="absolute top-3 right-3 bg-[#30363d] text-[#8b949e] text-[9px] font-mono px-2 py-1 rounded-full font-bold uppercase tracking-wider">
+                    <div className="absolute top-3 right-3 bg-[var(--museum-bg)] text-[var(--museum-text-muted)] text-[9px] font-mono px-2 py-1 rounded-full font-bold uppercase tracking-wider">
                       WIP
                     </div>
-                    <proj.icon className="w-8 h-8 mb-4 text-[#C17A53]" />
-                    <h4 className="font-bold text-sm text-white">
+                    <proj.icon className="w-8 h-8 mb-4 text-[var(--museum-accent)]" />
+                    <h4 className="font-bold text-sm text-[var(--museum-text)]">
                       {proj.title}
                     </h4>
                   </motion.div>
@@ -290,8 +295,8 @@ export function GitHubModule() {
           {/* Right Column: Octocat & Graph */}
           <div className="flex flex-col gap-6">
             {/* Octocat Evolution */}
-            <div className="bg-[#161b22] p-6 rounded-3xl border border-[#30363d] flex flex-col items-center justify-center relative overflow-hidden min-h-[200px]">
-              <h3 className="font-mono text-[10px] uppercase tracking-widest text-[#8b949e] mb-6 font-bold">
+            <div className="bg-[var(--museum-panel-elevated)] p-6 rounded-3xl border border-[var(--museum-border)] flex flex-col items-center justify-center relative overflow-hidden min-h-[200px]">
+              <h3 className="font-mono text-[10px] uppercase tracking-widest text-[var(--museum-text-muted)] mb-6 font-bold">
                 Octocat Evolution
               </h3>
 
@@ -315,7 +320,7 @@ export function GitHubModule() {
                 {getOctoVisual()}
               </motion.div>
 
-              <div className="mt-6 font-mono text-xs font-bold text-[#C17A53] bg-[#C17A53]/10 px-3 py-1 rounded-full">
+              <div className="mt-6 font-mono text-xs font-bold text-[var(--museum-accent)] bg-[var(--museum-accent)]/10 px-3 py-1 rounded-full border border-[var(--museum-accent)]/20">
                 Level: {octoClicks}
               </div>
 
@@ -344,7 +349,7 @@ export function GitHubModule() {
             </div>
 
             {/* Contribution Graph & Predictor */}
-            <div className="bg-[#161b22] p-6 rounded-3xl border border-[#30363d]">
+            <div className="bg-[var(--museum-panel-elevated)] p-6 rounded-3xl border border-[var(--museum-border)]">
               <div className="flex gap-1 mb-6 overflow-hidden justify-center">
                 {Array.from({ length: 14 }).map((_, col) => (
                   <div key={col} className="flex flex-col gap-1">
@@ -362,23 +367,24 @@ export function GitHubModule() {
               </div>
 
               <div
-                className="p-4 bg-[#0d1117] rounded-lg cursor-pointer border border-[#30363d] hover:border-[#C17A53]/50 transition-colors group"
+                className="p-4 bg-[var(--museum-bg)] rounded-lg cursor-pointer border border-[var(--museum-border)] hover:border-[var(--museum-accent)]/50 transition-colors group"
                 onClick={() => setPredictorMode((p) => (p + 1) % 3)}
               >
-                <div className="font-mono text-[10px] uppercase tracking-widest text-[#8b949e] mb-2 flex justify-between items-center">
+                <div className="font-mono text-[10px] uppercase tracking-widest text-[var(--museum-text-muted)] mb-2 flex justify-between items-center">
                   <span>Contribution Predictor</span>
-                  <span className="text-[#C17A53] opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-[var(--museum-accent)] opacity-0 group-hover:opacity-100 transition-opacity">
                     Click to cycle
                   </span>
                 </div>
-                <div className="font-body text-sm font-bold text-white min-h-[40px] flex items-center">
+                <div className="font-body text-sm font-bold text-[var(--museum-text)] min-h-[40px] flex items-center">
                   {PREDICTOR_MODES[predictorMode]}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </motion.section>
+        </MuseumCard>
+      </motion.div>
     </>
   );
 }

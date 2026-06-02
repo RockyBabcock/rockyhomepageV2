@@ -32,6 +32,22 @@
   --tech-vault-border: #4c392d;
   --divider-color: rgba(176, 138, 82, 0.3); /* Gold 30% */
   --divider-strong: rgba(176, 138, 82, 0.5); /* Gold 50% */
+
+  --museum-bg: #0d0b09;
+  --museum-panel: #17120f;
+  --museum-panel-elevated: #211915;
+
+  --museum-text: #f3eadc;
+  --museum-text-muted: #b8aa99;
+  --museum-text-faint: #75695f;
+
+  --museum-border: rgba(228, 220, 207, 0.16);
+  --museum-border-strong: rgba(228, 220, 207, 0.32);
+
+  --museum-accent: #d97706;
+  --museum-accent-soft: rgba(217, 119, 6, 0.18);
+  --museum-danger: #ef4444;
+  --museum-success: #84cc16;
 }
 
 @layer base {

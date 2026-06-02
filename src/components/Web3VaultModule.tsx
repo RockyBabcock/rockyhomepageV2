@@ -3,16 +3,16 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { Lock, Fingerprint, ArrowRight, AlertCircle } from "lucide-react";
 import { StatusPill } from "./StatusPill";
+import { MuseumCard } from "./common/MuseumCard";
+import { MuseumButton } from "./common/MuseumButton";
 
 export const Web3VaultModule = () => {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="h-full premium-card !bg-[#0b0c10] !text-[#e5e7eb] p-8 md:p-10 relative overflow-hidden group border-t-[3px] border-t-yellow-500"
+    <div
+      id="Web3Vault"
+      className="h-full flex flex-col"
     >
+      <MuseumCard className="h-full flex flex-col p-8 md:p-10 relative overflow-hidden group rounded-3xl border-t-[3px] border-t-yellow-500">
       {/* Vault Grid Background */}
       <div
         className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-screen"
@@ -40,10 +40,10 @@ export const Web3VaultModule = () => {
               </div>
               <StatusPill status="Learning Archive" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-headline font-black mb-2 text-white">
+            <h2 className="text-3xl md:text-4xl font-headline font-black mb-2 text-[var(--museum-text)]">
               Web3 Archive Vault
             </h2>
-            <p className="font-body text-white/70 text-sm max-w-[280px]">
+            <p className="font-body text-[var(--museum-text-muted)] text-sm max-w-[280px]">
               A learning archive for wallet UX, ownership models, decentralized interfaces, and on-chain identity patterns. This vault records exploration rather than mastery. The goal is to understand how Web3 interfaces can become clearer, safer, and more human.
             </p>
           </div>
@@ -52,12 +52,12 @@ export const Web3VaultModule = () => {
           </div>
         </div>
 
-        <div className="space-y-5 flex-1 mb-8 pt-4 border-t border-white/10">
+        <div className="space-y-5 flex-1 mb-8 pt-4 border-t border-[var(--museum-border)]">
           <div>
             <h4 className="font-mono text-[10px] text-yellow-500 uppercase tracking-widest font-bold mb-1">
               What I built
             </h4>
-            <p className="text-sm text-white/80 leading-relaxed bg-[#111111]/80 backdrop-blur-sm p-3 rounded-lg border border-white/5">
+            <p className="text-sm text-[var(--museum-text)] leading-relaxed bg-[var(--museum-bg)] backdrop-blur-sm p-3 rounded-lg border border-[var(--museum-border-strong)]">
               A visual archive for Web3 concepts, wallet interaction patterns,
               and ownership models.
             </p>
@@ -66,7 +66,7 @@ export const Web3VaultModule = () => {
             <h4 className="font-mono text-[10px] text-yellow-500 uppercase tracking-widest font-bold mb-1">
               What I learned
             </h4>
-            <p className="text-sm text-white/80 leading-relaxed bg-[#111111]/80 backdrop-blur-sm p-3 rounded-lg border border-white/5">
+            <p className="text-sm text-[var(--museum-text)] leading-relaxed bg-[var(--museum-bg)] backdrop-blur-sm p-3 rounded-lg border border-[var(--museum-border-strong)]">
               Web3 interfaces often fail because they hide too much complexity
               or expose too much too early.
             </p>
@@ -75,7 +75,7 @@ export const Web3VaultModule = () => {
             <h4 className="font-mono text-[10px] text-yellow-500 uppercase tracking-widest font-bold mb-1">
               What's next
             </h4>
-            <div className="text-sm text-white/80 leading-relaxed bg-[#111111]/80 backdrop-blur-sm p-3 rounded-lg border border-white/5 flex items-start gap-2">
+            <div className="text-sm text-[var(--museum-text)] leading-relaxed bg-[var(--museum-bg)] backdrop-blur-sm p-3 rounded-lg border border-[var(--museum-border-strong)] flex items-start gap-2">
               <AlertCircle size={14} className="mt-0.5 text-yellow-500/70" />
               <span>
                 Build a small wallet-connected prototype and document the
@@ -85,13 +85,16 @@ export const Web3VaultModule = () => {
           </div>
         </div>
 
-        <Link
+        <MuseumButton
+          as={Link}
           to="/projects"
-          className="mt-auto w-full py-4 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-500 rounded-xl transition-all border border-yellow-500/20 font-bold text-sm tracking-wide flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(234,179,8,0.1)] active:scale-95"
+          variant="secondary"
+          className="mt-auto w-full py-4 text-yellow-500 border-yellow-500/20 bg-yellow-500/10 hover:bg-yellow-500/20 shadow-[0_0_20px_rgba(234,179,8,0.1)]"
         >
-          Access Vault <ArrowRight size={16} />
-        </Link>
+          Access Vault <ArrowRight size={16} className="ml-2" />
+        </MuseumButton>
       </div>
-    </motion.section>
+      </MuseumCard>
+    </div>
   );
 };

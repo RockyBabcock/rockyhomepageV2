@@ -5,6 +5,7 @@ import { ArchiveRoom } from "./ArchiveRoom";
 import { CabinetWorkspace } from "./CabinetWorkspace";
 import { GothamCityMap } from "./GothamCityMap";
 import { ParallelUniverseAnalysis } from "./ParallelUniverseAnalysis";
+import { MuseumCard } from "../common/MuseumCard";
 
 export function BatmanModule() {
   const [stage, setStage] = useState<"auth" | "room" | "cabinet">("auth");
@@ -30,13 +31,11 @@ export function BatmanModule() {
   };
 
   return (
-    <motion.section
+    <div
       id="batman"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="col-span-12 premium-card p-0 flex flex-col min-h-[800px] border border-ink/10 dark:border-base/10 bg-[#0a0a0a] text-white overflow-hidden relative font-mono"
+      className="col-span-12 h-full flex flex-col"
     >
+      <MuseumCard className="p-0 flex flex-col min-h-[800px] border border-ink/10 dark:border-base/10 bg-[#0a0a0a] text-white overflow-hidden relative font-mono h-full rounded-3xl">
       <AnimatePresence mode="wait">
         {stage === "auth" && (
           <motion.div
@@ -63,13 +62,13 @@ export function BatmanModule() {
             <div className="absolute top-16 left-0 right-0 z-50 flex justify-center gap-4 p-4 pointer-events-auto">
               <button
                 onClick={() => setRoomView("cabinets")}
-                className={`px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors ${roomView === "cabinets" ? "bg-[#d4af37] text-black border-[#d4af37]" : "bg-black/50 text-[#d4af37]/50 border-[#d4af37]/30 hover:border-[#d4af37]"}`}
+                className={`px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors ${roomView === "cabinets" ? "bg-[var(--museum-accent)] text-black border-[var(--museum-accent)]" : "bg-black/50 text-[var(--museum-accent)]/50 border-[var(--museum-accent)]/30 hover:border-[var(--museum-accent)]"}`}
               >
                 Archives
               </button>
               <button
                 onClick={() => setRoomView("map")}
-                className={`px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors ${roomView === "map" ? "bg-[#d4af37] text-black border-[#d4af37]" : "bg-black/50 text-[#d4af37]/50 border-[#d4af37]/30 hover:border-[#d4af37]"}`}
+                className={`px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors ${roomView === "map" ? "bg-[var(--museum-accent)] text-black border-[var(--museum-accent)]" : "bg-black/50 text-[var(--museum-accent)]/50 border-[var(--museum-accent)]/30 hover:border-[var(--museum-accent)]"}`}
               >
                 City Map
               </button>
@@ -137,6 +136,7 @@ export function BatmanModule() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.section>
+      </MuseumCard>
+    </div>
   );
 }

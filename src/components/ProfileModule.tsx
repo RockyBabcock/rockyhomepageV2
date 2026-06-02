@@ -146,16 +146,16 @@ export function ProfileModule() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-md border border-ink/10 px-6 py-3 rounded-full shadow-2xl flex items-center gap-4"
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[var(--museum-bg)]/90 backdrop-blur-md border border-[var(--museum-border)] px-6 py-3 rounded-full shadow-2xl flex items-center gap-4"
           >
-            <span className="font-headline font-bold text-sm hidden md:block">
+            <span className="font-headline font-bold text-sm hidden md:block text-[var(--museum-text)]">
               Available for new opportunities
             </span>
             <div className="flex gap-2">
-              <button className="px-4 py-2 bg-primary text-white font-label text-[10px] uppercase tracking-widest font-bold rounded-full hover:scale-105 active:scale-95 transition-all shadow-md flex items-center gap-2">
+              <button className="px-4 py-2 bg-[var(--museum-accent)] text-white font-label text-[10px] uppercase tracking-widest font-bold rounded-full hover:scale-105 active:scale-95 transition-all shadow-md flex items-center gap-2">
                 <Download className="w-3 h-3" /> CV
               </button>
-              <button className="px-4 py-2 bg-ink text-base font-label text-[10px] uppercase tracking-widest font-bold rounded-full hover:scale-105 active:scale-95 transition-all shadow-md flex items-center gap-2">
+              <button className="px-4 py-2 bg-[var(--museum-text)] text-[var(--museum-bg)] font-label text-[10px] uppercase tracking-widest font-bold rounded-full hover:scale-105 active:scale-95 transition-all shadow-md flex items-center gap-2">
                 <Calendar className="w-3 h-3" /> Book
               </button>
             </div>
@@ -164,7 +164,7 @@ export function ProfileModule() {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <motion.section className="premium-card w-full min-h-[85vh] flex flex-col items-center justify-center text-center p-8">
+      <motion.section className="col-span-12 w-full min-h-[85vh] flex flex-col items-center justify-center text-center p-8 bg-[var(--museum-panel)] rounded-b-3xl border-b border-[var(--museum-border-strong)] relative overflow-hidden">
         <motion.div style={{ y, opacity }} className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fm=webp&fit=crop"
@@ -173,7 +173,7 @@ export function ProfileModule() {
             className="w-full h-full object-cover opacity-40 dark:opacity-20"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-base/10 via-base/50 to-base"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--museum-bg)]/50 to-[var(--museum-bg)]"></div>
         </motion.div>
 
         <div className="relative z-10 flex flex-col items-center max-w-4xl mx-auto mt-12">
@@ -187,7 +187,7 @@ export function ProfileModule() {
             <div className="absolute -inset-6 opacity-60 pointer-events-none transition-transform duration-700 group-hover:rotate-12 group-hover:scale-110">
               <svg
                 viewBox="0 0 200 200"
-                className="w-full h-full text-green-700/30 fill-current animate-[spin_60s_linear_infinite]"
+                className="w-full h-full text-[var(--museum-accent)]/30 fill-current animate-[spin_60s_linear_infinite]"
               >
                 <polygon
                   points="100,10 190,100 100,190 10,100"
@@ -215,7 +215,7 @@ export function ProfileModule() {
               </svg>
             </div>
 
-            <div className="w-40 h-40 md:w-56 md:h-56 rounded-none overflow-hidden border-[6px] border-ink bg-base shadow-[12px_12px_0px_0px_currentColor] text-primary dark:border-base relative z-10 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[20px_20px_0px_0px_currentColor]">
+            <div className="w-40 h-40 md:w-56 md:h-56 rounded-none overflow-hidden border-[6px] border-[var(--museum-text)] bg-[var(--museum-bg)] shadow-[12px_12px_0px_0px_currentColor] text-[var(--museum-accent)] relative z-10 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[20px_20px_0px_0px_currentColor]">
               <img
                 src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fm=webp&fit=crop"
                 alt="Profile Logo"
@@ -223,13 +223,13 @@ export function ProfileModule() {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale contrast-150 mix-blend-multiply"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 flex items-center justify-center font-headline font-black text-6xl text-ink bg-primary mix-blend-screen opacity-80">
+              <div className="absolute inset-0 flex items-center justify-center font-headline font-black text-6xl text-[var(--museum-bg)] bg-[var(--museum-accent)] mix-blend-screen opacity-80">
                 RB
               </div>
             </div>
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md border-[3px] border-ink px-4 py-2 flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-20 whitespace-nowrap transition-transform duration-300 group-hover:-translate-y-1">
-              <span className="w-3 h-3 bg-green-500 border border-ink animate-pulse"></span>
-              <div className="font-mono text-xs font-black uppercase tracking-widest text-ink overflow-hidden whitespace-nowrap border-r-2 border-ink animate-[typing_3s_steps(22)_infinite,blink_0.5s_step-end_infinite] w-[18ch]">
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[var(--museum-bg)]/90 backdrop-blur-md border-[3px] border-[var(--museum-border-strong)] px-4 py-2 flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-20 whitespace-nowrap transition-transform duration-300 group-hover:-translate-y-1">
+              <span className="w-3 h-3 bg-[var(--museum-accent)] border border-[var(--museum-border)] animate-pulse"></span>
+              <div className="font-mono text-xs font-black uppercase tracking-widest text-[var(--museum-text)] overflow-hidden whitespace-nowrap border-r-2 border-[var(--museum-accent)] animate-[typing_3s_steps(22)_infinite,blink_0.5s_step-end_infinite] w-[18ch]">
                 Available for Projects
               </div>
             </div>
@@ -239,7 +239,7 @@ export function ProfileModule() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-headline font-black text-ink mb-4 leading-[1.1] tracking-tight uppercase"
+            className="text-4xl md:text-6xl lg:text-7xl font-headline font-black text-[var(--museum-text)] mb-4 leading-[1.1] tracking-tight uppercase"
           >
             ROCKY BABCOCK DIGITAL MUSEUM
           </motion.h1>
@@ -248,7 +248,7 @@ export function ProfileModule() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-lg md:text-xl font-body font-semibold tracking-wide text-ink mb-2 max-w-2xl dark:text-base"
+            className="text-lg md:text-xl font-body font-semibold tracking-wide text-[var(--museum-text)] mb-2 max-w-2xl"
           >
             I build experimental web interfaces, AI-native workflows, and personal digital systems.
           </motion.p>
@@ -257,7 +257,7 @@ export function ProfileModule() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.28 }}
-            className="text-base md:text-lg font-body text-ink/70 dark:text-base/70 mb-4 max-w-2xl"
+            className="text-base md:text-lg font-body text-[var(--museum-text-muted)] mb-4 max-w-2xl"
           >
             This site is a living archive of my projects, tools, experiments, writing, and personal worlds.
           </motion.p>
@@ -266,7 +266,7 @@ export function ProfileModule() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-sm md:text-base font-mono text-ink max-w-2xl mb-12 font-bold tracking-tight bg-primary/20 inline-block px-4 py-2 border border-ink shadow-[4px_4px_0px_0px_currentColor]"
+            className="text-sm md:text-base font-mono text-[var(--museum-text)] max-w-2xl mb-12 font-bold tracking-tight bg-[var(--museum-accent)]/20 inline-block px-4 py-2 border border-[var(--museum-border-strong)] shadow-[4px_4px_0px_0px_currentColor]"
           >
             <Typewriter
               words={[
@@ -299,7 +299,7 @@ export function ProfileModule() {
                   window.scrollTo({ top: pos, behavior: "smooth" });
                 }
               }}
-              className="px-8 py-4 bg-primary text-white border-[3px] border-ink font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-2 cursor-pointer"
+              className="px-8 py-4 bg-[var(--museum-accent)] text-white border-[3px] border-[var(--museum-border-strong)] font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-2 cursor-pointer"
             >
               Take Fast Route (Projects + CV)
             </button>
@@ -315,7 +315,7 @@ export function ProfileModule() {
                   window.scrollTo({ top: pos, behavior: "smooth" });
                 }
               }}
-              className="px-8 py-4 bg-ink text-base border-[3px] border-ink font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_currentColor] active:translate-y-0 active:shadow-[2px_2px_0px_0px_currentColor] transition-all flex items-center gap-2 cursor-pointer"
+              className="px-8 py-4 bg-[var(--museum-bg)] text-[var(--museum-text)] border-[3px] border-[var(--museum-border-strong)] font-mono text-xs uppercase tracking-widest font-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_currentColor] active:translate-y-0 active:shadow-[2px_2px_0px_0px_currentColor] transition-all flex items-center gap-2 cursor-pointer"
             >
               Explore Full Museum Map
             </button>
@@ -326,13 +326,13 @@ export function ProfileModule() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
-            className="flex items-center gap-6 mt-12 mb-8 bg-white/50 border-[3px] border-ink p-4 shadow-[6px_6px_0px_0px_currentColor]"
+            className="flex items-center gap-6 mt-12 mb-8 bg-[var(--museum-bg)]/50 border-[3px] border-[var(--museum-border-strong)] p-4 shadow-[6px_6px_0px_0px_currentColor]"
           >
             <a
               href="https://github.com/RockyBabcock"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-ink hover:text-primary transition-colors flex items-center gap-2 font-mono text-xs uppercase font-black tracking-widest group"
+              className="text-[var(--museum-text)] hover:text-[var(--museum-accent)] transition-colors flex items-center gap-2 font-mono text-xs uppercase font-black tracking-widest group"
             >
               <svg
                 className="w-6 h-6 group-hover:-translate-y-1 transition-transform"

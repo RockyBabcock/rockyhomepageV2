@@ -1,6 +1,7 @@
 import React from "react";
 import { museumSections } from "@/data/museumSections";
 import { HallHeader } from "@/components/HallHeader";
+import { SectionContainer } from "./SectionContainer";
 
 type MuseumSectionLayoutProps = {
   sectionId: string;
@@ -16,17 +17,19 @@ export function MuseumSectionLayout({
   if (!section) return null;
 
   return (
-    <section id={section.id} aria-labelledby={`heading-` + section.id} className="relative py-20">
-      <HallHeader
-        id={`heading-` + section.id}
-        code={section.code}
-        title={section.title}
-        subtitle={section.subtitle}
-        status={section.status}
-        category={section.category}
-      />
+    <SectionContainer className="relative py-24 md:py-32">
+      <section id={section.id} aria-labelledby={`heading-` + section.id}>
+        <HallHeader
+          id={`heading-` + section.id}
+          code={section.code}
+          title={section.title}
+          subtitle={section.subtitle}
+          status={section.status}
+          category={section.category}
+        />
 
-      <div className="mt-8">{children}</div>
-    </section>
+        <div className="mt-10">{children}</div>
+      </section>
+    </SectionContainer>
   );
 }

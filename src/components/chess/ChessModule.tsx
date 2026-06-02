@@ -6,24 +6,23 @@ import { ThoughtStarMap } from "./ThoughtStarMap";
 import { CharacterTheater } from "./CharacterTheater";
 import { InfiniteChessboard } from "./InfiniteChessboard";
 import { StatusPill } from "../StatusPill";
+import { MuseumCard } from "../common/MuseumCard";
 
 export function ChessModule() {
   // 0: Thought Star Map, 1: Character Theater, 2: Stream of Consciousness
   const [layer, setLayer] = useState<0 | 1 | 2>(0);
 
   return (
-    <motion.section
+    <div
       id="chess"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="col-span-12 premium-card p-0 flex flex-col border border-ink/10 dark:border-base/10 bg-[#050505] text-white overflow-hidden relative"
+      className="col-span-12 h-full flex flex-col"
     >
+      <MuseumCard className="p-0 flex flex-col border border-ink/10 dark:border-base/10 bg-[#050505] text-white overflow-hidden relative h-full rounded-3xl">
       {/* Top Header */}
       <div className="relative z-50 p-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 bg-black/40 backdrop-blur-md border-b border-white/5">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex items-center gap-4">
-            <h2 className="font-headline font-black text-xl md:text-2xl uppercase tracking-widest text-white/90">
+            <h2 className="font-headline font-black text-xl md:text-2xl uppercase tracking-widest text-[#d4af37]">
               Strategic Foundations
             </h2>
             <StatusPill status="Personal Archive" />
@@ -147,6 +146,7 @@ export function ChessModule() {
           />
         ))}
       </div>
-    </motion.section>
+      </MuseumCard>
+    </div>
   );
 }

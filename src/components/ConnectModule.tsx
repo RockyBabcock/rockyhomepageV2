@@ -13,6 +13,8 @@ import {
   Mail,
 } from "lucide-react";
 import gsap from "gsap";
+import { MuseumCard } from "./common/MuseumCard";
+import { MuseumButton } from "./common/MuseumButton";
 
 const TAGS = [
   {
@@ -246,25 +248,23 @@ export function ConnectModule() {
   };
 
   return (
-    <motion.section
+    <div
       id="Connect"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-      className="col-span-12 p-6 md:p-10 premium-card !bg-black/95 relative overflow-hidden text-white border border-ink/10"
+      className="col-span-12 h-full flex flex-col"
     >
+      <MuseumCard className="p-6 md:p-10 relative overflow-hidden text-white flex-1 rounded-3xl">
       <Particles active={isSubmitting || isSuccess} />
 
       {/* Top Hero Section */}
       <div className="relative z-10 mb-10">
-        <h2 className="font-headline text-3xl md:text-4xl font-black mb-3 tracking-tight uppercase">
+        <h2 className="font-headline text-3xl md:text-4xl font-black mb-3 tracking-tight uppercase text-[var(--museum-text)]">
           Signal Room
         </h2>
-        <p className="text-gray-400 text-sm md:text-base max-w-2xl mb-4">
+        <p className="text-[var(--museum-text-muted)] text-sm md:text-base max-w-2xl mb-4">
           The museum route ends here. If you want to collaborate, discuss a project, review my work, or simply connect, open a signal channel.
         </p>
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gray-300">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--museum-panel-elevated)] border border-[var(--museum-border)] text-xs font-mono text-[var(--museum-text-muted)]">
+          <span className="w-2 h-2 rounded-full bg-[var(--museum-success)] animate-pulse" />
           Typically replies within 24 hours · 98% Reply Rate
         </div>
       </div>
@@ -398,19 +398,19 @@ export function ConnectModule() {
                   Used solely for replies; never for marketing or sharing your
                   information.
                 </p>
-                <button
+                <MuseumButton
                   type="submit"
                   disabled={isSubmitting || !email || !message}
-                  className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-gray-200 to-white text-black font-bold rounded-3xl hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                  className="w-full sm:w-auto px-8 py-3 bg-[var(--museum-text)] text-[var(--museum-bg)] hover:bg-[var(--museum-text-muted)] border-none"
                 >
                   {isSubmitting ? (
                     <span className="animate-pulse">Sending...</span>
                   ) : (
                     <>
-                      <Send size={16} /> Open Email Channel
+                      <Send size={16} className="mr-2" /> Open Email Channel
                     </>
                   )}
-                </button>
+                </MuseumButton>
               </div>
             </form>
           ) : (
@@ -552,6 +552,7 @@ export function ConnectModule() {
           </div>
         </div>
       </div>
-    </motion.section>
+      </MuseumCard>
+    </div>
   );
 }

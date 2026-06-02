@@ -5,7 +5,11 @@ export type SkillLevel =
   | "Learning"
   | "Comfortable"
   | "Advanced"
-  | "Primary Tool";
+  | "Primary Tool"
+  | "core"
+  | "proficient"
+  | "exploration"
+  | string;
 
 export interface TechItem {
   id: string;
@@ -22,12 +26,21 @@ export interface TechItem {
     | "hardware"
     | "language"
     | "spatial"
-    | "tooling";
+    | "tooling"
+    | string;
   level: SkillLevel;
   description: string;
   evidence: string[];
   usedIn: string[];
   learningFocus?: string;
+  version?: string;
+  operationalStatus?: string;
+  adoption?: string;
+  deploymentConfidence?: string;
+  philosophy?: string[];
+  proficiency?: number;
+  projects?: { name?: string; url?: string; [key: string]: any }[];
+  icon?: any;
 }
 
 export const categoryColors: Record<string, { pri: string; sec: string }> = {
