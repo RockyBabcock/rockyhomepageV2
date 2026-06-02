@@ -20,7 +20,8 @@ export function HallHeader({
   status = "Active",
   category,
   className,
-}: HallHeaderProps) {
+  id,
+}: HallHeaderProps & { id?: string }) {
   const statusColors: Record<string, string> = {
     Active:
       "text-emerald-600 dark:text-emerald-400 border-emerald-500/20 bg-emerald-500/5",
@@ -54,8 +55,8 @@ export function HallHeader({
       )}
     >
       {/* Visual background guide lines */}
-      <div className="absolute top-0 right-12 bottom-0 w-[1px] bg-ink/[0.04] dark:bg-base/[0.04] pointer-events-none" />
-      <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-ink/[0.02] dark:bg-base/[0.02] pointer-events-none" />
+      <div className="hidden md:block absolute top-0 right-12 bottom-0 w-[1px] bg-ink/[0.04] dark:bg-base/[0.04] pointer-events-none" />
+      <div className="hidden md:block absolute top-1/2 left-0 right-0 h-[1px] bg-ink/[0.02] dark:bg-base/[0.02] pointer-events-none" />
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 z-10 relative">
         <div className="flex items-center gap-3">
@@ -63,7 +64,7 @@ export function HallHeader({
             {code}
           </span>
           {category && (
-            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-ink/40 dark:text-base/40">
+            <span className="hidden md:inline-block text-[10px] font-mono uppercase tracking-[0.15em] text-ink/40 dark:text-base/40">
               // {category}
             </span>
           )}
@@ -71,7 +72,7 @@ export function HallHeader({
 
         <div
           className={cn(
-            "w-fit font-mono text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border",
+            "hidden md:block w-fit font-mono text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border",
             statusColors[status] || statusColors["Active"],
           )}
         >
@@ -80,7 +81,7 @@ export function HallHeader({
       </div>
 
       <div className="mt-4 relative z-10">
-        <h2 className="text-3xl md:text-5xl font-headline font-black uppercase tracking-tight text-ink dark:text-base mb-3 leading-tight">
+        <h2 id={id} className="text-2xl md:text-4xl lg:text-5xl font-headline font-black uppercase tracking-tight text-ink dark:text-base mb-2 md:mb-3 leading-tight">
           {title}
         </h2>
 

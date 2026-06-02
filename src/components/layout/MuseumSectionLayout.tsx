@@ -16,8 +16,9 @@ export function MuseumSectionLayout({
   if (!section) return null;
 
   return (
-    <section id={section.id} className="relative py-20">
+    <section id={section.id} aria-labelledby={`heading-` + section.id} className="relative py-20">
       <HallHeader
+        id={`heading-` + section.id}
         code={section.code}
         title={section.title}
         subtitle={section.subtitle}

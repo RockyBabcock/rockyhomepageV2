@@ -56,7 +56,7 @@ export const ProjectLabModule = () => {
             to="/projects"
             className="flex items-center gap-2 px-6 py-3 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 rounded-xl transition-colors border border-indigo-500/20 font-bold text-sm tracking-wide"
           >
-            Open Lab <ArrowUpRight size={16} />
+            View All Projects <ArrowUpRight size={16} />
           </Link>
         </div>
 

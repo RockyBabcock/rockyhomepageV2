@@ -65,6 +65,24 @@ export default function HomePage() {
   return (
     <>
       <TableOfContents />
+      {/* Mobile Fast Route */}
+      <div className="col-span-12 block md:hidden scroll-mt-32 -mt-4 mb-4">
+        <div className="grid grid-cols-2 gap-3">
+          <a href="#projects" className="flex items-center justify-center p-3 text-sm font-semibold tracking-wide border border-stone-800 bg-stone-950/40 text-stone-300 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
+            View Projects
+          </a>
+          <a href="#forge" className="flex items-center justify-center p-3 text-sm font-semibold tracking-wide border border-stone-800 bg-stone-950/40 text-stone-300 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
+            View Stack
+          </a>
+          <a href="#experiments" className="flex items-center justify-center p-3 text-sm font-semibold tracking-wide border border-stone-800 bg-stone-950/40 text-stone-300 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
+            AI Chamber
+          </a>
+          <a href="#signal" className="flex items-center justify-center p-3 text-sm font-semibold tracking-wide border border-stone-800 bg-stone-950/40 text-stone-300 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
+            Signal Room
+          </a>
+        </div>
+      </div>
+
       <div className="grid grid-cols-12 gap-6 md:gap-8 lg:gap-10">
         {/* HALL 00 // ENTRANCE */}
         <div className="col-span-12 scroll-mt-32">

@@ -41,11 +41,10 @@ export const Web3VaultModule = () => {
               <StatusPill status="Learning Archive" />
             </div>
             <h2 className="text-3xl md:text-4xl font-headline font-black mb-2 text-white">
-              Web3 Vault
+              Web3 Archive Vault
             </h2>
             <p className="font-body text-white/70 text-sm max-w-[280px]">
-              A visual archive for Web3 concepts, wallet interaction patterns,
-              and ownership models.
+              A learning archive for wallet UX, ownership models, decentralized interfaces, and on-chain identity patterns. This vault records exploration rather than mastery. The goal is to understand how Web3 interfaces can become clearer, safer, and more human.
             </p>
           </div>
           <div className="hidden sm:flex items-center justify-center w-14 h-14 rounded-full border border-yellow-500/20 text-yellow-500 bg-yellow-500/5 shadow-[0_0_20px_rgba(234,179,8,0.1)]">

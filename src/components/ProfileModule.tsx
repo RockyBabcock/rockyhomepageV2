@@ -239,7 +239,7 @@ export function ProfileModule() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-headline font-black text-ink mb-1 leading-[1.1] tracking-tight uppercase"
+            className="text-4xl md:text-6xl lg:text-7xl font-headline font-black text-ink mb-4 leading-[1.1] tracking-tight uppercase"
           >
             ROCKY BABCOCK DIGITAL MUSEUM
           </motion.h1>
@@ -248,10 +248,18 @@ export function ProfileModule() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-base md:text-lg font-body font-semibold tracking-wide text-ink/70 dark:text-base/70 mb-4 max-w-xl"
+            className="text-lg md:text-xl font-body font-semibold tracking-wide text-ink mb-2 max-w-2xl dark:text-base"
           >
-            A living archive of interfaces, systems, experiments, and personal
-            worlds.
+            I build experimental web interfaces, AI-native workflows, and personal digital systems.
+          </motion.p>
+
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.28 }}
+            className="text-base md:text-lg font-body text-ink/70 dark:text-base/70 mb-4 max-w-2xl"
+          >
+            This site is a living archive of my projects, tools, experiments, writing, and personal worlds.
           </motion.p>
 
           <motion.p

@@ -33,11 +33,10 @@ export const AIPlaygroundModule = () => {
             <StatusPill status="Prototype" />
           </div>
           <h2 className="text-3xl md:text-4xl font-headline font-black mb-2">
-            AI Playground
+            AI Experiment Chamber
           </h2>
           <p className="font-body text-ink/70 dark:text-base/70 text-sm">
-            A sandbox for learning how intelligent systems think, respond, and
-            help build.
+            Interface experiments for AI-native workflows, prompt systems, agents, and creative tools. Some experiments are prototypes or interface concepts. The goal is to document how AI changes the way software feels, not to pretend every idea is already a finished product.
           </p>
         </div>
 

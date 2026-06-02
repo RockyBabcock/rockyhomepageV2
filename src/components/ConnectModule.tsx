@@ -257,12 +257,11 @@ export function ConnectModule() {
 
       {/* Top Hero Section */}
       <div className="relative z-10 mb-10">
-        <h2 className="font-headline text-3xl md:text-4xl font-black mb-3 tracking-tight">
-          DESTINYROCKY’S CONNECT HUB
+        <h2 className="font-headline text-3xl md:text-4xl font-black mb-3 tracking-tight uppercase">
+          Signal Room
         </h2>
         <p className="text-gray-400 text-sm md:text-base max-w-2xl mb-4">
-          Want to chat about Web3, AI, the Spurs, gaming, coding... or just vent
-          about anything? Feel free to reach out anytime.
+          The museum route ends here. If you want to collaborate, discuss a project, review my work, or simply connect, open a signal channel.
         </p>
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gray-300">
           <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -408,7 +407,7 @@ export function ConnectModule() {
                     <span className="animate-pulse">Sending...</span>
                   ) : (
                     <>
-                      <Send size={16} /> Send Message
+                      <Send size={16} /> Open Email Channel
                     </>
                   )}
                 </button>
