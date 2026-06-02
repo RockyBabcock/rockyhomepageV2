@@ -46,9 +46,9 @@ export default function App() {
             © 2024 The Curated Archive. Engineered with Neo-Brutalist Intent & Tonal Layering.
           </p>
           <div className="flex gap-10">
-            <a href="#" className="font-mono text-[10px] uppercase text-ink/70 dark:text-base/70 hover:text-primary transition-colors font-black tracking-widest">Privacy</a>
-            <a href="#" className="font-mono text-[10px] uppercase text-ink/70 dark:text-base/70 hover:text-primary transition-colors font-black tracking-widest">Changelog</a>
-            <a href="#" className="font-mono text-[10px] uppercase text-ink/70 dark:text-base/70 hover:text-primary transition-colors font-black tracking-widest">RSS</a>
+            <a href="/" className="font-mono text-[10px] uppercase text-ink/70 dark:text-base/70 hover:text-primary transition-colors font-black tracking-widest">Privacy</a>
+            <a href="/" className="font-mono text-[10px] uppercase text-ink/70 dark:text-base/70 hover:text-primary transition-colors font-black tracking-widest">Changelog</a>
+            <a href="/" className="font-mono text-[10px] uppercase text-ink/70 dark:text-base/70 hover:text-primary transition-colors font-black tracking-widest">RSS</a>
           </div>
         </footer>
       </div>

@@ -107,7 +107,7 @@ export function MuseumDirectory() {
               </div>
             </div>
             <p className="text-xs text-ink/70 dark:text-base/70 font-mono leading-relaxed border-l-2 border-primary/40 pl-3 py-1">
-              This museum contains shipped work, active builds, prototypes, learning archives, and personal exhibits. Each hall is labeled by status so visitors can distinguish finished work from experiments.
+              This museum contains shipped work, active builds, prototypes, learning archives, and personal exhibits. Each hall is labeled by status so visitors can distinguish finished production work from technical experiments. We value <strong>verifiable evidence</strong> over claims—appending live demos, GitHub repositories, and architectural retrospectives wherever possible.
             </p>
           </div>
           

@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
-import { Volume2, VolumeX, ArrowDown, ShieldAlert, Cpu, Maximize, Activity } from 'lucide-react';
+import { Volume2, VolumeX, ArrowDown, ShieldAlert, Cpu, Maximize, Activity, AlertCircle } from 'lucide-react';
+import { StatusPill } from './StatusPill';
 
 /* --- UTILS & AUDIO --- */
 const playAudio = (type: string, enabled: boolean) => {
@@ -53,6 +54,10 @@ export function BasketballModule() {
     <div className="col-span-12 md:col-span-12 font-sans bg-[#050505] text-[#C0C0C0] relative overflow-hidden border-y-[8px] border-[#4C392D] my-20 shadow-[0_0_0_4px_#C0C0C0] tracking-wide selection:bg-[#C0C0C0] selection:text-[#4C392D]">
        <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
 
+       <div className="absolute top-6 left-6 z-50 flex gap-4 items-center">
+         <StatusPill status="Personal Archive" />
+       </div>
+
        <button 
           onClick={() => { setSoundEnabled(!soundEnabled); if (!soundEnabled) playAudio('door', true); }}
           className="absolute top-6 right-6 z-50 p-3 border-[2px] border-[#C0C0C0] bg-[#4C392D] hover:bg-[#C0C0C0] hover:text-[#4C392D] transition-colors shadow-[4px_4px_0_#C0C0C0]"
@@ -60,8 +65,31 @@ export function BasketballModule() {
           {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
         </button>
 
+       {/* Evidence Block */}
+       <div className="relative z-40 mt-16 md:mt-20 mx-6 p-6 flex flex-col lg:flex-row gap-6 bg-[#050505]/90 border-2 border-[#4C392D] backdrop-blur-md">
+         <div className="flex-1">
+           <h4 className="font-mono text-[10px] text-[#C0C0C0] uppercase tracking-widest font-bold mb-1">What I built</h4>
+           <p className="text-sm text-[#C0C0C0]/80 leading-relaxed bg-[#111111]/80 backdrop-blur-sm p-3 rounded-none border border-[#4C392D]/50">
+             An immersive narrative scroll exploring the geometry, history, and physics of San Antonio Spurs basketball.
+           </p>
+         </div>
+         <div className="flex-1">
+           <h4 className="font-mono text-[10px] text-[#C0C0C0] uppercase tracking-widest font-bold mb-1">What I learned</h4>
+           <p className="text-sm text-[#C0C0C0]/80 leading-relaxed bg-[#111111]/80 backdrop-blur-sm p-3 rounded-none border border-[#4C392D]/50">
+             Web design can be cinematic; using scroll-linked animations and spatial storytelling creates a powerful mood.
+           </p>
+         </div>
+         <div className="flex-1">
+           <h4 className="font-mono text-[10px] text-[#C0C0C0] uppercase tracking-widest font-bold mb-1">What's next</h4>
+           <div className="text-sm text-[#C0C0C0]/80 leading-relaxed bg-[#111111]/80 backdrop-blur-sm p-3 rounded-none border border-[#4C392D]/50 flex items-start gap-2">
+             <AlertCircle size={14} className="mt-0.5 text-[#C0C0C0]/70 shrink-0" />
+             <span>Add live game score tickers and player stat telemetry.</span>
+           </div>
+         </div>
+       </div>
+
        {/* Narrative Scenes */}
-       <div className="flex flex-col relative z-10 w-full">
+       <div className="flex flex-col relative z-30 w-full mt-8">
          <Narthex soundEnabled={soundEnabled} />
          <TheBodyAsStructure soundEnabled={soundEnabled} />
          <TheFiveAndTheOne soundEnabled={soundEnabled} />

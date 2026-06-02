@@ -367,7 +367,7 @@ export function ConnectModule() {
                   Send another message
                 </button>
                 <p className="text-xs text-gray-500 mt-4">
-                  Meanwhile, feel free to <a href="#" className="text-gray-300 underline">water my tree 🌱</a> or check out my <a href="#" className="text-gray-300 underline">Spotify playlist</a>.
+                  Meanwhile, feel free to <a href="#Watering" className="text-gray-300 underline">water my tree 🌱</a> or check out my <a href="#GameMedia" className="text-gray-300 underline">Spotify playlist</a>.
                 </p>
               </div>
             </motion.div>
@@ -431,13 +431,15 @@ export function ConnectModule() {
             <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Other Channels</h4>
             <div className="flex gap-4">
               {[
-                { icon: Twitter, label: 'Twitter/X' },
-                { icon: Linkedin, label: 'LinkedIn' },
-                { icon: Github, label: 'GitHub' }
+                { icon: Twitter, label: 'Twitter/X', url: 'https://twitter.com' },
+                { icon: Linkedin, label: 'LinkedIn', url: 'https://linkedin.com' },
+                { icon: Github, label: 'GitHub', url: 'https://github.com/RockyBabcock' }
               ].map((social, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:scale-110 transition-all duration-300"
                   title={social.label}
                 >

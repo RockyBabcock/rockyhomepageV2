@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Droplets, Sparkles, Sun, Scissors, RotateCcw, Github, Music, Gamepad2, Trophy, Skull } from 'lucide-react';
+import { Droplets, Sparkles, Sun, Scissors, RotateCcw, Github, Music, Gamepad2, Trophy, Skull, AlertCircle } from 'lucide-react';
 import gsap from 'gsap';
+import { StatusPill } from './StatusPill';
 
 // --- Constants & Data ---
 const STAGES = [
@@ -577,11 +578,14 @@ export function WateringSystemModule() {
       <div className="lg:col-span-2 flex flex-col items-center justify-between min-h-[500px] relative z-10">
         
         {/* Header */}
-        <div className="w-full flex justify-between items-start mb-4">
+        <div className="w-full flex flex-col md:flex-row justify-between items-start mb-4 gap-4">
           <div>
-            <h3 className="font-label text-xs uppercase tracking-[0.2em] font-black text-white mb-1 drop-shadow-md">
-              Digital Garden
-            </h3>
+            <div className="flex items-center gap-3 mb-1">
+              <h3 className="font-label text-xs uppercase tracking-[0.2em] font-black text-white drop-shadow-md">
+                Digital Garden
+              </h3>
+              <StatusPill status="Experimental Prototype" />
+            </div>
             <p className="font-mono text-[10px] text-white/80 uppercase drop-shadow-md">Mood: {mood} | Height: {currentHeight} cm</p>
           </div>
           <div className="flex gap-2">
@@ -598,6 +602,29 @@ export function WateringSystemModule() {
             >
               <RotateCcw size={16} />
             </button>
+          </div>
+        </div>
+
+        {/* Evidence Block */}
+        <div className="w-full relative z-20 flex flex-col lg:flex-row gap-4 bg-black/40 border border-white/10 rounded-xl p-4 backdrop-blur-md mb-4 text-left">
+          <div className="flex-1">
+            <h4 className="font-mono text-[10px] text-green-400 uppercase tracking-widest font-bold mb-1">What I built</h4>
+            <p className="text-xs text-white/80 leading-relaxed">
+              A playful gamified habit tracker built with React and GSAP, using local storage for progression.
+            </p>
+          </div>
+          <div className="flex-1">
+            <h4 className="font-mono text-[10px] text-green-400 uppercase tracking-widest font-bold mb-1">What I learned</h4>
+            <p className="text-xs text-white/80 leading-relaxed">
+              Complex state management, particle animation performance optimizations, and SVG transformations.
+            </p>
+          </div>
+          <div className="flex-1">
+            <h4 className="font-mono text-[10px] text-green-400 uppercase tracking-widest font-bold mb-1">What's next</h4>
+            <div className="text-xs text-white/80 leading-relaxed flex items-start gap-1.5">
+              <AlertCircle size={12} className="mt-0.5 text-green-400/70 shrink-0" />
+              <span>Connect to a backend to make gardens multiplayer so users can water each other's trees.</span>
+            </div>
           </div>
         </div>
 

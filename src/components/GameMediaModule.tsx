@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import gsap from 'gsap';
-import { Play, Disc3, Info, ExternalLink, X, Gamepad2, Music, ShieldAlert } from 'lucide-react';
+import { Play, Disc3, Info, ExternalLink, X, Gamepad2, Music, ShieldAlert, AlertCircle } from 'lucide-react';
+import { StatusPill } from './StatusPill';
 
 // --- Data ---
 const musicData = [
@@ -466,9 +467,35 @@ export function GameMediaModule() {
           </h2>
           <p className="text-sm text-white/60 font-mono mt-1">Music that hits hard • Games that change everything</p>
         </div>
-        <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-[10px] font-mono text-white/80 uppercase tracking-widest">Currently Rotating: Eminem × AC Unity</span>
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          <StatusPill status="Personal Archive" />
+          <div className="hidden sm:flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-[10px] font-mono text-white/80 uppercase tracking-widest">Currently Rotating: Eminem × AC Unity</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Evidence Block */}
+      <div className="relative z-10 p-6 flex flex-col lg:flex-row gap-6 bg-black/60 border-b border-white/10">
+        <div className="flex-1">
+          <h4 className="font-mono text-[10px] text-primary uppercase tracking-widest font-bold mb-1">What I built</h4>
+          <p className="text-sm text-white/80 leading-relaxed bg-[#111]/80 backdrop-blur-sm p-3 rounded-lg border border-white/5">
+            A cultural archive capturing the creative media that influences my taste and design philosophy.
+          </p>
+        </div>
+        <div className="flex-1">
+          <h4 className="font-mono text-[10px] text-primary uppercase tracking-widest font-bold mb-1">What I learned</h4>
+          <p className="text-sm text-white/80 leading-relaxed bg-[#111]/80 backdrop-blur-sm p-3 rounded-lg border border-white/5">
+            Personal context creates stronger emotional resonance than just listing professional achievements.
+          </p>
+        </div>
+        <div className="flex-1">
+          <h4 className="font-mono text-[10px] text-primary uppercase tracking-widest font-bold mb-1">What's next</h4>
+          <div className="text-sm text-white/80 leading-relaxed bg-[#111]/80 backdrop-blur-sm p-3 rounded-lg border border-white/5 flex items-start gap-2">
+            <AlertCircle size={14} className="mt-0.5 text-primary/70 shrink-0" />
+            <span>Connect to Spotify/Steam APIs to show true live metrics and recent activity.</span>
+          </div>
         </div>
       </div>
 
