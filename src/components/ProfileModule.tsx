@@ -5,27 +5,27 @@ import { useState, useEffect } from "react";
 const heroJumps = [
   {
     label: "Projects",
-    desc: "Selected builds and interface experiments",
+    desc: "Selected builds and interface experiences",
     target: "projects",
-    color: "var(--rainbow-blue)",
+    color: "#3A86FF",
   },
   {
     label: "Skill Spectrum",
     desc: "Tools, stack, and learning map",
     target: "directory",
-    color: "var(--rainbow-orange)",
+    color: "#FF9F1C",
   },
   {
-    label: "AI Lab",
-    desc: "Prompt systems and creative AI interfaces",
-    target: "ai",
-    color: "var(--rainbow-purple)",
+    label: "AI Chamber",
+    desc: "Prompt systems and intelligent UI experiments",
+    target: "experiments",
+    color: "#8338EC",
   },
   {
     label: "Signal Room",
     desc: "Contact, links, and availability",
     target: "signal",
-    color: "var(--rainbow-pink)",
+    color: "#FF006E",
   },
 ];
 
@@ -177,7 +177,7 @@ export function ProfileModule() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto w-full mt-16 relative z-10">
+        <div className="max-w-7xl mx-auto w-full mt-14 relative z-10">
            {/* Quick jump cards */}
            <motion.div 
              initial={{ opacity: 0, y: 20 }}
@@ -189,17 +189,23 @@ export function ProfileModule() {
                <button
                  key={item.label}
                  onClick={() => scrollToElement(item.target)}
-                 className="group lab-card p-5 text-left hover:-translate-y-1 transition-all"
-                 style={{ boxShadow: `0 18px 50px ${item.color}18` }}
+                 className="group lab-card p-5 text-left transition-all hover:-translate-y-1"
+                 style={{
+                   boxShadow: `0 18px 55px ${item.color}18`,
+                 }}
                >
                  <div
-                   className="w-10 h-10 rounded-xl mb-4"
+                   className="mb-4 h-11 w-11 rounded-2xl"
                    style={{
                      background: `linear-gradient(135deg, ${item.color}, white)`,
                    }}
                  />
-                 <div className="font-bold font-body text-[var(--lab-text)]">{item.label}</div>
-                 <div className="mt-1 text-xs font-body text-[var(--lab-text-soft)] leading-relaxed">{item.desc}</div>
+                 <div className="font-space text-lg font-bold text-slate-950">
+                   {item.label}
+                 </div>
+                 <p className="mt-1 text-sm leading-6 text-slate-500 font-body">
+                   {item.desc}
+                 </p>
                </button>
              ))}
            </motion.div>
