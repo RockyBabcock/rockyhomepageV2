@@ -91,10 +91,10 @@ type MuseumSectionLayoutProps = {
 };
 
 const sizeClasses: Record<SectionSize, string> = {
-  xl: "py-24 lg:py-32",
-  lg: "py-20 lg:py-28",
-  md: "py-16 lg:py-20",
-  compact: "py-12 lg:py-16",
+  xl: "py-20 lg:py-28",
+  lg: "py-16 lg:py-24",
+  md: "py-14 lg:py-18",
+  compact: "py-10 lg:py-14",
 };
 
 const layoutClasses: Record<LayoutVariant, string> = {
@@ -151,8 +151,8 @@ function SectionHeader({
       className={cn(
         "mt-5 font-space font-bold tracking-[-0.06em] text-slate-950",
         variant === "compact"
-          ? "text-3xl md:text-5xl"
-          : "text-5xl md:text-7xl",
+          ? "text-3xl md:text-4xl"
+          : "text-4xl md:text-6xl",
       )}
     >
       {title}
