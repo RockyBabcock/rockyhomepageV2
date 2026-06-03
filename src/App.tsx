@@ -10,8 +10,15 @@ import FunPage from "./pages/FunPage";
 import GardenPage from "./pages/GardenPage";
 import ContactPage from "./pages/ContactPage";
 import { BackToTop } from "./components/BackToTop";
+import { lazy, Suspense } from "react";
+import { ModuleSkeleton } from "@/components/common/ModuleSkeleton";
 
 import { motion, useScroll, useTransform } from "motion/react";
+
+const ChessModule = lazy(() => import("./components/chess/ChessModule").then((m) => ({ default: m.ChessModule })));
+const BasketballModule = lazy(() => import("./components/BasketballModule").then((m) => ({ default: m.BasketballModule })));
+const GameMediaModule = lazy(() => import("./components/GameMediaModule").then((m) => ({ default: m.GameMediaModule })));
+const WateringSystemModule = lazy(() => import("./components/WateringSystemModule").then((m) => ({ default: m.WateringSystemModule })));
 
 const SpectrumSpine = () => {
   const { scrollYProgress } = useScroll();
@@ -76,6 +83,26 @@ export default function App() {
             <Route path="/fun" element={<FunPage />} />
             <Route path="/garden" element={<GardenPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/chess" element={
+              <Suspense fallback={<ModuleSkeleton label="Loading Chess Archive..." />}>
+                <ChessModule />
+              </Suspense>
+            } />
+            <Route path="/basketball" element={
+              <Suspense fallback={<ModuleSkeleton label="Loading Basketball Archive..." />}>
+                <BasketballModule />
+              </Suspense>
+            } />
+            <Route path="/media" element={
+              <Suspense fallback={<ModuleSkeleton label="Loading Media Universe..." />}>
+                <GameMediaModule />
+              </Suspense>
+            } />
+            <Route path="/watering" element={
+              <Suspense fallback={<ModuleSkeleton label="Loading Watering System..." />}>
+                <WateringSystemModule />
+              </Suspense>
+            } />
           </Routes>
           <BackToTop />
         </main>

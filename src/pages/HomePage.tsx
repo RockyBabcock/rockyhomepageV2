@@ -11,6 +11,7 @@ import { TableOfContents } from "../components/TableOfContents";
 import { ExhibitNote } from "../components/ExhibitNote";
 import { SealedArchive } from "../components/SealedArchive";
 import { MuseumSectionLayout, sectionTones } from "@/components/layout/MuseumSectionLayout";
+import { PersonalWorldPreview } from "@/components/PersonalWorldPreview";
 import { ModuleSkeleton } from "@/components/common/ModuleSkeleton";
 import { features } from "../config/features";
 import { ModuleErrorBoundary } from "../components/common/ModuleErrorBoundary";
@@ -24,26 +25,6 @@ const AIPlaygroundModule = lazy(() =>
 const Web3VaultModule = lazy(() =>
   import("../components/Web3VaultModule").then((m) => ({
     default: m.Web3VaultModule,
-  })),
-);
-const ChessModule = lazy(() =>
-  import("../components/chess/ChessModule").then((m) => ({
-    default: m.ChessModule,
-  })),
-);
-const BasketballModule = lazy(() =>
-  import("../components/BasketballModule").then((m) => ({
-    default: m.BasketballModule,
-  })),
-);
-const WateringSystemModule = lazy(() =>
-  import("../components/WateringSystemModule").then((m) => ({
-    default: m.WateringSystemModule,
-  })),
-);
-const GameMediaModule = lazy(() =>
-  import("../components/GameMediaModule").then((m) => ({
-    default: m.GameMediaModule,
   })),
 );
 const TimelineModule = lazy(() =>
@@ -75,7 +56,9 @@ export default function HomePage() {
         title="Project Lab"
         description="Real builds, interface experiments, and systems I am actively shaping."
         tone="projects"
-        layout="featured"
+        layout="default"
+        size="xl"
+        headerVariant="featured"
       >
         <ProjectLabModule />
       </MuseumSectionLayout>
@@ -87,7 +70,9 @@ export default function HomePage() {
         title="Skill Spectrum"
         description="A living map of the tools I use to design, build, automate, and experiment."
         tone="skills" 
-        layout="immersive"
+        layout="default"
+        size="xl"
+        headerVariant="side"
       >
         <CoreCapabilitiesModule />
       </MuseumSectionLayout>
@@ -99,33 +84,40 @@ export default function HomePage() {
         title="AI, Web3 & Interface Systems"
         description="Explorations in intelligent interfaces, decentralized systems, and creative tools."
         tone="experiments" 
-        layout="split"
+        layout="custom"
+        size="lg"
+        headerVariant="compact"
+        childrenClassName="grid grid-cols-12 gap-6 items-stretch"
       >
-        <ModuleErrorBoundary fallbackTitle="AI Experiment Chamber Offline">
-          <Suspense fallback={<ModuleSkeleton label="Loading AI Playground..." />}>
-            {features.aiPlayground ? (
-              <AIPlaygroundModule />
-            ) : (
-              <SealedArchive 
-                title="AI Experiment Chamber Offline" 
-                description="Live AI calls are disabled in this production build."
-              />
-            )}
-          </Suspense>
-        </ModuleErrorBoundary>
+        <div className="col-span-12 lg:col-span-7">
+          <ModuleErrorBoundary fallbackTitle="AI Experiment Chamber Offline">
+            <Suspense fallback={<ModuleSkeleton label="Loading AI Playground..." />}>
+              {features.aiPlayground ? (
+                <AIPlaygroundModule />
+              ) : (
+                <SealedArchive 
+                  title="AI Experiment Chamber Offline" 
+                  description="Live AI calls are disabled in this production build."
+                />
+              )}
+            </Suspense>
+          </ModuleErrorBoundary>
+        </div>
 
-        <ModuleErrorBoundary fallbackTitle="Web3 Archive Mode">
-          <Suspense fallback={<ModuleSkeleton label="Loading Web3 Vault..." />}>
-            {features.web3Vault ? (
-              <Web3VaultModule />
-            ) : (
-              <SealedArchive 
-                title="Web3 Archive Mode" 
-                description="Wallet interaction is disabled."
-              />
-            )}
-          </Suspense>
-        </ModuleErrorBoundary>
+        <div className="col-span-12 lg:col-span-5">
+          <ModuleErrorBoundary fallbackTitle="Web3 Archive Mode">
+            <Suspense fallback={<ModuleSkeleton label="Loading Web3 Vault..." />}>
+              {features.web3Vault ? (
+                <Web3VaultModule />
+              ) : (
+                <SealedArchive 
+                  title="Web3 Archive Mode" 
+                  description="Wallet interaction is disabled."
+                />
+              )}
+            </Suspense>
+          </ModuleErrorBoundary>
+        </div>
       </MuseumSectionLayout>
 
       {/* 05 Live Proof */}
@@ -135,7 +127,9 @@ export default function HomePage() {
         title="Activity Signals"
         description="A small dashboard of building, shipping, tracking, and learning in public."
         tone="live" 
-        layout="split"
+        layout="dashboard"
+        size="md"
+        headerVariant="compact"
       >
         <ModuleErrorBoundary fallbackTitle="GitHub Signal Unavailable">
           {features.githubActivity ? (
@@ -169,28 +163,46 @@ export default function HomePage() {
         title="Play, Strategy & Memory"
         description="The human side of the site: games, sport, media, chess, and daily systems."
         tone="personal" 
-        layout="mosaic"
+        layout="custom"
+        size="lg"
+        headerVariant="centered"
+        childrenClassName="grid grid-cols-12 gap-6 items-stretch"
       >
-        <div className="col-span-12 lg:col-span-6">
-          <Suspense fallback={<ModuleSkeleton label="Loading Chess Visualizer..." />}>
-            <ChessModule />
-          </Suspense>
-        </div>
-        <div className="col-span-12 lg:col-span-6">
-          <Suspense fallback={<ModuleSkeleton label="Loading Basketball Archive..." />}>
-            <BasketballModule />
-          </Suspense>
-        </div>
-        <div className="col-span-12 lg:col-span-7">
-          <Suspense fallback={<ModuleSkeleton label="Loading Game Media..." />}>
-            <GameMediaModule />
-          </Suspense>
-        </div>
-        <div className="col-span-12 lg:col-span-5">
-          <Suspense fallback={<ModuleSkeleton label="Loading Watering System..." />}>
-            <WateringSystemModule />
-          </Suspense>
-        </div>
+        <PersonalWorldPreview
+          className="col-span-12 md:col-span-6 xl:col-span-3"
+          title="Chess Archive"
+          eyebrow="Strategy"
+          description="A personal thinking hall about chess, constraints, and long-term planning."
+          color="#D4AF37"
+          href="/chess"
+        />
+
+        <PersonalWorldPreview
+          className="col-span-12 md:col-span-6 xl:col-span-3"
+          title="Basketball Geometry"
+          eyebrow="Motion"
+          description="A cinematic archive about Spurs basketball, structure, movement, and design systems."
+          color="#FF6B35"
+          href="/basketball"
+        />
+
+        <PersonalWorldPreview
+          className="col-span-12 md:col-span-6 xl:col-span-3"
+          title="Media Universe"
+          eyebrow="Memory"
+          description="Games, films, music, and visual references that shape my interface taste."
+          color="#8338EC"
+          href="/media"
+        />
+
+        <PersonalWorldPreview
+          className="col-span-12 md:col-span-6 xl:col-span-3"
+          title="Watering System"
+          eyebrow="Daily System"
+          description="A small personal system about routines, care, tracking, and growth."
+          color="#06D6A0"
+          href="/watering"
+        />
       </MuseumSectionLayout>
 
       {/* 07 Writing */}
@@ -201,6 +213,8 @@ export default function HomePage() {
         description="A calmer space for writing, reflection, learning notes, and personal records."
         tone="garden" 
         layout="editorial"
+        size="md"
+        headerVariant="side"
       >
         <div>
           <Suspense fallback={<ModuleSkeleton label="Loading Blog Module..." />}>
@@ -222,6 +236,8 @@ export default function HomePage() {
         description="Open to frontend, design engineering, AI interface, and creative web collaborations."
         tone="signal"
         layout="default"
+        size="xl"
+        headerVariant="centered"
       >
         <ConnectModule />
       </MuseumSectionLayout>
