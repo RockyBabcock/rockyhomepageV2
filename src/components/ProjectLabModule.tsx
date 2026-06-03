@@ -20,25 +20,22 @@ export const ProjectLabModule = () => {
   const sideProjects = projectLabData.slice(1, 3); // Take next 2 projects
 
   return (
-    <>
+    <div className="grid grid-cols-12 gap-6">
       <motion.article 
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="lab-card flex flex-col p-8 lg:p-12 relative overflow-hidden"
+        className="lab-card col-span-12 lg:col-span-7 flex flex-col p-8 lg:p-12 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--color-rainbow-blue)]/5 rounded-full blur-[80px] pointer-events-none" />
 
-        <div className="flex flex-col lg:flex-row gap-12 relative z-10">
-          <div className="flex-1">
+        <div className="flex flex-col relative z-10 w-full">
+          <div>
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <span className="section-eyebrow" style={{ color: "var(--color-rainbow-blue)", borderColor: "rgba(58, 134, 255, 0.2)" }}>
                 Featured Build
               </span>
               <StatusPill status={featuredProject.status} />
-              <span className="text-[11px] font-mono uppercase text-[var(--lab-text-muted)] font-bold tracking-wider">
-                Role: {featuredProject.role}
-              </span>
             </div>
 
             <h3 className="text-4xl lg:text-5xl font-headline font-bold mb-4 text-[var(--lab-text)] tracking-tight">
@@ -60,7 +57,7 @@ export const ProjectLabModule = () => {
               ))}
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3 mb-8">
               {featuredProject.liveUrl && (
                 <EvidenceBadge type="Live Demo" href={featuredProject.liveUrl} />
               )}
@@ -70,37 +67,39 @@ export const ProjectLabModule = () => {
             </div>
           </div>
 
-          <div className="lg:w-[40%] space-y-6 bg-white/60 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-[var(--lab-border)] shadow-sm">
-            <div>
-              <h4 className="text-xs font-mono uppercase text-[var(--color-rainbow-blue)] font-bold tracking-widest mb-3 flex items-center gap-2">
-                <Workflow className="w-4 h-4" /> Core Challenge
-              </h4>
-              <p className="text-sm font-body text-[var(--lab-text-soft)] leading-relaxed">
-                {featuredProject.problem}
-              </p>
-            </div>
+          <div className="w-full space-y-6 bg-white/60 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-[var(--lab-border)] shadow-sm mt-auto">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-xs font-mono uppercase text-[var(--color-rainbow-blue)] font-bold tracking-widest mb-3 flex items-center gap-2">
+                  <Workflow className="w-4 h-4" /> Core Challenge
+                </h4>
+                <p className="text-sm font-body text-[var(--lab-text-soft)] leading-relaxed">
+                  {featuredProject.problem}
+                </p>
+              </div>
 
-            <div className="pt-6 border-t border-[var(--lab-border)]">
-              <h4 className="text-xs font-mono uppercase text-[var(--color-rainbow-cyan)] font-bold tracking-widest mb-4 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4" /> Executed Scope
-              </h4>
-              <ul className="space-y-3">
-                {featuredProject.built.slice(0, 3).map((item, i) => (
-                  <li
-                    key={i}
-                    className="text-sm font-body text-[var(--lab-text-soft)] leading-relaxed flex items-start gap-2"
-                  >
-                    <ChevronRight className="w-4 h-4 mt-0.5 shrink-0 text-[var(--color-rainbow-cyan)]" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <h4 className="text-xs font-mono uppercase text-[var(--color-rainbow-cyan)] font-bold tracking-widest mb-3 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4" /> Executed Scope
+                </h4>
+                <ul className="space-y-3">
+                  {featuredProject.built.slice(0, 3).map((item, i) => (
+                    <li
+                      key={i}
+                      className="text-sm font-body text-[var(--lab-text-soft)] leading-relaxed flex items-start gap-2"
+                    >
+                      <ChevronRight className="w-4 h-4 mt-0.5 shrink-0 text-[var(--color-rainbow-cyan)]" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </motion.article>
 
-      <div className="grid gap-6">
+      <div className="col-span-12 lg:col-span-5 grid gap-6">
         {sideProjects.map((project, index) => (
           <motion.article
             key={project.id}
@@ -150,7 +149,7 @@ export const ProjectLabModule = () => {
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="lab-card p-5 lg:col-span-2 hidden md:block"
+        className="lab-card p-5 col-span-12 hidden md:block"
       >
         <div className="grid grid-cols-4 divide-x divide-[var(--lab-border)]">
           <div className="flex flex-col items-center justify-center p-4 text-center group">
@@ -175,6 +174,6 @@ export const ProjectLabModule = () => {
           </div>
         </div>
       </motion.div>
-    </>
+    </div>
   );
 };

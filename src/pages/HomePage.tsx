@@ -60,29 +60,6 @@ const VisitorAnalyticsModule = lazy(() =>
   })),
 );
 
-function SectionBridge({
-  label,
-  from,
-  to,
-  color,
-}: {
-  label: string;
-  from: string;
-  to: string;
-  color: string;
-}) {
-  return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <div className="rainbow-rule opacity-70" />
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 text-xs font-mono uppercase tracking-[0.18em] text-slate-400">
-        <span>{from}</span>
-        <span style={{ color, fontWeight: "bold" }}>{label}</span>
-        <span>{to}</span>
-      </div>
-    </div>
-  );
-}
-
 export default function HomePage() {
   return (
     <main className="rainbow-lab-bg text-[var(--museum-text)]">
@@ -91,16 +68,12 @@ export default function HomePage() {
       {/* 01 Entrance */}
       <ProfileModule />
 
-      <SectionBridge
-        label="Route Shift / 01"
-        from="Entrance"
-        to="Project Lab"
-        color="var(--rainbow-blue)"
-      />
-
       {/* 02 Proof of Work */}
       <MuseumSectionLayout 
         id="projects" 
+        eyebrow="Selected Work"
+        title="Project Lab"
+        description="Real builds, interface experiments, and systems I am actively shaping."
         tone="projects"
         layout="featured"
       >
@@ -110,27 +83,23 @@ export default function HomePage() {
       {/* 03 Capability System */}
       <MuseumSectionLayout 
         id="directory" 
+        eyebrow="Technical Map"
+        title="Skill Spectrum"
+        description="A living map of the tools I use to design, build, automate, and experiment."
         tone="skills" 
         layout="immersive"
       >
         <CoreCapabilitiesModule />
       </MuseumSectionLayout>
 
-      <SectionBridge
-        label="Route Shift / 02"
-        from="Skill Spectrum"
-        to="Experiment Chambers"
-        color="var(--rainbow-purple)"
-      />
-
       {/* 04 Experiments */}
       <MuseumSectionLayout 
         id="experiments" 
+        eyebrow="Experimental Chambers"
+        title="AI, Web3 & Interface Systems"
+        description="Explorations in intelligent interfaces, decentralized systems, and creative tools."
         tone="experiments" 
         layout="split"
-        title="Experimental Chambers"
-        eyebrow="Labs & Prototypes"
-        description="Live testing grounds for AI interfaces and Web3 concepts."
       >
         <ModuleErrorBoundary fallbackTitle="AI Experiment Chamber Offline">
           <Suspense fallback={<ModuleSkeleton label="Loading AI Playground..." />}>
@@ -162,11 +131,11 @@ export default function HomePage() {
       {/* 05 Live Proof */}
       <MuseumSectionLayout 
         id="live-proof" 
-        tone="liveProof" 
+        eyebrow="Live Proof"
+        title="Activity Signals"
+        description="A small dashboard of building, shipping, tracking, and learning in public."
+        tone="live" 
         layout="split"
-        title="Live Proof"
-        eyebrow="Signals & Data"
-        description="Signals from what I build, commit, test, and improve."
       >
         <ModuleErrorBoundary fallbackTitle="GitHub Signal Unavailable">
           {features.githubActivity ? (
@@ -196,11 +165,11 @@ export default function HomePage() {
       {/* 06 Personal Worlds */}
       <MuseumSectionLayout 
         id="archives" 
-        tone="archives" 
+        eyebrow="Personal Worlds"
+        title="Play, Strategy & Memory"
+        description="The human side of the site: games, sport, media, chess, and daily systems."
+        tone="personal" 
         layout="mosaic"
-        title="Personal Worlds"
-        eyebrow="Life Archives"
-        description="Systems that shape how I think, move, play, remember, and form taste."
       >
         <div className="col-span-12 lg:col-span-6">
           <Suspense fallback={<ModuleSkeleton label="Loading Chess Visualizer..." />}>
@@ -227,11 +196,11 @@ export default function HomePage() {
       {/* 07 Writing */}
       <MuseumSectionLayout 
         id="garden" 
+        eyebrow="Digital Garden"
+        title="Notes, Timeline & Thinking"
+        description="A calmer space for writing, reflection, learning notes, and personal records."
         tone="garden" 
         layout="editorial"
-        title="Digital Garden"
-        eyebrow="Writing & Thoughts"
-        description="Ongoing creative reflections, logic post-mortems, and writing."
       >
         <div>
           <Suspense fallback={<ModuleSkeleton label="Loading Blog Module..." />}>
@@ -245,16 +214,12 @@ export default function HomePage() {
         </div>
       </MuseumSectionLayout>
 
-      <SectionBridge
-        label="Route Shift / 03"
-        from="Life Archives"
-        to="Signal Room"
-        color="var(--rainbow-pink)"
-      />
-
       {/* 08 Contact */}
       <MuseumSectionLayout 
         id="signal" 
+        eyebrow="Signal Room"
+        title="Let’s Build Something"
+        description="Open to frontend, design engineering, AI interface, and creative web collaborations."
         tone="signal"
         layout="default"
       >

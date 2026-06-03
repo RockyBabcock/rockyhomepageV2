@@ -43,29 +43,20 @@ export function CoreCapabilitiesModule() {
   const activeTool = techStackData.find((t) => t.id === activeToolId);
 
   return (
-    <section className="relative w-full py-24 z-10 text-[var(--lab-text)]">
+    <div className="relative w-full z-10 text-[var(--lab-text)]">
       {/* Background Glow */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
          <motion.div 
             animate={{ backgroundColor: `${categoryColor}15` }}
             transition={{ duration: 1 }}
-            className="absolute top-0 right-0 w-[60vw] h-[60vw] rounded-full blur-[150px] mix-blend-multiply opacity-50" 
+            className="absolute -top-10 -right-10 w-[40vw] h-[40vw] rounded-full blur-[100px] mix-blend-multiply opacity-50" 
          />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 flex flex-col gap-12">
+      <div className="relative z-10 flex flex-col gap-8">
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end pb-8 gap-6 border-b border-[var(--lab-border)]">
-          <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-4 flex items-center gap-4 text-[var(--lab-text)]">
-              My Skill Spectrum
-            </h2>
-            <div className="text-lg font-body text-[var(--lab-text-soft)]">
-               A living map of the tools I use to design, build, automate, and experiment.
-            </div>
-          </div>
-          
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => {
               const color = categoryColors[cat]?.pri || "var(--lab-text)";
@@ -216,6 +207,6 @@ export function CoreCapabilitiesModule() {
            </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -252,19 +252,19 @@ export function ConnectModule() {
       id="Connect"
       className="col-span-12 h-full flex flex-col"
     >
-      <MuseumCard className="p-6 md:p-10 relative overflow-hidden text-white flex-1 rounded-3xl">
+      <div className="lab-card contact-portal p-8 md:p-12 relative overflow-hidden flex-1">
       <Particles active={isSubmitting || isSuccess} />
 
       {/* Top Hero Section */}
-      <div className="relative z-10 mb-10">
-        <h2 className="font-headline text-3xl md:text-4xl font-black mb-3 tracking-tight uppercase text-[var(--museum-text)]">
-          Signal Room
+      <div className="relative z-10 mb-12">
+        <h2 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 text-[var(--lab-text)]">
+          Let’s build something strange, useful, and alive.
         </h2>
-        <p className="text-[var(--museum-text-muted)] text-sm md:text-base max-w-2xl mb-4">
-          The museum route ends here. If you want to collaborate, discuss a project, review my work, or simply connect, open a signal channel.
+        <p className="text-[var(--lab-text-soft)] text-lg md:text-xl max-w-2xl mb-6">
+          Open to frontend, design engineering, AI interface, and creative web collaborations.
         </p>
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--museum-panel-elevated)] border border-[var(--museum-border)] text-xs font-mono text-[var(--museum-text-muted)]">
-          <span className="w-2 h-2 rounded-full bg-[var(--museum-success)] animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-[var(--lab-border)] text-xs font-mono text-[var(--lab-text-muted)]">
+          <span className="w-2 h-2 rounded-full bg-[var(--color-rainbow-green)] animate-pulse" />
           Typically replies within 24 hours · 98% Reply Rate
         </div>
       </div>
@@ -289,7 +289,7 @@ export function ConnectModule() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Smart Quick Tags */}
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                <label className="text-xs font-bold uppercase tracking-wider text-[var(--lab-text-muted)]">
                   Quick Topics
                 </label>
                 <div
@@ -301,7 +301,7 @@ export function ConnectModule() {
                       key={i}
                       type="button"
                       onClick={() => handleTagClick(tag.text)}
-                      className="whitespace-nowrap px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium transition-colors"
+                      className="whitespace-nowrap px-4 py-2 rounded-full bg-white/60 hover:bg-white border border-[var(--lab-border)] text-xs font-medium transition-colors text-[var(--lab-text)]"
                     >
                       {tag.label}
                     </button>
@@ -314,7 +314,7 @@ export function ConnectModule() {
                 <button
                   type="button"
                   onClick={() => setShowTemplates(!showTemplates)}
-                  className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors"
+                  className="flex items-center gap-1 text-xs text-[var(--lab-text-soft)] hover:text-[var(--lab-text)] transition-colors"
                 >
                   {showTemplates ? (
                     <ChevronUp size={14} />
@@ -336,9 +336,9 @@ export function ConnectModule() {
                           key={i}
                           type="button"
                           onClick={() => handleTagClick(tpl.text)}
-                          className="block w-full text-left px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-gray-300 transition-colors"
+                          className="block w-full text-left px-4 py-2 rounded-lg bg-white/60 hover:bg-white border border-[var(--lab-border)] text-xs text-[var(--lab-text-soft)] transition-colors"
                         >
-                          <span className="font-bold text-white block mb-1">
+                          <span className="font-bold text-[var(--lab-text)] block mb-1">
                             {tpl.label}
                           </span>
                           {tpl.text}
@@ -356,7 +356,7 @@ export function ConnectModule() {
                   placeholder="Your Name / Nickname (Optional)"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-gray-600"
+                  className="w-full bg-white/60 border border-[var(--lab-border)] rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-rainbow-pink)] transition-colors placeholder:text-[var(--lab-text-muted)] text-[var(--lab-text)]"
                 />
                 <input
                   type="email"
@@ -364,7 +364,7 @@ export function ConnectModule() {
                   placeholder="braverocky@proton.me — Used to reply to you"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-gray-600"
+                  className="w-full bg-white/60 border border-[var(--lab-border)] rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-rainbow-pink)] transition-colors placeholder:text-[var(--lab-text-muted)] text-[var(--lab-text)]"
                 />
               </div>
 
@@ -374,7 +374,7 @@ export function ConnectModule() {
                 placeholder="What's on your mind?"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-white/30 transition-colors placeholder:text-gray-600 resize-none"
+                className="w-full bg-white/60 border border-[var(--lab-border)] rounded-3xl px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-rainbow-pink)] transition-colors placeholder:text-[var(--lab-text-muted)] text-[var(--lab-text)] resize-none"
               />
 
               <div className="flex items-center gap-2">
@@ -383,25 +383,25 @@ export function ConnectModule() {
                   id="sendCopy"
                   checked={sendCopy}
                   onChange={(e) => setSendCopy(e.target.checked)}
-                  className="rounded border-gray-600 bg-transparent text-silver focus:ring-0 focus:ring-offset-0"
+                  className="rounded border-[var(--lab-border)] bg-transparent text-[var(--color-rainbow-pink)] focus:ring-0 focus:ring-offset-0"
                 />
                 <label
                   htmlFor="sendCopy"
-                  className="text-xs text-gray-400 cursor-pointer select-none"
+                  className="text-xs text-[var(--lab-text-soft)] cursor-pointer select-none"
                 >
                   Send a copy of the reply to my email address
                 </label>
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                <p className="text-[10px] text-gray-500 font-mono">
+                <p className="text-[10px] text-[var(--lab-text-muted)] font-mono">
                   Used solely for replies; never for marketing or sharing your
                   information.
                 </p>
                 <MuseumButton
                   type="submit"
                   disabled={isSubmitting || !email || !message}
-                  className="w-full sm:w-auto px-8 py-3 bg-[var(--museum-text)] text-[var(--museum-bg)] hover:bg-[var(--museum-text-muted)] border-none"
+                  className="w-full sm:w-auto px-8 py-3 bg-[var(--lab-text)] text-white hover:bg-[var(--lab-text-soft)] border-none"
                 >
                   {isSubmitting ? (
                     <span className="animate-pulse">Sending...</span>
@@ -417,17 +417,17 @@ export function ConnectModule() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="h-full flex flex-col items-center justify-center text-center p-8 bg-white/5 rounded-3xl border border-white/10"
+              className="h-full flex flex-col items-center justify-center text-center p-8 bg-white/60 rounded-3xl border border-[var(--lab-border)]"
             >
-              <div className="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mb-4">
+              <div className="w-16 h-16 bg-[var(--color-rainbow-green)]/10 text-[var(--color-rainbow-green)] rounded-full flex items-center justify-center mb-4">
                 <CheckCircle2 size={32} />
               </div>
-              <h3 className="text-xl font-bold mb-2">Message received!</h3>
-              <p className="text-gray-400 text-sm mb-6">
+              <h3 className="text-xl font-bold mb-2 text-[var(--lab-text)]">Message received!</h3>
+              <p className="text-[var(--lab-text-soft)] text-sm mb-6">
                 Looking forward to hearing back from you~
               </p>
               {wembyEasterEgg && (
-                <div className="mb-6 px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-lg text-purple-300 text-sm">
+                <div className="mb-6 px-4 py-2 bg-[var(--color-rainbow-purple)]/10 border border-[var(--color-rainbow-purple)]/30 rounded-lg text-[var(--color-rainbow-purple)] text-sm">
                   Received! Bonus Reward: Your Wemby MVP prediction has been
                   recorded 👽
                 </div>
@@ -435,17 +435,17 @@ export function ConnectModule() {
               <div className="flex flex-col gap-2 w-full max-w-xs">
                 <button
                   onClick={() => setIsSuccess(false)}
-                  className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors"
+                  className="px-4 py-2 bg-white/70 hover:bg-white rounded-lg text-sm transition-colors text-[var(--lab-text)] border border-[var(--lab-border)]"
                 >
                   Send another message
                 </button>
-                <p className="text-xs text-gray-500 mt-4">
+                <p className="text-xs text-[var(--lab-text-muted)] mt-4">
                   Meanwhile, feel free to{" "}
-                  <a href="#Watering" className="text-gray-300 underline">
+                  <a href="#Watering" className="text-[var(--color-rainbow-green)] underline">
                     water my tree 🌱
                   </a>{" "}
                   or check out my{" "}
-                  <a href="#GameMedia" className="text-gray-300 underline">
+                  <a href="#GameMedia" className="text-[var(--color-rainbow-cyan)] underline">
                     Spotify playlist
                   </a>
                   .
@@ -456,25 +456,25 @@ export function ConnectModule() {
         </div>
 
         {/* Right Side: Contact Details (42%) */}
-        <div className="md:w-[42%] flex flex-col gap-8 border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-10">
+        <div className="md:w-[42%] flex flex-col gap-8 border-t md:border-t-0 md:border-l border-[var(--lab-border)] pt-8 md:pt-0 md:pl-10">
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--lab-text-muted)] mb-4">
               Direct Email
             </h4>
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 relative">
+            <div className="bg-white/60 border border-[var(--lab-border)] rounded-3xl p-6 relative">
               <div className="flex items-center gap-3 mb-4">
                 <div
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center cursor-pointer relative"
+                  className="w-10 h-10 rounded-full bg-white/70 flex items-center justify-center cursor-pointer relative border border-[var(--lab-border)]"
                   onClick={handleEmailIconClick}
                 >
-                  <Mail size={18} className="text-gray-300" />
+                  <Mail size={18} className="text-[var(--lab-text)]" />
                   <AnimatePresence>
                     {showEmailEasterEgg && (
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.8 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
-                        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-48 bg-white text-black text-xs p-3 rounded-3xl rounded-bl-none shadow-xl z-50 pointer-events-none"
+                        className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-48 bg-white text-[var(--lab-text)] border border-[var(--lab-border)] text-xs p-3 rounded-3xl rounded-bl-none shadow-xl z-50 pointer-events-none"
                       >
                         ProtonMail: Security First! But actually, what I really
                         want to talk about is... what’s your favorite Balatro
@@ -484,10 +484,10 @@ export function ConnectModule() {
                   </AnimatePresence>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">
+                  <p className="text-sm font-medium text-[var(--lab-text)]">
                     braverocky@proton.me
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-[var(--lab-text-muted)]">
                     PGP Key available on request
                   </p>
                 </div>
@@ -496,10 +496,10 @@ export function ConnectModule() {
               <button
                 ref={copyBtnRef}
                 onClick={handleCopyEmail}
-                className={`w-full py-3 rounded-3xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
+                className={`w-full py-3 rounded-3xl border text-sm flex items-center justify-center gap-2 transition-all font-medium ${
                   copied
-                    ? "bg-green-500 text-white"
-                    : "bg-white/10 hover:bg-white/20 text-white"
+                    ? "bg-[var(--color-rainbow-green)] text-white border-transparent"
+                    : "bg-white/70 hover:bg-white text-[var(--lab-text)] border-[var(--lab-border)]"
                 }`}
               >
                 {copied ? (
@@ -516,7 +516,7 @@ export function ConnectModule() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--lab-text-muted)] mb-4">
               Other Channels
             </h4>
             <div className="flex gap-4">
@@ -542,7 +542,7 @@ export function ConnectModule() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:scale-110 transition-all duration-300"
+                  className="w-12 h-12 rounded-full bg-white/60 border border-[var(--lab-border)] flex items-center justify-center text-[var(--lab-text-soft)] hover:text-[var(--lab-text)] hover:bg-white hover:shadow-[0_0_15px_rgba(0,0,0,0.05)] hover:scale-110 transition-all duration-300"
                   title={social.label}
                 >
                   <social.icon size={20} />
@@ -552,7 +552,7 @@ export function ConnectModule() {
           </div>
         </div>
       </div>
-      </MuseumCard>
+      </div>
     </div>
   );
 }

@@ -104,7 +104,7 @@ export function ProfileModule() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3, type: "spring" }}
-              className="lab-card w-full max-w-sm p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] relative overflow-hidden self-start"
+              className="lab-card vivid-border w-full max-w-sm p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] relative overflow-hidden self-start"
             >
               {/* Top right subtle glow inside card */}
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-[var(--color-rainbow-purple)]/20 rounded-full blur-[40px] pointer-events-none" />
