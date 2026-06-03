@@ -83,36 +83,40 @@ export function TableOfContents() {
       {/* Desktop Navigation Menu */}
       <AnimatePresence>
         <motion.nav
-          initial={{ opacity: 0, x: 20 }}
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 20 }}
-          className="fixed right-8 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3 pointer-events-auto items-end"
+          exit={{ opacity: 0, x: -20 }}
+          className="museum-map z-40 hidden xl:flex flex-col gap-4 pointer-events-auto items-start"
           aria-label="Desktop Route Navigation"
         >
+          <div className="font-mono text-[10px] uppercase tracking-widest text-slate-500 mb-4 pl-5">
+            Exhibition Map
+          </div>
           {museumSections.map(({ id, code, title }) => (
             <button
               key={id}
               onClick={() => scrollToSection(id)}
-              className="group flex items-center gap-3 transition-all outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+              className="group flex items-center gap-3 transition-all outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 w-full text-left"
             >
               <span
                 className={cn(
-                  "font-label text-xs uppercase tracking-widest font-bold transition-all duration-300",
+                  "block w-[2px] transition-all duration-300 rounded-full shrink-0",
                   activeSection === id
-                    ? "text-primary opacity-100 translate-x-0"
-                    : "text-ink/40 w-0 opacity-0 lg:-translate-x-4 lg:group-hover:opacity-100 lg:group-hover:-translate-x-0 overflow-hidden lg:overflow-visible text-right whitespace-nowrap"
-                )}
-              >
-                {code.replace("HALL ", "")} // {title}
-              </span>
-              <span
-                className={cn(
-                  "block w-2 transition-all duration-300 rounded-full shrink-0",
-                  activeSection === id
-                    ? "h-6 bg-primary"
-                    : "h-2 bg-ink/20 group-hover:bg-primary/50 group-hover:h-4"
+                    ? "h-8 bg-orange-500"
+                    : "h-3 bg-slate-700 group-hover:bg-orange-500/50 group-hover:h-5"
                 )}
               />
+              <span
+                className={cn(
+                  "font-mono text-[11px] uppercase tracking-[0.15em] font-medium transition-all duration-300 leading-tight",
+                  activeSection === id
+                    ? "text-orange-500 opacity-100"
+                    : "text-slate-500 opacity-60 group-hover:opacity-100 group-hover:text-slate-300"
+                )}
+              >
+                <span className="block text-[9px] opacity-70 mb-0.5">{code}</span>
+                {title}
+              </span>
             </button>
           ))}
         </motion.nav>

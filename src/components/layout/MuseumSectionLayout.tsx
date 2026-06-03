@@ -63,7 +63,17 @@ type LayoutVariant =
   | "mosaic"
   | "editorial"
   | "immersive"
+  | "centered"
   | "custom";
+
+type SectionWidth = "narrow" | "standard" | "wide" | "full";
+
+const widthClasses: Record<SectionWidth, string> = {
+  narrow: "max-w-4xl",
+  standard: "max-w-6xl",
+  wide: "max-w-7xl",
+  full: "max-w-none",
+};
 
 type MuseumSectionLayoutProps = {
   id: string;
@@ -72,6 +82,7 @@ type MuseumSectionLayoutProps = {
   description?: string;
   tone: SectionTone;
   size?: SectionSize;
+  width?: SectionWidth;
   headerVariant?: HeaderVariant;
   layout?: LayoutVariant;
   childrenClassName?: string;
@@ -94,6 +105,7 @@ const layoutClasses: Record<LayoutVariant, string> = {
   mosaic: "lab-section-grid-mosaic",
   editorial: "lab-section-grid-editorial",
   immersive: "lab-section-grid-immersive",
+  centered: "lab-section-grid-centered",
   custom: "",
 };
 
@@ -107,18 +119,13 @@ function SectionEyebrow({
   if (!eyebrow) return null;
 
   return (
-    <div
-      className="inline-flex items-center gap-2 rounded-full border bg-white/75 px-4 py-2 text-[11px] font-mono uppercase tracking-[0.18em] shadow-sm backdrop-blur"
-      style={{
-        color,
-        borderColor: `${color}44`,
-      }}
-    >
-      <span
-        className="h-2 w-2 rounded-full"
-        style={{ backgroundColor: color }}
+    <div className="mb-8 flex items-center gap-3">
+      <span className="font-mono text-xs uppercase tracking-[0.3em] text-slate-400">
+        {eyebrow}
+      </span>
+      <div
+        className="h-px flex-1 bg-gradient-to-r from-slate-300/70 to-transparent dark:from-slate-700/70"
       />
-      {eyebrow}
     </div>
   );
 }
@@ -226,6 +233,7 @@ export function MuseumSectionLayout({
   description,
   tone,
   size = "lg",
+  width = "standard",
   headerVariant = "featured",
   layout = "default",
   childrenClassName,
@@ -238,7 +246,7 @@ export function MuseumSectionLayout({
     <section
       id={id}
       className={cn(
-        "relative overflow-hidden px-4 sm:px-6 lg:px-10",
+        "relative overflow-hidden",
         sizeClasses[size],
         className,
       )}
@@ -253,7 +261,7 @@ export function MuseumSectionLayout({
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className={cn("mx-auto w-full px-4 sm:px-6 lg:px-8 relative z-10", widthClasses[width])}>
         <SectionHeader
           eyebrow={eyebrow}
           title={title}

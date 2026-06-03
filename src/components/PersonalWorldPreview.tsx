@@ -24,7 +24,7 @@ export function PersonalWorldPreview({
     <Link
       to={href}
       className={cn(
-        "group lab-card lab-card-hover relative min-h-[320px] overflow-hidden p-6",
+        "group lab-card lab-card-hover relative p-6 personal-world-card",
         "flex flex-col justify-between",
         className,
       )}
