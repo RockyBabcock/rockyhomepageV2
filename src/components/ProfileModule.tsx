@@ -1,29 +1,28 @@
 import { motion } from "motion/react";
-import { Zap, MapPin, Code, Sparkles, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const heroJumps = [
   {
     label: "Projects",
-    desc: "Selected builds and interface experiences",
+    desc: "Selected builds and implementation stories.",
     target: "projects",
     color: "#3A86FF",
   },
   {
     label: "Capability Forge",
-    desc: "Tools, stack, and learning map",
+    desc: "Tools, skills, workflows, and proof-of-work.",
     target: "forge",
     color: "#FF9F1C",
   },
   {
     label: "AI Chamber",
-    desc: "Prompt systems and intelligent UI experiments",
+    desc: "AI interfaces, experiments, and prototypes.",
     target: "experiments",
     color: "#8338EC",
   },
   {
     label: "Signal Room",
-    desc: "Contact, links, and availability",
+    desc: "Contact, collaboration, and external links.",
     target: "signal",
     color: "#FF006E",
   },
@@ -152,7 +151,7 @@ export function ProfileModule() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3, type: "spring" }}
-              className="w-full max-w-sm rounded-[2rem] border border-slate-200/60 bg-white/60 p-6 shadow-xl shadow-slate-200/40 backdrop-blur-xl relative overflow-hidden self-start"
+              className="w-full max-w-sm rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-xl shadow-slate-200/40 backdrop-blur-xl relative overflow-hidden self-start"
             >
               {/* Top right subtle glow inside card */}
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-300/20 rounded-full blur-[40px] pointer-events-none" />

@@ -2,27 +2,29 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { techStackData, categoryColors, levelColors } from "../data/techStack";
 import { cn } from "../lib/utils";
-import { Code, Box, Server, Sparkles, MonitorSmartphone, Settings } from "lucide-react";
+import { Code, Box, Server, Sparkles, MonitorSmartphone, Settings, Cpu, Layers, Disc, TerminalSquare, Search } from "lucide-react";
 
-function InfoBlock({ title, text, items, color }: { title: string; text?: string; items?: string[]; color: string }) {
-  return (
-    <div className="border-t border-[var(--lab-border)] pt-5">
-      <h4 className="font-mono text-xs uppercase tracking-widest font-bold mb-3" style={{ color }}>
-        {title}
-      </h4>
-      {text && <p className="font-body text-sm text-[var(--lab-text-soft)] leading-relaxed">{text}</p>}
-      {items && (
-        <ul className="space-y-2">
-          {items.map((item, i) => (
-             <li key={i} className="flex items-start gap-2 font-body text-sm text-[var(--lab-text-soft)]">
-                <span className="mt-0.5" style={{ color }}>•</span>
-                <span>{item}</span>
-             </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  )
+function getCategoryIcon(cat: string) {
+  switch (cat) {
+    case "frontend": return <MonitorSmartphone size={16} />;
+    case "backend": return <Server size={16} />;
+    case "design": return <Sparkles size={16} />;
+    case "devops": return <Settings size={16} />;
+    case "ai": return <Cpu size={16} />;
+    case "web3": return <Box size={16} />;
+    case "creative": return <Disc size={16} />;
+    case "tooling": return <TerminalSquare size={16} />;
+    default: return <Layers size={16} />;
+  }
+}
+
+function getLevelPercentage(level: string) {
+  const l = level.toLowerCase();
+  if (l.includes("primary") || l.includes("core")) return 90;
+  if (l.includes("advanced") || l.includes("proficient")) return 75;
+  if (l.includes("comfortable")) return 60;
+  if (l.includes("learning")) return 40;
+  return 20; // exploring
 }
 
 export function CoreCapabilitiesModule() {
@@ -39,172 +41,211 @@ export function CoreCapabilitiesModule() {
     }
   }, [activeCategory]);
 
-  const categoryColor = categoryColors[activeCategory]?.pri || "var(--rainbow-purple)";
+  const categoryColor = categoryColors[activeCategory]?.pri || "#3A86FF";
   const activeTool = techStackData.find((t) => t.id === activeToolId);
 
   return (
-    <div className="relative w-full z-10 text-[var(--lab-text)]">
+    <div className="relative w-full z-10 text-slate-800">
       {/* Background Glow */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden rounded-[2rem]">
          <motion.div 
             animate={{ backgroundColor: `${categoryColor}15` }}
             transition={{ duration: 1 }}
-            className="absolute -top-10 -right-10 w-[40vw] h-[40vw] rounded-full blur-[100px] mix-blend-multiply opacity-50" 
+            className="absolute -top-10 -right-10 w-[60vw] h-[60vw] rounded-full blur-[100px] mix-blend-multiply opacity-50" 
          />
       </div>
 
-      <div className="relative z-10 flex flex-col gap-8">
+      <div className="rounded-[2rem] border border-white/70 bg-white/65 backdrop-blur-xl shadow-sm p-5 sm:p-6 lg:p-7 relative z-10 w-full transition-colors duration-500">
         
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end pb-8 gap-6 border-b border-[var(--lab-border)]">
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => {
-              const color = categoryColors[cat]?.pri || "var(--lab-text)";
-              const isActive = activeCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={cn(
-                    "px-4 py-2 font-body text-sm font-semibold rounded-full transition-all duration-300",
-                    isActive 
-                      ? "text-white shadow-md" 
-                      : "bg-white/50 border border-[var(--lab-border)] text-[var(--lab-text-muted)] hover:bg-white hover:text-[var(--lab-text)]"
-                  )}
-                  style={{ 
-                    backgroundColor: isActive ? color : undefined,
-                  }}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Responsive Grid */}
+        <div className="flex flex-col lg:grid lg:grid-cols-[220px_minmax(0,1fr)_300px] gap-6 lg:gap-8 xl:gap-10">
            
-           {/* Left: Tool Constellation */}
-           <div className="lg:col-span-7 xl:col-span-8 flex flex-col gap-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                 {techStackData.filter(t => t.category === activeCategory).map((tool) => {
-                   const isActive = activeToolId === tool.id;
-
-                   return (
-                     <button
-                       key={tool.id}
-                       onClick={() => setActiveToolId(tool.id)}
-                       className={cn(
-                         "lab-card p-5 text-left transition-all hover:-translate-y-1 relative group overflow-hidden",
-                         isActive ? "ring-2" : "hover:shadow-md"
-                       )}
-                       style={{
-                         "--tw-ring-color": categoryColor,
-                         boxShadow: isActive ? `0 24px 70px ${categoryColor}24` : undefined,
-                       } as React.CSSProperties}
-                     >
-                       {/* Subtle hover gradient background */}
-                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" 
-                            style={{ background: `radial-gradient(circle at center, ${categoryColor}10, transparent 70%)` }} />
-                       
-                       <div className="relative z-10">
-                         <div
-                           className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center shadow-sm"
-                           style={{
-                             background: `linear-gradient(135deg, ${categoryColor}22, white)`,
-                             color: categoryColor,
-                           }}
-                         >
-                           <Code size={22} />
+           {/* Column 1: Categories & List */}
+           <div className="flex flex-col gap-6">
+              <div>
+                <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
+                  <Search size={12} />
+                  Domains
+                </h3>
+                {/* Horizontal scroll on mobile, wrap on tablet, stack on desktop */}
+                <div className="flex overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 hide-scrollbar gap-2 lg:flex-col lg:gap-1.5 -mx-2 px-2 lg:mx-0 lg:px-0">
+                  {categories.map((cat) => {
+                    const color = categoryColors[cat]?.pri || "#3A86FF";
+                    const isActive = activeCategory === cat;
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => setActiveCategory(cat)}
+                        className={cn(
+                          "shrink-0 flex items-center gap-2 px-3 py-2 font-mono text-xs uppercase tracking-wider font-semibold rounded-xl transition-all duration-300 text-left",
+                          isActive 
+                            ? "bg-white text-slate-900 shadow-sm border border-slate-200/60" 
+                            : "text-slate-500 hover:bg-white/50 border border-transparent"
+                        )}
+                      >
+                         <div style={{ color: isActive ? color : undefined }} className="transition-colors">
+                           {getCategoryIcon(cat)}
                          </div>
+                         {cat}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
-                         <div className="font-semibold text-lg text-[var(--lab-text)]">
-                           {tool.name}
-                         </div>
-
-                         <div className="mt-2 text-xs font-mono font-medium text-[var(--lab-text-muted)] uppercase tracking-wider">
-                           {tool.level}
-                         </div>
-                       </div>
-                     </button>
-                   );
-                 })}
+              <div>
+                <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 hidden lg:block">
+                  Capabilities
+                </h3>
+                <div className="flex overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 hide-scrollbar gap-2 lg:flex-col lg:gap-1.5 -mx-2 px-2 lg:mx-0 lg:px-0">
+                   {techStackData.filter(t => t.category === activeCategory).map((tool) => {
+                     const isActive = activeToolId === tool.id;
+                     return (
+                       <button
+                         key={tool.id}
+                         onClick={() => setActiveToolId(tool.id)}
+                         className={cn(
+                           "shrink-0 px-3 py-2 text-sm font-medium rounded-lg transition-all text-left",
+                           isActive 
+                             ? "bg-slate-900 text-white shadow-md pointer-events-none" 
+                             : "bg-white/40 text-slate-700 border border-white/60 hover:bg-white"
+                         )}
+                         style={{
+                           boxShadow: isActive ? `0 4px 14px ${categoryColor}40` : undefined,
+                           backgroundColor: isActive ? categoryColor : undefined,
+                         }}
+                       >
+                         {tool.name}
+                       </button>
+                     );
+                   })}
+                </div>
               </div>
            </div>
 
-           {/* Right: Selected Tool Details */}
-           <div className="lg:col-span-5 xl:col-span-4 sticky top-24">
+           {/* Column 2: Selected Tool Detail */}
+           <div className="flex flex-col h-full min-h-[300px]">
                <AnimatePresence mode="wait">
-                 {activeTool ? (
-                    <motion.div 
-                      key={activeTool.id}
-                      initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                      transition={{ duration: 0.3 }}
-                      className="lab-card p-8 flex flex-col shadow-[0_20px_60px_rgba(15,23,42,0.06)]"
-                    >
-                        <div className="flex items-start justify-between gap-4 mb-6">
-                          <div>
-                            <div className="text-xs font-mono uppercase tracking-[0.16em]" style={{ color: categoryColor }}>
-                              Selected Tool
-                            </div>
-                            <h3 className="mt-2 text-4xl font-headline font-bold tracking-tight text-[var(--lab-text)]">
-                              {activeTool.name}
-                            </h3>
-                          </div>
-                          
-                          <div
-                            className="w-14 h-14 rounded-2xl shrink-0 flex items-center justify-center shadow-sm"
-                            style={{
-                              background: `linear-gradient(135deg, ${categoryColor}, white)`,
-                              color: "white"
-                            }}
-                          >
-                             <Code size={24} />
-                          </div>
-                        </div>
+                 {activeTool && (
+                   <motion.div 
+                     key={activeTool.id}
+                     initial={{ opacity: 0, scale: 0.98, y: 10 }}
+                     animate={{ opacity: 1, scale: 1, y: 0 }}
+                     exit={{ opacity: 0, scale: 0.98, y: -10 }}
+                     transition={{ duration: 0.2 }}
+                     className="rounded-[1.5rem] border border-white bg-white/80 backdrop-blur-md shadow-sm p-6 relative flex flex-col h-full overflow-hidden hover:-translate-y-1 transition-transform duration-300"
+                     style={{
+                        borderColor: `${categoryColor}30`,
+                        boxShadow: `0 8px 32px ${categoryColor}15`,
+                     }}
+                   >
+                       <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: categoryColor }} />
+                       
+                       <div className="flex items-start justify-between gap-4 mb-5">
+                         <div>
+                           <div className="text-[10px] font-mono uppercase tracking-[0.2em] mb-2" style={{ color: categoryColor }}>
+                             {activeTool.category}
+                           </div>
+                           <h3 className="text-3xl font-space font-bold tracking-tight text-slate-900">
+                             {activeTool.name}
+                           </h3>
+                         </div>
+                         <div
+                           className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center shadow-sm"
+                           style={{
+                             background: `linear-gradient(135deg, ${categoryColor}20, ${categoryColor}05)`,
+                             color: categoryColor,
+                             border: `1px solid ${categoryColor}30`
+                           }}
+                         >
+                            <Code size={20} />
+                         </div>
+                       </div>
 
-                        <p className="text-[var(--lab-text-soft)] leading-relaxed font-body text-sm mb-6">
-                          {activeTool.description}
-                        </p>
+                       <p className="text-slate-600 leading-relaxed font-body text-sm mb-6">
+                         {activeTool.description}
+                       </p>
 
-                        <div className="space-y-6 flex-1 flex flex-col">
-                           <InfoBlock 
-                              color={categoryColor}
-                              title="What I use it for" 
-                              text="Architecting robust interface systems, prototyping interactive components, and maintaining scalable component logic." 
-                           />
-                           
-                           {activeTool.evidence && activeTool.evidence.length > 0 && (
-                             <InfoBlock 
-                                color={categoryColor}
-                                title="Where it appears" 
-                                items={activeTool.evidence} 
-                             />
-                           )}
+                       <div className="mb-6">
+                         <div className="flex justify-between items-end mb-2">
+                            <span className="font-mono text-[10px] uppercase tracking-wider text-slate-500">Skill Level</span>
+                            <span className="text-xs font-semibold" style={{ color: categoryColor }}>{activeTool.level}</span>
+                         </div>
+                         <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                            <motion.div 
+                               initial={{ width: 0 }}
+                               animate={{ width: `${getLevelPercentage(activeTool.level)}%` }}
+                               transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+                               className="h-full rounded-full" 
+                               style={{ backgroundColor: categoryColor }} 
+                            />
+                         </div>
+                       </div>
 
-                           <InfoBlock 
-                              color={categoryColor}
-                              title="Best paired with" 
-                              text="Tailwind CSS, standard browser APIs, and intelligent orchestration." 
-                           />
-                           
-                           <InfoBlock 
-                              color={categoryColor}
-                              title="What I'm improving next" 
-                              text="Exploring deeper integration of this tool within broader autonomous workflows and dynamic interface generation." 
-                           />
-                        </div>
-                    </motion.div>
-                 ) : (
-                    <div className="lab-card p-12 w-full h-[400px] flex items-center justify-center font-body text-base font-medium text-[var(--lab-text-muted)] text-center border-dashed">
-                       Select a tool to view its context and learning map.
-                    </div>
+                       <div className="mt-auto">
+                          <h4 className="font-mono text-[10px] uppercase tracking-widest text-slate-500 mb-2">How I use this</h4>
+                          <p className="text-sm text-slate-600 bg-white/60 p-4 rounded-xl border border-slate-100">
+                             I use {activeTool.name} to structurally architect intentional, high-quality {activeTool.category} experiences, orchestrating component logic and establishing resilient interface boundaries.
+                          </p>
+                       </div>
+                   </motion.div>
                  )}
                </AnimatePresence>
            </div>
+
+           {/* Column 3: Evidence & Proof */}
+           <div className="flex flex-col h-full">
+               <AnimatePresence mode="wait">
+                 {activeTool && (
+                   <motion.div 
+                     key={activeTool.id}
+                     initial={{ opacity: 0, x: 10 }}
+                     animate={{ opacity: 1, x: 0 }}
+                     exit={{ opacity: 0, x: -10 }}
+                     transition={{ duration: 0.2, delay: 0.1 }}
+                     className="rounded-[1.5rem] border border-slate-200/60 bg-slate-50/50 p-6 flex flex-col h-full gap-6"
+                     style={{
+                        borderColor: `${categoryColor}15`,
+                     }}
+                   >
+                     <div>
+                        <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-2 flex items-center gap-2">
+                           Related Project
+                        </h4>
+                        <div className="text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2 shadow-sm inline-block">
+                           {activeTool.usedIn?.[0] || "Exploratory Prototype"}
+                        </div>
+                     </div>
+
+                     <div>
+                        <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-2">
+                           Implementation Proof
+                        </h4>
+                        <ul className="space-y-2">
+                           {activeTool.evidence?.map((item, i) => (
+                             <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                                <span className="mt-1 shrink-0 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: categoryColor }} />
+                                <span>{item}</span>
+                             </li>
+                           )) || (
+                             <li className="text-sm text-slate-600">Applied in core feature workflows and isolated architecture experiments.</li>
+                           )}
+                        </ul>
+                     </div>
+
+                     <div className="mt-auto">
+                        <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-2">
+                           Current Learning Target
+                        </h4>
+                        <p className="text-sm text-slate-600 italic">
+                           "{activeTool.learningFocus || "Exploring broader production-grade applications and optimal architecture patterns."}"
+                        </p>
+                     </div>
+                   </motion.div>
+                 )}
+               </AnimatePresence>
+           </div>
+
         </div>
       </div>
     </div>
