@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 export const sectionTones = {
   entrance: {
@@ -42,28 +42,182 @@ export const sectionTones = {
     secondary: "#FF9F1C",
     soft: "rgba(255, 0, 110, 0.14)",
   },
+} as const;
+
+type SectionTone = keyof typeof sectionTones;
+
+type SectionSize = "xl" | "lg" | "md" | "compact";
+
+type HeaderVariant =
+  | "featured"
+  | "compact"
+  | "side"
+  | "centered"
+  | "hidden";
+
+type LayoutVariant =
+  | "default"
+  | "split"
+  | "asymmetric"
+  | "dashboard"
+  | "mosaic"
+  | "editorial"
+  | "immersive"
+  | "custom";
+
+type MuseumSectionLayoutProps = {
+  id: string;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  tone: SectionTone;
+  size?: SectionSize;
+  headerVariant?: HeaderVariant;
+  layout?: LayoutVariant;
+  childrenClassName?: string;
+  className?: string;
+  children: React.ReactNode;
 };
 
-const sizeClass = {
+const sizeClasses: Record<SectionSize, string> = {
   xl: "py-24 lg:py-32",
   lg: "py-20 lg:py-28",
   md: "py-16 lg:py-20",
   compact: "py-12 lg:py-16",
 };
 
-type MuseumSectionLayoutProps = {
-  id: string;
-  eyebrow: string;
-  title: string;
-  description: string;
-  tone: keyof typeof sectionTones;
-  layout?: "default" | "featured" | "split" | "asymmetric" | "dashboard" | "mosaic" | "editorial" | "immersive" | "custom";
-  size?: "xl" | "lg" | "md" | "compact";
-  headerVariant?: "featured" | "compact" | "side" | "centered" | "hidden";
-  childrenClassName?: string;
-  className?: string;
-  children: React.ReactNode;
+const layoutClasses: Record<LayoutVariant, string> = {
+  default: "lab-section-grid-default",
+  split: "lab-section-grid-split",
+  asymmetric: "lab-section-grid-asymmetric",
+  dashboard: "lab-section-grid-dashboard",
+  mosaic: "lab-section-grid-mosaic",
+  editorial: "lab-section-grid-editorial",
+  immersive: "lab-section-grid-immersive",
+  custom: "",
 };
+
+function SectionEyebrow({
+  eyebrow,
+  color,
+}: {
+  eyebrow?: string;
+  color: string;
+}) {
+  if (!eyebrow) return null;
+
+  return (
+    <div
+      className="inline-flex items-center gap-2 rounded-full border bg-white/75 px-4 py-2 text-[11px] font-mono uppercase tracking-[0.18em] shadow-sm backdrop-blur"
+      style={{
+        color,
+        borderColor: `${color}44`,
+      }}
+    >
+      <span
+        className="h-2 w-2 rounded-full"
+        style={{ backgroundColor: color }}
+      />
+      {eyebrow}
+    </div>
+  );
+}
+
+function SectionHeader({
+  eyebrow,
+  title,
+  description,
+  colors,
+  variant,
+}: {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  colors: (typeof sectionTones)[SectionTone];
+  variant: HeaderVariant;
+}) {
+  if (variant === "hidden") return null;
+  if (!title && !description && !eyebrow) return null;
+
+  const titleNode = title ? (
+    <h2
+      className={cn(
+        "mt-5 font-space font-bold tracking-[-0.06em] text-slate-950",
+        variant === "compact"
+          ? "text-3xl md:text-5xl"
+          : "text-5xl md:text-7xl",
+      )}
+    >
+      {title}
+    </h2>
+  ) : null;
+
+  const descriptionNode = description ? (
+    <p
+      className={cn(
+        "mt-5 leading-8 text-slate-600",
+        variant === "compact" ? "max-w-xl text-base" : "max-w-2xl text-lg",
+      )}
+    >
+      {description}
+    </p>
+  ) : null;
+
+  const ruleNode = (
+    <div
+      className={cn(
+        "mt-6 h-1 rounded-full",
+        variant === "centered" ? "mx-auto w-40" : "w-40",
+      )}
+      style={{
+        background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+      }}
+    />
+  );
+
+  if (variant === "centered") {
+    return (
+      <header className="mx-auto mb-12 max-w-3xl text-center">
+        <SectionEyebrow eyebrow={eyebrow} color={colors.primary} />
+        {titleNode}
+        <div className="mx-auto">{descriptionNode}</div>
+        {ruleNode}
+      </header>
+    );
+  }
+
+  if (variant === "side") {
+    return (
+      <header className="mb-12 grid items-end gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <div>
+          <SectionEyebrow eyebrow={eyebrow} color={colors.primary} />
+          {titleNode}
+          {ruleNode}
+        </div>
+
+        {description ? (
+          <p className="max-w-2xl text-lg leading-8 text-slate-600 lg:ml-auto">
+            {description}
+          </p>
+        ) : null}
+      </header>
+    );
+  }
+
+  return (
+    <header
+      className={cn(
+        "max-w-4xl",
+        variant === "compact" ? "mb-8" : "mb-12",
+      )}
+    >
+      <SectionEyebrow eyebrow={eyebrow} color={colors.primary} />
+      {titleNode}
+      {descriptionNode}
+      {ruleNode}
+    </header>
+  );
+}
 
 export function MuseumSectionLayout({
   id,
@@ -71,89 +225,50 @@ export function MuseumSectionLayout({
   title,
   description,
   tone,
-  layout = "default",
-  size = "xl",
+  size = "lg",
   headerVariant = "featured",
+  layout = "default",
   childrenClassName,
   className,
   children,
 }: MuseumSectionLayoutProps) {
   const colors = sectionTones[tone];
 
-  const renderHeaderContent = () => (
-    <>
-      <div
-        className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-mono uppercase tracking-[0.18em] border shadow-sm"
-        style={{
-          color: colors.primary,
-          borderColor: `${colors.primary}44`,
-        }}
-      >
-        <span
-          className="h-2 w-2 rounded-full"
-          style={{ backgroundColor: colors.primary }}
-        />
-        {eyebrow}
-      </div>
-
-      <h2 className={cn("mt-5 font-space tracking-[-0.06em] text-slate-950", 
-        headerVariant === "compact" ? "text-4xl md:text-5xl" : "text-5xl md:text-7xl")}
-      >
-        {title}
-      </h2>
-
-      <p className={cn("mt-5 text-lg leading-8 text-[var(--lab-text-soft)]", 
-        headerVariant === "centered" ? "mx-auto max-w-2xl" : "max-w-2xl")}
-      >
-        {description}
-      </p>
-
-      <div
-        className={cn("mt-6 h-1 w-40 rounded-full",
-          headerVariant === "centered" && "mx-auto"
-        )}
-        style={{
-          background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-        }}
-      />
-    </>
-  );
-
   return (
-    <section id={id} className={cn(`relative px-4 sm:px-6 lg:px-10 overflow-hidden`, sizeClass[size], className)}>
+    <section
+      id={id}
+      className={cn(
+        "relative overflow-hidden px-4 sm:px-6 lg:px-10",
+        sizeClasses[size],
+        className,
+      )}
+    >
       <div
-        className="absolute inset-x-0 top-0 h-96 pointer-events-none opacity-80"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] opacity-80"
         style={{
           background: `
-            radial-gradient(circle at 18% 20%, ${colors.soft}, transparent 34%),
-            radial-gradient(circle at 82% 10%, ${colors.secondary}1f, transparent 30%)
+            radial-gradient(circle at 18% 18%, ${colors.soft}, transparent 34%),
+            radial-gradient(circle at 82% 8%, ${colors.secondary}22, transparent 30%)
           `,
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl">
-        {headerVariant !== "hidden" && (
-          <header className={cn(
-            "mb-12",
-            headerVariant === "featured" && "max-w-4xl",
-            headerVariant === "compact" && "max-w-3xl mb-8",
-            headerVariant === "side" && "grid lg:grid-cols-[1fr_auto] gap-8 items-end max-w-none",
-            headerVariant === "centered" && "max-w-3xl mx-auto text-center"
-          )}>
-            {headerVariant === "side" ? (
-              <>
-                <div className="max-w-2xl">
-                  {renderHeaderContent()}
-                </div>
-                {/* Optional side content could go here if needed in the future */}
-              </>
-            ) : (
-              renderHeaderContent()
-            )}
-          </header>
-        )}
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <SectionHeader
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+          colors={colors}
+          variant={headerVariant}
+        />
 
-        <div className={cn(layout !== "custom" && `lab-section-grid-${layout}`, childrenClassName)}>
+        <div
+          className={cn(
+            layoutClasses[layout],
+            layout === "custom" && childrenClassName,
+            layout !== "custom" && childrenClassName,
+          )}
+        >
           {children}
         </div>
       </div>

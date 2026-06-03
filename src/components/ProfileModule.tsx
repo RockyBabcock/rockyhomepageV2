@@ -43,11 +43,18 @@ export function ProfileModule() {
 
   const scrollToElement = (id: string) => {
     const el = document.getElementById(id);
-    if (el) {
-      const offset = 80;
-      const pos = el.getBoundingClientRect().top + window.pageYOffset - offset;
-      window.scrollTo({ top: pos, behavior: "smooth" });
+    if (!el) {
+      console.warn(`Section with id "${id}" was not found.`);
+      return;
     }
+
+    const offset = 88;
+    const pos = el.getBoundingClientRect().top + window.pageYOffset - offset;
+
+    window.scrollTo({
+      top: pos,
+      behavior: "smooth",
+    });
   };
 
   return (

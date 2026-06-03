@@ -10,7 +10,10 @@ import { TableOfContents } from "../components/TableOfContents";
 // Museum components
 import { ExhibitNote } from "../components/ExhibitNote";
 import { SealedArchive } from "../components/SealedArchive";
-import { MuseumSectionLayout, sectionTones } from "@/components/layout/MuseumSectionLayout";
+import {
+  MuseumSectionLayout,
+  sectionTones,
+} from "@/components/layout/MuseumSectionLayout";
 import { PersonalWorldPreview } from "@/components/PersonalWorldPreview";
 import { ModuleSkeleton } from "@/components/common/ModuleSkeleton";
 import { features } from "../config/features";
@@ -45,13 +48,13 @@ export default function HomePage() {
   return (
     <main className="rainbow-lab-bg text-[var(--museum-text)]">
       <TableOfContents />
-      
+
       {/* 01 Entrance */}
       <ProfileModule />
 
       {/* 02 Proof of Work */}
-      <MuseumSectionLayout 
-        id="projects" 
+      <MuseumSectionLayout
+        id="projects"
         eyebrow="Selected Work"
         title="Project Lab"
         description="Real builds, interface experiments, and systems I am actively shaping."
@@ -64,12 +67,12 @@ export default function HomePage() {
       </MuseumSectionLayout>
 
       {/* 03 Capability System */}
-      <MuseumSectionLayout 
-        id="directory" 
+      <MuseumSectionLayout
+        id="directory"
         eyebrow="Technical Map"
         title="Skill Spectrum"
         description="A living map of the tools I use to design, build, automate, and experiment."
-        tone="skills" 
+        tone="skills"
         layout="default"
         size="xl"
         headerVariant="side"
@@ -78,12 +81,12 @@ export default function HomePage() {
       </MuseumSectionLayout>
 
       {/* 04 Experiments */}
-      <MuseumSectionLayout 
-        id="experiments" 
+      <MuseumSectionLayout
+        id="experiments"
         eyebrow="Experimental Chambers"
         title="AI, Web3 & Interface Systems"
         description="Explorations in intelligent interfaces, decentralized systems, and creative tools."
-        tone="experiments" 
+        tone="experiments"
         layout="custom"
         size="lg"
         headerVariant="compact"
@@ -91,12 +94,14 @@ export default function HomePage() {
       >
         <div className="col-span-12 lg:col-span-7">
           <ModuleErrorBoundary fallbackTitle="AI Experiment Chamber Offline">
-            <Suspense fallback={<ModuleSkeleton label="Loading AI Playground..." />}>
+            <Suspense
+              fallback={<ModuleSkeleton label="Loading AI Playground..." />}
+            >
               {features.aiPlayground ? (
                 <AIPlaygroundModule />
               ) : (
-                <SealedArchive 
-                  title="AI Experiment Chamber Offline" 
+                <SealedArchive
+                  title="AI Experiment Chamber Offline"
                   description="Live AI calls are disabled in this production build."
                 />
               )}
@@ -106,12 +111,14 @@ export default function HomePage() {
 
         <div className="col-span-12 lg:col-span-5">
           <ModuleErrorBoundary fallbackTitle="Web3 Archive Mode">
-            <Suspense fallback={<ModuleSkeleton label="Loading Web3 Vault..." />}>
+            <Suspense
+              fallback={<ModuleSkeleton label="Loading Web3 Vault..." />}
+            >
               {features.web3Vault ? (
                 <Web3VaultModule />
               ) : (
-                <SealedArchive 
-                  title="Web3 Archive Mode" 
+                <SealedArchive
+                  title="Web3 Archive Mode"
                   description="Wallet interaction is disabled."
                 />
               )}
@@ -121,12 +128,12 @@ export default function HomePage() {
       </MuseumSectionLayout>
 
       {/* 05 Live Proof */}
-      <MuseumSectionLayout 
-        id="live-proof" 
+      <MuseumSectionLayout
+        id="live-proof"
         eyebrow="Live Proof"
         title="Activity Signals"
-        description="A small dashboard of building, shipping, tracking, and learning in public."
-        tone="live" 
+        description="Signals from what I build, commit, track, and improve."
+        tone="live"
         layout="dashboard"
         size="md"
         headerVariant="compact"
@@ -135,8 +142,8 @@ export default function HomePage() {
           {features.githubActivity ? (
             <GitHubModule />
           ) : (
-            <SealedArchive 
-              title="GitHub Signal Unavailable" 
+            <SealedArchive
+              title="GitHub Signal Unavailable"
               description="Live repository data could not be loaded."
             />
           )}
@@ -147,8 +154,8 @@ export default function HomePage() {
             {features.telemetry ? (
               <VisitorAnalyticsModule />
             ) : (
-              <SealedArchive 
-                title="Telemetry Simulation" 
+              <SealedArchive
+                title="Telemetry Simulation"
                 description="Real analytics are not connected yet."
               />
             )}
@@ -157,12 +164,12 @@ export default function HomePage() {
       </MuseumSectionLayout>
 
       {/* 06 Personal Worlds */}
-      <MuseumSectionLayout 
-        id="archives" 
+      <MuseumSectionLayout
+        id="archives"
         eyebrow="Personal Worlds"
         title="Play, Strategy & Memory"
         description="The human side of the site: games, sport, media, chess, and daily systems."
-        tone="personal" 
+        tone="personal"
         layout="custom"
         size="lg"
         headerVariant="centered"
@@ -206,31 +213,28 @@ export default function HomePage() {
       </MuseumSectionLayout>
 
       {/* 07 Writing */}
-      <MuseumSectionLayout 
-        id="garden" 
+      <MuseumSectionLayout
+        id="garden"
         eyebrow="Digital Garden"
         title="Notes, Timeline & Thinking"
         description="A calmer space for writing, reflection, learning notes, and personal records."
-        tone="garden" 
+        tone="garden"
         layout="editorial"
         size="md"
         headerVariant="side"
       >
-        <div>
-          <Suspense fallback={<ModuleSkeleton label="Loading Blog Module..." />}>
-            <BlogModule />
-          </Suspense>
-        </div>
-        <div>
-          <Suspense fallback={<ModuleSkeleton label="Loading Timeline..." />}>
-            <TimelineModule />
-          </Suspense>
-        </div>
+        <Suspense fallback={<ModuleSkeleton label="Loading Blog Module..." />}>
+          <BlogModule />
+        </Suspense>
+
+        <Suspense fallback={<ModuleSkeleton label="Loading Timeline..." />}>
+          <TimelineModule />
+        </Suspense>
       </MuseumSectionLayout>
 
       {/* 08 Contact */}
-      <MuseumSectionLayout 
-        id="signal" 
+      <MuseumSectionLayout
+        id="signal"
         eyebrow="Signal Room"
         title="Let’s Build Something"
         description="Open to frontend, design engineering, AI interface, and creative web collaborations."

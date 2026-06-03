@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 type PersonalWorldPreviewProps = {
   title: string;
@@ -33,13 +33,13 @@ export function PersonalWorldPreview({
       }}
     >
       <div
-        className="absolute -right-16 -top-16 h-40 w-40 rounded-full blur-3xl opacity-45 transition-transform duration-500 group-hover:scale-150"
+        className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full blur-3xl opacity-45"
         style={{ backgroundColor: color }}
       />
 
-      <div className="relative z-10">
+      <div>
         <div
-          className="inline-flex rounded-full border bg-white/70 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em]"
+          className="inline-flex rounded-full border bg-white/75 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em]"
           style={{
             color,
             borderColor: `${color}55`,
@@ -48,22 +48,22 @@ export function PersonalWorldPreview({
           {eyebrow}
         </div>
 
-        <h3 className="mt-6 font-space text-3xl font-bold tracking-tight text-slate-950">
+        <h3 className="mt-6 font-space text-3xl font-bold tracking-[-0.04em] text-slate-950">
           {title}
         </h3>
 
-        <p className="mt-4 text-sm leading-6 text-[var(--lab-text-soft)] font-body">
+        <p className="mt-4 text-sm leading-6 text-slate-600">
           {description}
         </p>
       </div>
 
-      <div className="mt-8 flex items-center justify-between relative z-10">
+      <div className="mt-8 flex items-center justify-between">
         <span className="text-sm font-semibold text-slate-800">
           Open exhibit
         </span>
 
         <span
-          className="flex h-10 w-10 items-center justify-center rounded-full text-white transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-white transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
           style={{ backgroundColor: color }}
         >
           <ArrowUpRight size={18} />

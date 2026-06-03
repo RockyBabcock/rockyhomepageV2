@@ -276,30 +276,28 @@
   }
 
   .lab-section-grid-default {
-    display: grid;
-    gap: 24px;
-  }
-
-  .lab-section-grid-featured {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.6fr);
-    gap: 28px;
+    display: block;
   }
 
   .lab-section-grid-split {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px;
+    align-items: stretch;
   }
 
   .lab-section-grid-asymmetric {
     display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 28px;
+    align-items: stretch;
   }
 
   .lab-section-grid-dashboard {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
     gap: 24px;
+    align-items: stretch;
   }
 
   .lab-section-grid-custom {
@@ -307,12 +305,68 @@
   }
 
   .mosaic-card {
-    min-height: 420px;
+    min-height: 320px;
     height: 100%;
+  }
+
+  .mosaic-card > * {
+    height: 100%;
+    min-height: 0;
   }
 
   .personal-worlds-grid {
     align-items: stretch;
+  }
+
+  .chess-exhibit-page {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(212, 175, 55, 0.18), transparent 32%),
+      radial-gradient(circle at 80% 20%, rgba(131, 56, 236, 0.14), transparent 34%),
+      linear-gradient(180deg, #080604 0%, #14100b 100%);
+    color: white;
+  }
+
+  .chess-exhibit-inner {
+    width: min(1280px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 96px 0 80px;
+  }
+
+  .chess-layer-shell {
+    position: relative;
+    min-height: clamp(620px, 78vh, 860px);
+    overflow: hidden;
+    border-radius: 32px;
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    background: rgba(0, 0, 0, 0.34);
+  }
+
+  .chess-layer-scroll {
+    max-height: min(82vh, 860px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: clamp(20px, 3vw, 32px);
+  }
+
+  @media (max-width: 768px) {
+    .chess-exhibit-inner {
+      width: min(100% - 20px, 1280px);
+      padding-top: 72px;
+    }
+
+    .chess-layer-shell {
+      min-height: 620px;
+      border-radius: 24px;
+    }
+
+    .chess-layer-scroll {
+      max-height: none;
+      overflow: visible;
+      padding: 18px;
+    }
   }
 
   .personal-world-card {
@@ -334,20 +388,30 @@
   .lab-section-grid-mosaic {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 22px;
+    gap: 24px;
+    align-items: stretch;
   }
 
   .lab-section-grid-editorial {
     display: grid;
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
     gap: 32px;
+    align-items: start;
+  }
+
+  .lab-section-grid-immersive {
+    display: block;
   }
 
   @media (max-width: 900px) {
-    .lab-section-grid-featured,
     .lab-section-grid-split,
     .lab-section-grid-dashboard,
     .lab-section-grid-editorial {
+      grid-template-columns: 1fr;
+    }
+
+    .lab-section-grid-asymmetric,
+    .lab-section-grid-mosaic {
       grid-template-columns: 1fr;
     }
   }
