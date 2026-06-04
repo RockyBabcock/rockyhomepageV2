@@ -59,7 +59,7 @@ export default function HomePage() {
         title="Project Laboratory"
         description="Selected builds that show how I design, structure, and implement web systems."
         tone="projects"
-        layout="asymmetric"
+        layout="custom"
         size="xl"
         width="wide"
         headerVariant="side"
@@ -69,7 +69,7 @@ export default function HomePage() {
 
       {/* 03 Capability System */}
       <MuseumSectionLayout
-        id="directory"
+        id="forge"
         eyebrow="HALL 02 / CAPABILITY SYSTEM"
         title="Capability Forge"
         description="A living map of the tools I use to design, build, automate, and experiment."
@@ -90,8 +90,8 @@ export default function HomePage() {
         description="Explorations in intelligent interfaces, decentralized systems, and creative tools."
         tone="experiments"
         layout="split"
-        size="lg"
-        width="standard"
+        size="xl"
+        width="wide"
         headerVariant="side"
       >
           <ModuleErrorBoundary fallbackTitle="AI Experiment Chamber Offline">
@@ -133,8 +133,8 @@ export default function HomePage() {
         description="Signals from what I build, commit, track, and improve."
         tone="live"
         layout="mosaic"
-        size="md"
-        width="standard"
+        size="xl"
+        width="wide"
         headerVariant="side"
       >
         <ModuleErrorBoundary fallbackTitle="GitHub Signal Unavailable">
@@ -170,8 +170,8 @@ export default function HomePage() {
         description="The human side of the site: games, sport, media, chess, and daily systems."
         tone="personal"
         layout="mosaic"
-        size="lg"
-        width="standard"
+        size="xl"
+        width="wide"
         headerVariant="centered"
       >
         <PersonalWorldPreview
@@ -215,7 +215,7 @@ export default function HomePage() {
         description="Notes, essays, and fragments from the systems I build."
         tone="garden"
         layout="editorial"
-        size="md"
+        size="lg"
         width="narrow"
         headerVariant="compact"
       >
@@ -236,8 +236,8 @@ export default function HomePage() {
         description="Open to frontend, design engineering, AI interface, and creative web collaborations."
         tone="signal"
         layout="centered"
-        size="lg"
-        width="standard"
+        size="xl"
+        width="wide"
         headerVariant="centered"
       >
         <ConnectModule />

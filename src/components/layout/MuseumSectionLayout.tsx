@@ -5,42 +5,58 @@ export const sectionTones = {
   entrance: {
     primary: "#FF006E",
     secondary: "#3A86FF",
-    soft: "rgba(255, 0, 110, 0.14)",
+    soft: "rgba(255, 0, 110, 0.12)",
+    surface: "rgba(255, 0, 110, 0.06)",
+    gradient: "linear-gradient(135deg, #FF006E, #3A86FF)",
   },
   projects: {
     primary: "#3A86FF",
     secondary: "#00C2FF",
-    soft: "rgba(58, 134, 255, 0.14)",
+    soft: "rgba(58, 134, 255, 0.12)",
+    surface: "rgba(58, 134, 255, 0.06)",
+    gradient: "linear-gradient(135deg, #3A86FF, #00C2FF)",
   },
   skills: {
     primary: "#FF9F1C",
     secondary: "#8338EC",
-    soft: "rgba(255, 159, 28, 0.14)",
+    soft: "rgba(255, 159, 28, 0.12)",
+    surface: "rgba(255, 159, 28, 0.06)",
+    gradient: "linear-gradient(135deg, #FF9F1C, #8338EC)",
   },
   experiments: {
     primary: "#8338EC",
     secondary: "#00C2FF",
-    soft: "rgba(131, 56, 236, 0.14)",
+    soft: "rgba(131, 56, 236, 0.12)",
+    surface: "rgba(131, 56, 236, 0.06)",
+    gradient: "linear-gradient(135deg, #8338EC, #00C2FF)",
   },
   live: {
     primary: "#00C2FF",
     secondary: "#06D6A0",
-    soft: "rgba(0, 194, 255, 0.14)",
+    soft: "rgba(0, 194, 255, 0.12)",
+    surface: "rgba(0, 194, 255, 0.06)",
+    gradient: "linear-gradient(135deg, #00C2FF, #06D6A0)",
   },
   personal: {
     primary: "#FF9F1C",
     secondary: "#FF4D6D",
-    soft: "rgba(255, 159, 28, 0.14)",
+    soft: "rgba(255, 159, 28, 0.12)",
+    surface: "rgba(255, 159, 28, 0.06)",
+    gradient: "linear-gradient(135deg, #FF9F1C, #FF4D6D)",
   },
   garden: {
     primary: "#06D6A0",
     secondary: "#FFE66D",
-    soft: "rgba(6, 214, 160, 0.14)",
+    soft: "rgba(6, 214, 160, 0.12)",
+    surface: "rgba(6, 214, 160, 0.06)",
+    gradient: "linear-gradient(135deg, #06D6A0, #FFE66D)",
   },
   signal: {
     primary: "#FF006E",
     secondary: "#FF9F1C",
-    soft: "rgba(255, 0, 110, 0.14)",
+    soft: "rgba(255, 0, 110, 0.12)",
+    surface: "rgba(255, 0, 110, 0.06)",
+    gradient: "linear-gradient(135deg, #FF006E, #FF9F1C)",
   },
 } as const;
 
@@ -91,10 +107,10 @@ type MuseumSectionLayoutProps = {
 };
 
 const sizeClasses: Record<SectionSize, string> = {
-  xl: "py-20 lg:py-28",
-  lg: "py-16 lg:py-24",
-  md: "py-14 lg:py-18",
-  compact: "py-10 lg:py-14",
+  xl: "py-16 md:py-20 lg:py-28",
+  lg: "py-12 md:py-16 lg:py-24",
+  md: "py-10 md:py-14 lg:py-18",
+  compact: "py-8 md:py-10 lg:py-14",
 };
 
 const layoutClasses: Record<LayoutVariant, string> = {
@@ -119,12 +135,18 @@ function SectionEyebrow({
   if (!eyebrow) return null;
 
   return (
-    <div className="mb-8 flex items-center gap-3">
-      <span className="font-mono text-xs uppercase tracking-[0.3em] text-slate-400">
+    <div className="mb-8 flex items-center gap-4">
+      <span 
+        className="font-mono text-xs uppercase tracking-[0.2em] font-semibold"
+        style={{ color: "var(--hall-primary)" }}
+      >
         {eyebrow}
       </span>
       <div
-        className="h-px flex-1 bg-gradient-to-r from-slate-300/70 to-transparent dark:from-slate-700/70"
+        className="h-px flex-1"
+        style={{
+          background: "linear-gradient(90deg, var(--hall-soft), transparent 80%)"
+        }}
       />
     </div>
   );
@@ -173,11 +195,11 @@ function SectionHeader({
   const ruleNode = (
     <div
       className={cn(
-        "mt-6 h-1 rounded-full",
-        variant === "centered" ? "mx-auto w-40" : "w-40",
+        "mt-6 h-1 w-20 rounded-full",
+        variant === "centered" ? "mx-auto" : "",
       )}
       style={{
-        background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+        background: "var(--hall-gradient)",
       }}
     />
   );
@@ -250,16 +272,22 @@ export function MuseumSectionLayout({
         sizeClasses[size],
         className,
       )}
+      style={
+        {
+          "--hall-primary": colors.primary,
+          "--hall-secondary": colors.secondary,
+          "--hall-soft": colors.soft,
+          "--hall-surface": colors.surface,
+          "--hall-gradient": colors.gradient,
+        } as React.CSSProperties
+      }
     >
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] opacity-80"
-        style={{
-          background: `
-            radial-gradient(circle at 18% 18%, ${colors.soft}, transparent 34%),
-            radial-gradient(circle at 82% 8%, ${colors.secondary}22, transparent 30%)
-          `,
-        }}
+        className="pointer-events-none absolute inset-0 opacity-60 hall-glow"
       />
+
+      {/* Subtle top border for section transition */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--hall-primary)] to-transparent opacity-20" />
 
       <div className={cn("mx-auto w-full px-4 sm:px-6 lg:px-8 relative z-10", widthClasses[width])}>
         <SectionHeader

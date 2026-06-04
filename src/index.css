@@ -9,26 +9,48 @@
   --font-body: "Plus Jakarta Sans", sans-serif;
   --font-label: "JetBrains Mono", monospace;
 
-  --lab-bg: #fffdf8;
-  --lab-bg-soft: #f8fafc;
-  --lab-card: rgba(255, 255, 255, 0.78);
-  --lab-card-solid: #ffffff;
+  --canvas: #fffdf8;
+  --canvas-soft: #f8fafc;
+  --canvas-warm: #fff7ed;
 
-  --lab-text: #111827;
-  --lab-text-soft: #475569;
-  --lab-text-muted: #94a3b8;
+  --ink: #111827;
+  --ink-soft: #475569;
+  --ink-muted: #94a3b8;
 
-  --lab-border: rgba(15, 23, 42, 0.10);
-  --lab-border-strong: rgba(15, 23, 42, 0.16);
+  --card: rgba(255, 255, 255, 0.78);
+  --card-solid: #ffffff;
+  --border: rgba(15, 23, 42, 0.1);
+  --border-strong: rgba(15, 23, 42, 0.16);
 
-  --rainbow-pink: #ff006e;
-  --rainbow-red: #ff4d6d;
-  --rainbow-orange: #ff9f1c;
-  --rainbow-yellow: #ffe66d;
-  --rainbow-green: #06d6a0;
-  --rainbow-cyan: #00c2ff;
-  --rainbow-blue: #3a86ff;
-  --rainbow-purple: #8338ec;
+  --pink: #ff006e;
+  --red: #ff4d6d;
+  --orange: #ff9f1c;
+  --yellow: #ffe66d;
+  --green: #06d6a0;
+  --cyan: #00c2ff;
+  --blue: #3a86ff;
+  --purple: #8338ec;
+
+  --lab-bg: var(--canvas);
+  --lab-bg-soft: var(--canvas-soft);
+  --lab-card: var(--card);
+  --lab-card-solid: var(--card-solid);
+
+  --lab-text: var(--ink);
+  --lab-text-soft: var(--ink-soft);
+  --lab-text-muted: var(--ink-muted);
+
+  --lab-border: var(--border);
+  --lab-border-strong: var(--border-strong);
+
+  --rainbow-pink: var(--pink);
+  --rainbow-red: var(--red);
+  --rainbow-orange: var(--orange);
+  --rainbow-yellow: var(--yellow);
+  --rainbow-green: var(--green);
+  --rainbow-cyan: var(--cyan);
+  --rainbow-blue: var(--blue);
+  --rainbow-purple: var(--purple);
 
   --color-rainbow-red: var(--rainbow-red);
   --color-rainbow-orange: var(--rainbow-orange);
@@ -64,11 +86,11 @@
   body {
     @apply text-[var(--lab-text)] font-body antialiased;
     background:
-      radial-gradient(circle at 8% 12%, rgba(255, 0, 110, 0.16), transparent 28%),
-      radial-gradient(circle at 88% 8%, rgba(0, 194, 255, 0.18), transparent 30%),
-      radial-gradient(circle at 20% 75%, rgba(6, 214, 160, 0.14), transparent 28%),
-      radial-gradient(circle at 78% 82%, rgba(255, 159, 28, 0.16), transparent 30%),
-      linear-gradient(180deg, #FFFDF8 0%, #F8FAFC 45%, #FFF7ED 100%);
+      radial-gradient(circle at 10% 10%, rgba(255, 0, 110, 0.12), transparent 30%),
+      radial-gradient(circle at 90% 8%, rgba(0, 194, 255, 0.14), transparent 32%),
+      radial-gradient(circle at 18% 78%, rgba(6, 214, 160, 0.10), transparent 30%),
+      radial-gradient(circle at 82% 82%, rgba(255, 159, 28, 0.12), transparent 32%),
+      linear-gradient(180deg, #fffdf8 0%, #f8fafc 48%, #fff7ed 100%);
     overflow-x: hidden;
   }
 
@@ -139,6 +161,64 @@
       radial-gradient(circle at 20% 75%, rgba(6, 214, 160, 0.12), transparent 28%),
       radial-gradient(circle at 78% 82%, rgba(255, 159, 28, 0.13), transparent 30%),
       linear-gradient(180deg, #fffdf8 0%, #f8fafc 48%, #fff7ed 100%);
+  }
+
+  .museum-card {
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: 28px;
+    box-shadow:
+      0 24px 80px rgba(15, 23, 42, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(18px);
+  }
+
+  .museum-card-strong {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(15, 23, 42, 0.16);
+    border-radius: 32px;
+    box-shadow:
+      0 32px 90px rgba(15, 23, 42, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  }
+
+  .hall-glow {
+    background:
+      radial-gradient(circle at 20% 10%, var(--hall-soft), transparent 34%),
+      radial-gradient(circle at 90% 70%, color-mix(in srgb, var(--hall-secondary) 14%, transparent), transparent 36%);
+  }
+
+  .rainbow-rule {
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      #ff006e,
+      #ff9f1c,
+      #ffe66d,
+      #06d6a0,
+      #00c2ff,
+      #3a86ff,
+      #8338ec
+    );
+  }
+
+  .spectrum-edge {
+    position: relative;
+  }
+
+  .spectrum-edge::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--hall-primary), var(--hall-secondary));
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
   }
 
   .lab-card {
@@ -230,21 +310,6 @@
 
   .lab-card-hover:hover {
     transform: translateY(-4px);
-  }
-
-  .rainbow-rule {
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(
-      90deg,
-      var(--rainbow-pink),
-      var(--rainbow-orange),
-      var(--rainbow-yellow),
-      var(--rainbow-green),
-      var(--rainbow-cyan),
-      var(--rainbow-blue),
-      var(--rainbow-purple)
-    );
   }
 
   .hero-spectrum-glow {
